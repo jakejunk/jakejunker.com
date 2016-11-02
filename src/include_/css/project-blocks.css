@@ -1,0 +1,34 @@
+.project-blks > ul
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project-blks li
+{
+    display: inline-block;
+    width: 100%;
+}
+
+.project-blks a
+{
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    
+    background-color: #1e5b83; 
+}
+
+@media only screen and (min-width: 1px) and (min-width: 737px)
+{
+    .project-blks li
+    {
+        width: 33.33%;
+        padding: 3px;
+    }
+    
+    .project-blks a
+    {
+        border-radius: 3px;   
+    }
+}

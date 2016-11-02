@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Jake Junker CS4183</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="/js/three.min.js"></script>
+		<script src="junker.js"></script>
+		<link rel="stylesheet" type="text/css" href="/projects/css/sprints.css">
+	</head>
+	<body>
+		<div id="top-bar">
+			<input type="checkbox" id="nav-button" checked></input>
+			<label for="nav-button"></label>
+			<div class="side-menu align-center" id="left-pane">
+				<nav>
+					<a href="/projects/">Home</a>
+					<br>
+					<p>Sprints</p>
+					<a href="/projects/sprint1/">Sprint 1</a>
+					<a href="/projects/sprint2/">Sprint 2</a>
+					<a href="/projects/sprint4/">Sprint 4</a>
+				</nav>
+			</div>
+			<span>
+				<input type="checkbox" id="info-button" checked></input>
+				<label for="info-button"></label>
+				<div class="info-box align-center">
+					<h1>Sprint 4</h1>
+					<h3>Jake Junker - CS 4183</h3>
+					<p>Loads behavior dynamically based on json initialization file. </p>
+				</div>
+			</span>
+		</div>
+	</body>
+</html>

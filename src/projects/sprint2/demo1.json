@@ -1,0 +1,60 @@
+{
+	"DESCRIPTION": "cube, sphere, cone objects",
+	"type": "node",
+	"name": "rootNode",
+
+	"children":
+	[
+		{
+			"DESCRIPTION": "camera looking at origin from above Z axis",
+			"type": "camera",
+			"name": "camera1",
+			"eye": [-3, 4, 10],
+			"center": [0, 0, 0],
+			"vup": [0, 1, 0],
+			"fov": 30
+		},
+		{
+			"type": "directional light",
+			"name": "light1",
+			"color": [0.5, 0.5, 1],
+			"position": [1, 1, 1]
+		},
+		{
+			"type": "mesh",
+			"name": "myPlane",
+			"translate": [-3, 0, -3],
+			"geometry": "plane",
+			"material": 
+			{
+				"type": "MeshPhongMaterial",
+				"diffuseColor": [0.5, 0.2, 0.7],
+				"specularColor": [1, 1, 1]
+			}
+		},
+		{
+			"type": "mesh",
+			"name": "myTorus",
+			"translate": [0, 0, 0],
+			"geometry": "torus",
+			"material": 
+			{
+				"type": "MeshPhongMaterial",
+				"diffuseColor": [0.6, 0.6, 0.6],
+				"specularColor": [1, 1, 1]
+			}
+		},
+		{
+			"type": "mesh",
+			"name": "myCylinder",
+			"translate": [3, 0, 3],
+			"geometry": "cylinder",
+			"material": 
+			{
+				"type": "MeshPhongMaterial",
+				"diffuseColor": [0.2, 0.5, 1.0],
+				"specularColor": [1, 1, 1]
+			}
+		}
+	]
+}

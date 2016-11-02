@@ -1,0 +1,78 @@
+button,
+a
+{
+	font-size: 1em;
+	text-decoration: none;
+	border-style: none;
+	border-radius: .25em;
+	
+	color: #fff;
+	background: #e74c3c;
+	
+	height: 2em;
+	line-height: 2em;
+	outline: 0;
+	padding-left: .25em;
+	padding-right: .25em;
+	margin: .25em;
+	font-family: inherit;
+}
+
+/* Normal buttons in the left pane (not navigation) need extra sizing properties */
+.side-menu > button,
+.side-menu > span.logical-group > button
+{
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* How a navigation button element will be styled */
+span.option-group button,
+nav a 
+{
+	color: #e74c3c;
+	background: #2D2D2D;
+	
+	display: block;
+	border-radius: 0;
+	width: 12.25em;
+	margin: 0 -1.125em 0 -1.125em;
+}
+
+/* Use pointer cursor for all buttons */
+button:hover
+{
+	cursor: pointer;
+}
+
+/* All buttons are styled the same when they get focus. */
+button:hover,
+button:focus,
+nav a:hover,
+nav a:focus
+{
+	color: #fff;
+	background: #FF5F4D;
+}
+
+/* Everything here should behave like a button */
+span.option-group button:hover,
+span.option-group button:focus,
+label[for="select-button"]:hover,
+#select-button:focus + label[for="select-button"]
+{
+	background: #45403e;
+}
+
+/* All buttons are the same color when pressed */
+button:active
+{
+	background: #c0392b;
+}
+
+/*Mozilla specific*/
+button::-moz-focus-inner
+{
+	border:0;
+}

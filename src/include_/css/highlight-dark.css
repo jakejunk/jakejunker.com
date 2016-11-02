@@ -1,0 +1,34 @@
+#title-bar, footer, code,
+form input[type=text],
+form textarea,
+.color-shift-pop
+{
+	color: #ddd;
+	background-color: #26292E;
+}
+
+html,
+.color-shift
+{
+	color: #ddd;
+	background-color: #2F3238;
+}
+
+#contact-pane,
+.section-header,
+header
+{
+	color: #7C7C7C;
+	border-color: #444;
+}
+
+code > table > tbody > tr:before
+{
+	color: #555;
+    border-right: solid 1px #555;
+}
+
+:focus
+{
+	outline-color: #eee;
+}
