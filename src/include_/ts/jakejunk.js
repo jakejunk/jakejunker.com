@@ -18,7 +18,7 @@ var headtag = document.getElementsByTagName('head')[0];
 var sheetTag1 = document.createElement("link");
 sheetTag1.rel = "stylesheet";
 sheetTag1.type = "text/css";
-sheetTag1.href = "/include/css/highlight.css";
+sheetTag1.href = "/include_/css/highlight.css";
 sheetTag1.title = theme[dark | 0];
 sheetTag1.disabled = dark;              // Stupid hack
 headtag.appendChild(sheetTag1);
@@ -27,7 +27,7 @@ sheetTag1.disabled = dark;              // Stupid hack
 var sheetTag2 = document.createElement("link");
 sheetTag2.rel = "stylesheet";
 sheetTag2.type = "text/css";
-sheetTag2.href = "/include/css/highlight-dark.css";
+sheetTag2.href = "/include_/css/highlight-dark.css";
 sheetTag2.title = theme[!dark | 0];
 sheetTag2.disabled = !dark;             // Stupid hack
 headtag.appendChild(sheetTag2);
