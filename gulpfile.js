@@ -16,6 +16,7 @@ var allFiles = "src/**/*";
 var allPages = "src/html/pages/**/*";
 
 var cssPath = "src/css/";
+var themePath = "src/css/index/";
 var lightThemeFiles = "src/css/index/theme-light/**/*";
 var darkThemeFiles = "src/css/index/theme-dark/**/*";
 
@@ -32,9 +33,10 @@ gulp.task("process-css", function(debug, release)
 {
 	var outputFolder = debug ? debugOutputs : releaseOutputs;
 	var directories = getFolders(cssPath);
+	var themeDirs = getFolders(themePath);
 
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
-	var concatenated = directories.map(function (folder)
+	var concatenated = directories.map(function(folder)
 		{
 			return gulp.src(path.join(cssPath, folder, "*.css"))
 				.pipe(concatCss(folder + ".css"))
@@ -42,12 +44,12 @@ gulp.task("process-css", function(debug, release)
 		});
 
 	// Style related CSS is separate
-	var everythingElse = gulp.src(
-			[
-				lightThemeFiles,
-				darkThemeFiles
-			])
-		.pipe(gulp.dest(outputFolder + "/include_/css"));
+	var everythingElse = themeDirs.map(function(folder)
+		{
+			return gulp.src(path.join(themePath, folder, "*.css"))
+				.pipe(concatCss(folder + ".css"))
+				.pipe(gulp.dest(outputFolder + "/include_/css"));
+		});
 
 	return merge(concatenated, everythingElse);
 });
