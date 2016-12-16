@@ -1,30 +1,31 @@
 .image-round
 {
-    border: solid 2px #3498db; /* #e67e22;*/
     border-radius: 50%;
     display: block;
 
     width: 200px;
     height: 200px;
     margin: 0 auto;
+
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
 }
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
 {
     .image-round
     {
-        margin-bottom: 24px;
+        margin-bottom: 32px;
     }
 
     .image-round.inline-left
     {
         float: left;
-        margin-right: 24px;
+        margin-right: 32px;
     }
 
     .image-round.inline-right
     {
         float: right;
-        margin-left: 24px;
+        margin-left: 32px;
     }
 }

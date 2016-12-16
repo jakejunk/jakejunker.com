@@ -32,8 +32,8 @@ namespace ThemeManager
             useDarkTheme_ = true;
         }
 
-        lightThemeTag_ = CreateCSSLinkTag_("/include_/css/highlight.css", themeNames_[1], useDarkTheme_);
-        darkThemeTag_ = CreateCSSLinkTag_("/include_/css/highlight-dark.css", themeNames_[0], !useDarkTheme_);
+        lightThemeTag_ = CreateCSSLinkTag_("/include_/css/theme-light.css", themeNames_[1], useDarkTheme_);
+        darkThemeTag_ = CreateCSSLinkTag_("/include_/css/theme-dark.css", themeNames_[0], !useDarkTheme_);
     }
     
     /**

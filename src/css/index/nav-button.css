@@ -1,1 +1,34 @@
+/* Navigation links in header */
+.nav-btn
+{
+    position: relative;
+	color: #1e5b83;
+    text-shadow: 0 1px 0 #3498db;
+    
+    float: left;
+	width: 25%;
+    height: 100%;
+	text-align: center;
+	text-decoration: none !important;
+}
 
+/* Color the current location */
+.nav-btn.current
+{
+	color: #fff;
+    text-shadow: none;
+}
+
+@media only screen and (min-width: 1px) and (min-width: 737px)
+{
+	.nav-btn
+	{
+		color: inherit;
+        text-shadow: none;
+	}
+
+    .nav-btn.current
+	{
+		color: #3498db;
+    }
+}

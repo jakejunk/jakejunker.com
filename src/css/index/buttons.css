@@ -1,3 +1,10 @@
+.outline-btn
+{
+	color: #3498db;
+	background: transparent;
+	border: solid 1px #3498db;
+}
+
 button,
 input[type=submit],
 input[type=reset]
