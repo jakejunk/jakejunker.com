@@ -1,86 +1,116 @@
-var gulp = require("gulp");
+var gulp = require("gulp-param")(require("gulp"), process.argv);
 var merge = require("merge-stream");
 var concatCss = require("gulp-concat-css");
 var include = require("gulp-file-include");
-
-/* Various file locations */
-var allFiles = "./src/**/*";
-var allHtml = "./src/**/*.html";
-var allCss = "./src/include_/css/**/*.css";
-var highlight = "./src/include_/css/highlight.css";
-var highlightDark = "./src/include_/css/highlight-dark.css";
-var allJS = "./src/include_/js/**/*.js";
-var debugOutputs = "./build/debug/www";
-var releaseOutputs = "./build/release/www";
-
-/**
- * HTML files that need to be processed.
- * Also includes our one PHP page, and ignores "fragment" files.
- */
-var processedHtmlFiles = 
-[
-	allHtml,
-	"src/contact/index.php",
-	"!src/include_/html/**/*.html"
-];
+var sourcemaps = require("gulp-sourcemaps");
+var ts = require("gulp-typescript");
+var fs = require("fs");
+var path = require("path");
 
 
-/**
- * CSS files that need to be concatenated.
- * It's basically all of them except the highlight files.
- */
-var concatCssFiles =
-[
-	allCss,
-	"!"+highlight,
-	"!"+highlightDark
-];
+var debugTs = ts.createProject("src/ts/tsconfig.json");
+var releaseTs;
+
+// Various file locations
+var allFiles = "src/**/*";
+var allPages = "src/html/pages/**/*";
+
+var cssPath = "src/css/";
+var lightThemeFiles = "src/css/index/theme-light/**/*";
+var darkThemeFiles = "src/css/index/theme-dark/**/*";
+
+var debugOutputs = "build/debug/www";
+var releaseOutputs = "build/release/www";
 
 
 /* Tasks =================================================================== */
 
 /**
- * Concatenates all css files in `src` into `index.css` in build.
+ * Concatenates all css files in `src/css`.
  */
-gulp.task("process-css-debug", function()
+gulp.task("process-css", function(debug, release)
 {
-	var concatenated = gulp.src(concatCssFiles)
-		.pipe(concatCss("css/index.css"))
-		.pipe(gulp.dest(debugOutputs + "/include_"));
+	var outputFolder = debug ? debugOutputs : releaseOutputs;
+	var directories = getFolders(cssPath);
 
+	// For each folder in `src/css`, create concatenated files `<folder>.css`
+	var concatenated = directories.map(function (folder)
+		{
+			return gulp.src(path.join(cssPath, folder, "*.css"))
+				.pipe(concatCss(folder + ".css"))
+				.pipe(gulp.dest(outputFolder + "/include_/css"));
+		});
+
+	// Style related CSS is separate
 	var everythingElse = gulp.src(
 			[
-				highlight,
-				highlightDark
+				lightThemeFiles,
+				darkThemeFiles
 			])
-		.pipe(gulp.dest(debugOutputs + "/include_/css"));
+		.pipe(gulp.dest(outputFolder + "/include_/css"));
 
 	return merge(concatenated, everythingElse);
 });
 
 
-gulp.task("process-html-debug", function()
+/**
+ * Compiles all TypeScript files.
+ */
+gulp.task("process-ts", function(debug, release)
 {
-	return gulp.src(processedHtmlFiles, {base: "src"})
+	var outputFolder = debug ? debugOutputs : releaseOutputs;
+    var proj = debug ? debugTs : releaseTs;
+
+    return proj.src()
+        .pipe(sourcemaps.init())
+        .pipe(proj()).js
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(outputFolder + "/include_/js"));
+});
+
+
+/**
+ * Process all HTML files and handle file includes.
+ */
+gulp.task("process-html", function(debug, release)
+{
+	var outputFolder = debug ? debugOutputs : releaseOutputs;
+
+	return gulp.src(allPages, {base: "src/html/pages"})
 		.pipe(include(
 			{
 				prefix: "@@",
 				suffix: "@@",
 				basepath: "./src/"
 			}))
-		.pipe(gulp.dest(debugOutputs));
+		.pipe(gulp.dest(outputFolder));
 });
 
 
-gulp.task("build-debug", ["process-css-debug", "process-html-debug"], function()
+gulp.task("process-img", function(debug, release)
 {
-	return gulp.src(
-		[
-			allFiles,
-			"!"+allCss,
-			"!"+allHtml,
-			"!src/contact/index.php",
-			"!src/include_/html/"
-		])
-		.pipe(gulp.dest(debugOutputs));
+	var outputFolder = debug ? debugOutputs : releaseOutputs;
+
+	return gulp.src("src/img/**/*")
+		.pipe(gulp.dest(outputFolder + "/include_/img"));
 });
+
+
+gulp.task("build", ["process-css", "process-ts", "process-html", "process-img"], function(debug, release)
+{
+	
+});
+
+
+// Helper functions ========================================================
+
+/**
+ * Returns an array of all folders in a specified directory
+ */
+function getFolders(dir)
+{
+    return fs.readdirSync(dir).filter(function(file)
+		{
+			return fs.statSync(path.join(dir, file)).isDirectory();
+		});
+}

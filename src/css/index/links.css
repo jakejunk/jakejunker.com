@@ -1,0 +1,15 @@
+a
+{
+    color: #3498db;
+	text-decoration: none;
+}
+
+p > a
+{
+    font-weight: bold;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}

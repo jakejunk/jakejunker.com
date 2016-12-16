@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		@@include("html/widgets/head.html")@@
+		<title>Jake Junker</title>
+	</head>
+	<body>
+		<!-- Navigation menu/bar -->
+		<header>
+			<nav id="main-nav" class="ajax">
+				<a class="nav-btn current" href="/">Home</a>
+				<a class="nav-btn" href="/projects/">Projects</a>
+				<a class="nav-btn" href="/about/">About</a>
+				<a class="nav-btn" href="/contact/">Contact</a>
+			</nav>
+		</header>
+        <section id="main">
+            <div id="title-bar">
+                <div id="title-bar-content" class="large">
+                    <h1 class="main-header">Jake Junker</h1>
+                    <div class="flex-container flex-mobile-wrap ajax" style="padding-bottom: 48px;">
+                        <a class="" href="/projects/">Projects</a>
+                        <a class="" href="/about/">About</a>
+                        <a class="" href="/contact/">Contact</a> 
+                    </div>
+                </div>
+            </div>
+            <article class="color-shift" id="main-content">
+                <h2 class="section-header">Hey There!</h2>
+                <p>I'm Jake, a soon-to-be college graduate with a soft spot for anything slightly geeky. My interests range from nasty stuff like X11, buzzword-y things such as Node.js, and everything in between (except Perl). If you'd like to hear more about me, I've typed up a nice little life story over on the <a href="/about/">about</a> page. If that sounds as boring as it probably is, take a look at my <a href="/projects/">projects</a>!</p>
+            </article>
+        </section>
+		@@include("html/widgets/footer.html")@@
+	</body>
+</html>
+

@@ -1,4 +1,0 @@
-function script1(me)
-{
-	me.rotation.x += 0.02;
-}

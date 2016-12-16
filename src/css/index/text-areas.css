@@ -1,0 +1,23 @@
+.text-field
+{
+    font-family: inherit;
+    font-size: 1em;
+
+    width: 100%;
+    padding: 16px;
+    border: none;
+    outline: none
+}
+
+.text-field ~ .text-field
+{
+    margin-top: 2px; 
+}
+
+textarea
+{
+	resize: vertical;
+    vertical-align: top;
+    padding: 12px;
+    line-height: 1em;
+}

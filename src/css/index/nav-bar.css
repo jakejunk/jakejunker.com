@@ -1,0 +1,69 @@
+/* The visible bar up top */
+header
+{
+	position: fixed;
+	width: 100%;
+	text-align: center;
+    z-index: 1;
+}
+
+/* Contains the main nav links */
+#main-nav
+{
+	max-width: 736px;
+	height: 48px;
+	line-height: 48px;
+	margin: 0 auto;
+	
+	background-color: #2980b9;
+}
+
+/* Navigation links in header */
+header a
+{
+    position: relative;
+	color: #1e5b83;
+    text-shadow: 0 1px 0 #3498db;
+    
+    float: left;
+	width: 25%;
+    height: 100%;
+	text-align: center;
+	text-decoration: none !important;
+}
+
+/* Color the current location */
+.current
+{
+	color: #fff;
+    text-shadow: none;
+}
+
+@media only screen and (min-width: 1px) and (min-width: 737px)
+{	
+	header
+	{
+		position: absolute;
+	}
+	
+	header a
+	{
+		color: inherit;
+        text-shadow: none;
+	}
+	
+	#main-nav
+	{
+        height: 96px;
+		line-height: 96px;
+		max-width: 448px;
+		background-color: transparent;
+	}
+	
+	.current
+	{
+		color: #3498db;
+		border-bottom: 3px solid #3498db;
+		font-weight: 900;
+    }
+}

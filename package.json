@@ -1,0 +1,29 @@
+{
+  "name": "personal-site",
+  "version": "1.0.0",
+  "description": "Source code for my personal website",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-file-include": "^1.0.0",
+    "gulp-param": "^1.0.3",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-typescript": "^3.1.3",
+    "merge-stream": "^1.0.1",
+    "typescript": "^2.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakejunk/personal-site.git"
+  },
+  "author": "jakejunk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakejunk/personal-site/issues"
+  },
+  "homepage": "https://github.com/jakejunk/personal-site#readme"
+}

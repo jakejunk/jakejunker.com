@@ -1,0 +1,116 @@
+*, *:before, *:after
+{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner
+{
+	padding: 0 !important;
+	border: 0 none !important;
+}
+
+html
+{
+    color: #ddd;
+	background-color: #2F3238;
+    
+	height: 100%;
+	overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body
+{
+	font-family: "Open Sans", sans-serif;
+	height: 100%;
+	margin: 0;
+	line-height: 2rem;
+	font-size: 1rem;
+}
+
+.flex-container
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.flex-mobile-wrap
+{
+    flex-wrap: wrap;
+}
+
+.mobile-second
+{
+    order: 2;
+}
+
+button,
+input[type=submit],
+input[type=reset],
+header, footer, h1, h2, h3, h4, h5, h6
+{
+	font-family: 'Montserrat', sans-serif;
+}
+
+.red-text
+{
+	color: #e74c3c !important;
+}
+
+.whisper
+{
+	color: #9C9C9C;
+	font-weight: normal;
+}
+
+.center-align
+{
+	text-align: center;
+}
+
+.drop-shadow,
+header
+{
+	box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+.list-no-style
+{
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.full-width
+{
+    position: relative;
+    margin-left: -16px;
+	margin-right: -16px;
+}
+
+@media only screen and (min-width: 1px) and (min-width: 737px)
+{	
+    .flex-mobile-wrap
+    {
+        flex-wrap: nowrap;
+    }
+    
+    .mobile-second
+    {
+        order: unset;
+    }
+    
+    .full-width
+    {
+        margin-left: 0;
+		margin-right: 0;
+    }
+}

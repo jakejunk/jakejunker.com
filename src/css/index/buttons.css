@@ -1,0 +1,36 @@
+button,
+input[type=submit],
+input[type=reset]
+{
+	line-height: inherit;
+
+	padding: 0 16px 0 16px;
+	
+	color: #fff;
+	background: #2980b9;
+    border: none;
+}
+
+button
+{
+    font-size: inherit;
+	border-radius: 1rem;
+}
+
+input[type=submit],
+input[type=reset]
+{
+    border-radius: 2px;
+    min-height: 48px;
+
+    font-size: 18px;
+	min-width: 128px;
+    height: 100%;
+}
+
+button:hover,
+input[type=submit]:hover,
+input[type=reset]:hover
+{
+	cursor: pointer;
+}
