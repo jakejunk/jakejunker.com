@@ -1,0 +1,17 @@
+.color-shift-pop
+{
+	color: #555;
+	background-color: #ecf0f1;
+}
+
+html,
+.color-shift
+{
+	color: #555;
+	background-color: #fafafa;
+}
+
+:focus
+{
+	outline-color: #555;
+}

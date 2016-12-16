@@ -1,0 +1,11 @@
+code
+{
+	color: #ddd;
+	background-color: #26292E;
+}
+
+code > table > tbody > tr:before
+{
+	color: #555;
+    border-right: solid 1px #555;
+}
