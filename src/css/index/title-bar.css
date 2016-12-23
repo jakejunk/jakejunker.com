@@ -7,18 +7,19 @@
 	background-color: transparent !important;
 }
 
-#title-bar
-{
-    padding: 0;
-}
-
-#title-bar-content.large > h1.main-header
+.main-header.large
 {
     font-size: 96px;
     line-height: 96px;
     text-align: center;
     letter-spacing: -10px;
     margin: 64px auto;
+}
+
+#title-bar
+{
+    padding: 0;
+    overflow: hidden;
 }
 
 .title-bar-btn
@@ -59,22 +60,18 @@
     .main-header
     {
         line-height: 96px;
+        font-size: 48px;
     }
 
-	#title-bar-content > h1.main-header
-	{
-		font-size: 48px;
-	}
+    main-header.large
+    {
+        font-size: 112px;
+        line-height: 112px;
+    }
     
     #title-bar-content.large
     {
 		padding: 96px 96px 48px 96px;
-    }
-    
-    #title-bar-content.large > h1.main-header
-    {
-        font-size: 112px;
-        line-height: 112px;
     }
     
     #title-bar-content.large > h1.main-header:before,
