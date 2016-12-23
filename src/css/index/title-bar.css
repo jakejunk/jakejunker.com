@@ -21,7 +21,7 @@
     margin: 64px auto;
 }
 
-#title-bar a
+.title-bar-btn
 {
     font-size: 1.5em;
     text-align: center;

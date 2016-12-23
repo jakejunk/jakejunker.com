@@ -16,9 +16,6 @@ input[type="reset"]::-moz-focus-inner
 
 html
 {
-    color: #ddd;
-	background-color: #2F3238;
-    
 	height: 100%;
 	overflow-y: scroll;
     overflow-x: hidden;

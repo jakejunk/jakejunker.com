@@ -1,3 +1,4 @@
+.sub-section-header,
 .section-header
 {
     font-family: "Open Sans", sans-serif;
@@ -8,7 +9,9 @@
 	margin-bottom: 16px;
 }
 
-p ~ .section-header
+
+p ~ .section-header,
+p ~ .sub-section-header
 {
     margin-top: 64px; 
 }
@@ -18,5 +21,10 @@ p ~ .section-header
     .section-header
 	{
 		font-size: 1.85em;
+	}
+
+    .sub-section-header
+	{
+		font-size: 1.25em;
 	}
 }

@@ -32,7 +32,7 @@
                 </div>
                 <div class="flex-container flex-mobile-wrap" style="margin-top: 48px;">
                     <div id="contact-pane">
-                        <h3 class="section-header" style="margin-top: 0">Contact Info</h3>
+                        <h3 class="sub-section-header" style="margin-top: 0">Contact Info</h3>
                         <ul class="list-no-style">
                             <li><a href="mailto:contact@jakejunker.com?Subject=Hey!">contact@jakejunker.com</a></li>
                             <li><a href="https://www.linkedin.com/in/jakejunk">LinkedIn Profile</a></li>

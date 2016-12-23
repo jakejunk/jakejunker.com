@@ -30,5 +30,7 @@
     .nav-btn.current
 	{
 		color: #3498db;
+		border-bottom: solid 3px;
+		font-weight: bold;
     }
 }
