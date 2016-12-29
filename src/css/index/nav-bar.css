@@ -1,7 +1,7 @@
 /* The visible bar up top */
 header
 {
-	font-family: "Montserrat", sans-serif;
+	font-family: "Lato", sans-serif;
 	position: fixed;
 	width: 100%;
 	text-align: center;
@@ -54,8 +54,8 @@ header
 		align-items: center;
 
 		line-height: 96px;
-		font-size: 28px;
-		letter-spacing: -3px;
+		font-size: 24px;
+		letter-spacing: -1px;
 		text-decoration: none !important;
 	}
 
