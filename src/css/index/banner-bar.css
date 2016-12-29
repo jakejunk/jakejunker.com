@@ -4,16 +4,16 @@
     overflow: hidden;
 }
 
-.banner-bar-btn
+.btn.banner-bar-btn
 {
-    font-size: 1.5rem !important;
+    font-size: 1.5rem;
 	font-weight: 300;
-    text-decoration: none !important;
+    text-decoration: none;
     
     display: block;
     margin: 6px 16px;
-    padding: 24px 16px !important;
-    min-width: 220px !important;
+    padding: 24px 16px;
+    min-width: 220px;
 
     border-radius: 2px;
 }
@@ -38,6 +38,11 @@
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
 {
+    .btn.banner-bar-btn
+    {
+        min-width: 180px;
+    }
+
     banner-header
     {
         font-size: 112px;
@@ -49,7 +54,15 @@
         text-align: left;
 		padding: 96px 96px 48px 96px;
     }
-    
+}
+
+@media only screen and (min-width: 850px)
+{
+    .btn.banner-bar-btn
+    {
+        min-width: 220px;
+    }
+
     #banner-bar-content > .banner-header:before,
     #banner-bar-content > .banner-header:after
     {
