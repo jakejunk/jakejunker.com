@@ -7,8 +7,8 @@ namespace AjaxHelper
     let currentHref: string;
     let nav: HTMLElement;
     let holder: HTMLElement;
-    let titleBar: HTMLElement;
     let currentContent: HTMLElement;
+    let mainContentId: string;
 
 
     export function HasHistoryAPI(): boolean
@@ -20,12 +20,13 @@ namespace AjaxHelper
     }
 
 
-    export function InitPageState(navid: string, holderid: string, titlebarid: string, maincontentid: string): void
+    export function InitPageState(navid: string, holderid: string, maincontentid: string): void
     {
         nav = document.getElementById(navid);
         holder = document.getElementById(holderid);
-        titleBar = document.getElementById(titlebarid);
         currentContent = document.getElementById(maincontentid);
+
+        mainContentId = maincontentid;
 
         UpdatePageState();
     }
@@ -126,22 +127,18 @@ namespace AjaxHelper
     function SwapOutDocuments_(newDoc: Document): void
     {
         // Grab important parts of the new document
-        let newTitle = newDoc.getElementById("title-bar");
-        let newContent = newDoc.getElementById("main-content");
+        let newContent = newDoc.getElementById(mainContentId);
         document.title = newDoc.title;
     
         // Delete the old stuff from the "real" document and put the new stuff in its place
-        holder.removeChild(titleBar);
         holder.removeChild(currentContent);
         window.scrollTo(0,0);
         newContent.className = "new";
-        holder.appendChild(newTitle);
         holder.appendChild(newContent);
 
         UpdatePageState();
     
         // The new stuff is now current
-        titleBar = newTitle;
         currentContent = newContent;
         currentContent.offsetHeight;    // HACK
     

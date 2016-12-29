@@ -1,5 +1,11 @@
 header
 {
-	color: #bdc3c7;
+	color: #818a91;
 	border-color: #ecf0f1;
+	background: #f0f0f1;
+}
+
+.nav-bar-logo:before
+{
+	background-color: #fff;
 }

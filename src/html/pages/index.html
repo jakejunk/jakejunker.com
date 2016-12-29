@@ -5,34 +5,26 @@
 		<title>Jake Junker</title>
 	</head>
 	<body>
-		<!-- Navigation menu/bar -->
-		<header>
-            <div id="nav-bar-container">
-				<div id="nav-bar-title">JAKE JUNKER</div>
-                <nav id="main-nav" class="ajax">
-                    <a class="nav-btn current" href="/">Home</a>
-                    <a class="nav-btn" href="/projects/">Projects</a>
-                    <a class="nav-btn" href="/about/">About</a>
-                    <a class="nav-btn" href="/contact/">Contact</a>
-                </nav>
-            </div>
-		</header>
-        <section id="main">
-            <div id="title-bar">
-                <div id="title-bar-content" class="large">
-                    <h1 class="main-header large">Jake Junker</h1>
-                    <div class="flex-container flex-mobile-wrap ajax" style="padding-bottom: 48px;">
-                        <a class="outline-btn title-bar-btn" href="/projects/">PROJECTS</a>
-                        <a class="outline-btn title-bar-btn" href="/about/">ABOUT</a>
-                        <a class="outline-btn title-bar-btn" href="/contact/">CONTACT</a> 
+		@@include("html/widgets/nav-bar.html", {"current": "home"})@@
+
+        <div id="main-container">
+            <section id="main">
+                <div id="banner-bar">
+                    <div id="banner-bar-content">
+                        <h1 class="banner-header">Jake Junker</h1>
+                        <div class="flex-container flex-mobile-wrap ajax" style="padding-bottom: 48px;">
+                            <a class="btn outline banner-bar-btn" href="/projects/">PROJECTS</a>
+                            <a class="btn outline banner-bar-btn" href="/about/">ABOUT</a>
+                            <a class="btn outline banner-bar-btn" href="/contact/">CONTACT</a> 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <article class="color-shift" id="main-content">
-                <h2 class="section-header">Hey There!</h2>
-                <p>I'm Jake, a soon-to-be college graduate with a soft spot for anything slightly geeky. My interests range from nasty stuff like X11, buzzword-y things such as Node.js, and everything in between (except Perl). If you'd like to hear more about me, I've typed up a nice little life story over on the <a href="/about/">about</a> page. If that sounds as boring as it probably is, take a look at my <a href="/projects/">projects</a>!</p>
-            </article>
-        </section>
+                <article class="color-shift" id="main-content">
+                    <h2 class="section-header">Hey There!</h2>
+                    <p>I'm Jake, a soon-to-be college graduate with a soft spot for anything slightly geeky. My interests range from nasty stuff like X11, buzzword-y things such as Node.js, and everything in between (except Perl). If you'd like to hear more about me, I've typed up a nice little life story over on the <a href="/about/">about</a> page. If that sounds as boring as it probably is, take a look at my <a href="/projects/">projects</a>!</p>
+                </article>
+            </section>
+        </div>
 		@@include("html/widgets/footer.html")@@
 	</body>
 </html>

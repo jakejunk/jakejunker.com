@@ -1,43 +1,51 @@
-.outline-btn
+.btn
+{
+	font-family: "Lato", sans-serif;
+	font-weight: 300;
+	font-size: 18px;
+	line-height: 18px;
+	text-align: center;
+
+	min-width: 128px;
+    min-height: 48px;
+	padding: 0 16px 0 16px;
+}
+
+.btn.outline
 {
 	color: #3498db;
 	background: transparent;
 	border: solid 1px #3498db;
 }
 
-button,
-input[type=submit],
-input[type=reset]
+.btn.solid,
+.btn.outline:hover
 {
-	line-height: inherit;
-
-	padding: 0 16px 0 16px;
-	
 	color: #fff;
 	background: #2980b9;
     border: none;
 }
 
-button
+.btn.rect
 {
-    font-size: inherit;
+	border-radius: 2px;
+}
+
+.btn.round
+{
 	border-radius: 1rem;
 }
 
-input[type=submit],
-input[type=reset]
+.btn.small
 {
-    border-radius: 2px;
-    min-height: 48px;
+	font-size: 11px;
+	line-height: 11px;
 
-    font-size: 18px;
-	min-width: 128px;
-    height: 100%;
+	min-width: 96px;
+	min-height: 24px;
 }
 
-button:hover,
-input[type=submit]:hover,
-input[type=reset]:hover
+.btn:hover
 {
 	cursor: pointer;
 }

@@ -1,15 +1,17 @@
 /* Navigation links in header */
 .nav-btn
 {
+	font-family: "Lato", sans-serif;
+	text-align: center;
+	text-decoration: none !important;
+	
+	display: inline-block;
     position: relative;
 	color: #1e5b83;
     text-shadow: 0 1px 0 #3498db;
     
-    float: left;
 	width: 25%;
     height: 100%;
-	text-align: center;
-	text-decoration: none !important;
 }
 
 /* Color the current location */
@@ -30,7 +32,5 @@
     .nav-btn.current
 	{
 		color: #3498db;
-		border-bottom: solid 3px;
-		font-weight: bold;
     }
 }

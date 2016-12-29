@@ -1,7 +1,15 @@
+.main-header
+{
+	font-size: 2rem;
+    line-height: 64px;
+	font-weight: normal;
+    text-align: center;
+    margin: 0;
+}
+
 .sub-section-header,
 .section-header
 {
-    font-family: "Open Sans", sans-serif;
     font-weight: normal;
     padding-bottom: 6px;
     text-align: center;
@@ -18,13 +26,20 @@ p ~ .sub-section-header
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
 {
+    .main-header
+    {
+        line-height: 96px;
+        font-size: 3rem;
+        text-align: left;
+    }
+
     .section-header
 	{
-		font-size: 1.85em;
+		font-size: 2.08rem;
 	}
 
     .sub-section-header
 	{
-		font-size: 1.25em;
+		font-size: 1.4rem;
 	}
 }

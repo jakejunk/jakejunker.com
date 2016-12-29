@@ -24,10 +24,14 @@ html
 body
 {
 	font-family: "Open Sans", sans-serif;
-	height: 100%;
-	margin: 0;
 	line-height: 2rem;
 	font-size: 1rem;
+
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+	margin: 0;
 }
 
 .flex-container
@@ -45,13 +49,6 @@ body
 .mobile-second
 {
     order: 2;
-}
-
-input[type=submit],
-input[type=reset],
-header, footer, h1, h2, h3, h4, h5, h6
-{
-	font-family: 'Montserrat', sans-serif;
 }
 
 .red-text

@@ -2,37 +2,26 @@
 <html lang="en-US">
 	<head>
 		@@include("html/widgets/head.html")@@
-		<title>About - Jake Junker</title>
+		<title>Jake Junker - About</title>
 	</head>
 	<body>
-		<!-- Navigation menu/bar -->
-		<header>
-			<div id="nav-bar-container">
-				<div id="nav-bar-title">JAKE JUNKER</div>
-				<nav id="main-nav" class="ajax">
-					<a class="nav-btn" href="/">Home</a>
-					<a class="nav-btn" href="/projects/">Projects</a>
-					<a class="nav-btn current" href="/about/">About</a>
-					<a class="nav-btn" href="/contact/">Contact</a>
-				</nav>
-			</div>
-		</header>
-        <section id="main">
-            <div id="title-bar">
-                <div id="title-bar-content">
-                    <h1 class="main-header">About</h1>
-                </div>
-            </div>
-            <article id="main-content" class="">
-				<h2 class="section-header">About Me</h2>
-				<img class="image-round inline-right" src="/include_/img/headshot.png"/>
-                <p>Hey! Name's Jake. I'm currently a Computer Science major at Oklahoma State, looking to graduate by May 2017. I've always been the type to take interest in things with flashing lights and bright colors, as long as I get to put it together myself. I began programming when I was 18, and I've been hooked ever since. Nowdays, you can find me working on front-end UI, game engine architecture, or playing around with a Raspberry Pi. My language of choice right now is probably <a href="https://www.typescriptlang.org">TypeScript</a>, however I'm not afraid to take the <span title="Hold my segfault, I'm going in!'">plunge</span> into a C/C++ codebase.</p>
-                <p>Other interests of mine include watching <span title="Go Broncos!">football</span>, drawing, hiking, and watching planes fly overhead. I like keeping myself active by participating in mud-runs or playing rugby, but really I just like doing anything where I get an excuse to run. Walking on the beach with my girlfriend is what I dream of doing everyday, and a good bowl of pasta will always put me in a great mood.</p>
-				<h2 class="section-header">About This Site</h2>
-				<img class="image-round inline-left" src="/include_/img/code-blur.png"/>
-                <p>This website is still under construction, but it would not be nearly as far as it is today without the love and support from the most important person in my life.</p><p>Love you boo <span class="red-text">&#9829;</span></p>
-            </article>
-        </section>
+		@@include("html/widgets/nav-bar.html", {"current": "about"})@@
+
+		<div id="main-container">
+			<section id="main">
+				<article id="main-content" class="">
+					<h1 class="main-header">About</h1>
+					<h2 class="section-header">About Me</h2>
+					<img class="image-round inline-right" src="/include_/img/headshot.png"/>
+					<p>Hey! Name's Jake. I'm currently a Computer Science major at Oklahoma State, looking to graduate by May 2017. I've always been the type to take interest in things with flashing lights and bright colors, as long as I get to put it together myself. I began programming when I was 18 &#8212; creating games in frameworks such as <a href="https://libgdx.badlogicgames.com/">libGDX</a> or <a href="https://en.wikipedia.org/wiki/Microsoft_XNA">XNA</a> &#8212; and gained an interest in web design somewhere along the way. Nowadays, you can find me working on front-end UI, game engine architecture, or playing around with a Raspberry Pi. My language of choice right now is probably <a href="https://www.typescriptlang.org">TypeScript</a>, although I'm not afraid to take the <span title="Hold my segfault, I'm going in!">plunge</span> into a C/C++ codebase.</p>
+					<p>Other interests of mine include drawing, hiking, watching <span title="Go Broncos!">football</span>, and admiring planes as they fly overhead. I like keeping myself active by participating in mud-runs or playing rugby, but I really just like doing anything where I get an excuse to run. Walking on the beach with my girlfriend is what I dream of doing everyday, and a good bowl of pasta will always put me in a great mood.</p>
+					<h2 class="section-header">About This Site</h2>
+					<img class="image-round inline-left" src="/include_/img/code-blur.png"/>
+					<p>This webpage is all about learning! Sure, using a framework such as <a href="https://v4-alpha.getbootstrap.com/">Bootstrap</a> or <a href="http://foundation.zurb.com/">Foundation</a> would have made the development of this site much easier, but where's the fun in that? I've had a much better time trying to figure out things like rems or vertical margin collapsing by myself*.</p>
+					<p class="whisper">*myself = me + StackOverflow</p>
+				</article>
+			</section>
+		</div>
 		@@include("html/widgets/footer.html")@@
 	</body>
 </html>

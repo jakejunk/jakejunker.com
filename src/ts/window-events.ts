@@ -20,7 +20,7 @@ function OnStart(): void
         return;
     }
     
-    AjaxHelper.InitPageState("main-nav", "main", "title-bar", "main-content");
+    AjaxHelper.InitPageState("main-nav", "main-container", "main");
     window.onpopstate = OnPopState;
 }
 
