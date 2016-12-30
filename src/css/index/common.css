@@ -62,6 +62,12 @@ body
 	font-weight: normal;
 }
 
+sup
+{
+	vertical-align: super;
+	line-height: 0;
+}
+
 .center-align
 {
 	text-align: center;

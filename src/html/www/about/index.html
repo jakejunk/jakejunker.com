@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		@@include("html/widgets/head.html")@@
+		<title>Jake Junker - About</title>
+	</head>
+	<body>
+		@@include("html/widgets/nav-bar.html", {"current": "about"})@@
+
+		<div id="main-container">
+			<section id="main">
+				<article id="main-content" class="">
+					<h1 class="main-header">About</h1>
+
+					<h2 class="section-header">About me</h2>
+					<img class="image-round inline-right" src="/include_/img/headshot.png"/>
+					<p>Hey! Name's Jake. I'm currently a Computer Science major at Oklahoma State, looking to graduate by May 2017. I've always been the type to take interest in things with flashing lights and bright colors, as long as I get to put it together myself. I began programming when I was 18 &#8212; creating games in frameworks such as <a href="https://libgdx.badlogicgames.com/">libGDX</a> or <a href="https://en.wikipedia.org/wiki/Microsoft_XNA">XNA</a> &#8212; and gained an interest in web design somewhere along the way. Nowadays, you can find me working on front-end UI, game engine architecture, or playing around with a Raspberry Pi. My language of choice right now is probably <a href="https://www.typescriptlang.org">TypeScript</a>, although I'm not afraid to take the <span title="Hold my segfault, I'm going in!">plunge</span> into a C/C++ codebase.</p>
+					<p>Other interests of mine include drawing, hiking, watching <span title="Go Broncos!">football</span>, and admiring planes as they fly overhead. I like keeping myself active by participating in mud-runs or playing rugby, but I really just like doing anything where I get an excuse to run. Walking on the beach with my girlfriend is what I dream of doing everyday, and a good bowl of pasta will always put me in a great mood.</p>
+
+					<h2 class="section-header">About this site</h2>
+					<img class="image-round inline-left" src="/include_/img/code-blur.png"/>
+					<p>This webpage is all about learning! Sure, using a framework such as <a href="https://v4-alpha.getbootstrap.com/">Bootstrap</a> or <a href="http://foundation.zurb.com/">Foundation</a> would have made the development of this site much easier, but where's the fun in that? I've had a much better time trying to figure out things like "rems" or vertical margin collapsing by myself<sup>1</sup>. Sarcasm aside, this site is my personal tool for learning the nitty-gritty details of web development. Experimental technologies are always welcome here, and <b>will</b> be used with reckless abandon, so don't be too surprised when <a href="http://webassembly.org/">WebAssembly</a> becomes the backbone of this page! I try not to break the site <i>too</i> much, but it happens every so often.</p>
+					<p>In the spirit of learning, I've created a few "guidelines" for this site to abide by. These rules don't necessarily facilitate quick development or guarantee a polished final product, but they instead allow me to make mistakes and learn important lessons from them. If any of the following rules are broken in any way, please file an issue <a href="https://github.com/jakejunk/personal-site/issues">here</a>. The rules are as follows:</p>
+					
+					<h3 class="sub-section-header">1. JavaScript is optional</h3>
+					<p>JavaScript is a great<sup>2</sup> tool for adding additional features to any webpage. Unfortunately, across the web, JS has also been involved in <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">many</a>, <a href="http://security.stackexchange.com/questions/120020/is-this-a-javascript-virus">many</a>, <a href="http://arstechnica.com/security/2016/01/researchers-uncover-javascript-based-ransomware-as-service/">many</a> issues relating to user-friendliness. Understandably, concerned users have reacted by disabling JS in their browsers. To avoid serving broken webpages to these users, JS usage is limited towards <b>enhancements only</b> (e.g., <a href="https://en.wikipedia.org/wiki/Ajax_(programming)">AJAX</a>). Anything considered "necessary" for the site to work should not rely on JS.</p>
+
+					<h3 class="sub-section-header">2. No WCMS</h3>
+					<p>Web Content Management Systems, such as <a href="https://wordpress.org/">WordPress</a>, are very popular tools for generating and managing content on a webpage. While this type of tool can be extremely useful, and should probably be used for anything serious, I am choosing to do most things manually here. Along with the lessons learned from this development style, hopefully this will give me a better appreciation for WCMS-type tools in the future.</p>
+
+					<p class="whisper"><sup>1</sup>myself = me + Stack Overflow<br><sup>2</sup>Don't tell anyone I said this</p>
+				</article>
+			</section>
+		</div>
+		@@include("html/widgets/footer.html")@@
+	</body>
+</html>
+

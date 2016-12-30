@@ -4,8 +4,3 @@ header
 	border-color: #444;
 	background: #26292E;
 }
-
-.nav-bar-logo:before
-{
-	background-color: #34373d; /*2f3238 */
-}

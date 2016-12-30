@@ -12,16 +12,18 @@ var debugTs = ts.createProject("src/ts/tsconfig.json");
 var releaseTs;
 
 // Various file locations
-var allFiles = "src/**/*";
-var allPages = "src/html/pages/**/*";
-
-var cssPath = "src/css/";
-var themePath = "src/css/index/";
-var lightThemeFiles = "src/css/index/theme-light/**/*";
-var darkThemeFiles = "src/css/index/theme-dark/**/*";
-
-var debugOutputs = "build/debug/www";
-var releaseOutputs = "build/release/www";
+var files = 
+{
+	www: "src/html/www/**/*",
+	css:
+	{
+		index: "src/css/",
+		themes: "src/css/index/"
+	},
+	img: "src/img/**/*",
+	debugOutputs: "build/debug/www",
+	releaseOutputs: "build/release/www"
+};
 
 
 /* Tasks =================================================================== */
@@ -31,14 +33,14 @@ var releaseOutputs = "build/release/www";
  */
 gulp.task("process-css", function(debug, release)
 {
-	var outputFolder = debug ? debugOutputs : releaseOutputs;
-	var directories = getFolders(cssPath);
-	var themeDirs = getFolders(themePath);
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var directories = getFolders(files.css.index);
+	var themeDirs = getFolders(files.css.themes);
 
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
 	var concatenated = directories.map(function(folder)
 		{
-			return gulp.src(path.join(cssPath, folder, "*.css"))
+			return gulp.src(path.join(files.css.index, folder, "*.css"))
 				.pipe(concatCss(folder + ".css"))
 				.pipe(gulp.dest(outputFolder + "/include_/css"));
 		});
@@ -46,7 +48,7 @@ gulp.task("process-css", function(debug, release)
 	// Style related CSS is separate
 	var everythingElse = themeDirs.map(function(folder)
 		{
-			return gulp.src(path.join(themePath, folder, "*.css"))
+			return gulp.src(path.join(files.css.themes, folder, "*.css"))
 				.pipe(concatCss(folder + ".css"))
 				.pipe(gulp.dest(outputFolder + "/include_/css"));
 		});
@@ -60,7 +62,7 @@ gulp.task("process-css", function(debug, release)
  */
 gulp.task("process-ts", function(debug, release)
 {
-	var outputFolder = debug ? debugOutputs : releaseOutputs;
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
     var proj = debug ? debugTs : releaseTs;
 
     return proj.src()
@@ -76,9 +78,9 @@ gulp.task("process-ts", function(debug, release)
  */
 gulp.task("process-html", function(debug, release)
 {
-	var outputFolder = debug ? debugOutputs : releaseOutputs;
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
 
-	return gulp.src(allPages, {base: "src/html/pages"})
+	return gulp.src(files.www, {base: "src/html/www"})
 		.pipe(include(
 			{
 				prefix: "@@",
@@ -91,9 +93,9 @@ gulp.task("process-html", function(debug, release)
 
 gulp.task("process-img", function(debug, release)
 {
-	var outputFolder = debug ? debugOutputs : releaseOutputs;
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
 
-	return gulp.src("src/img/**/*")
+	return gulp.src(files.img)
 		.pipe(gulp.dest(outputFolder + "/include_/img"));
 });
 

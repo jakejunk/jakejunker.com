@@ -11,8 +11,8 @@
             <section id="main">
                 <article class="color-shift" id="main-content">
                     <h1 class="main-header">Contact</h1>
-                    <h2 class="section-header">Wanna Chat?</h2>
-                    <p>Are you wanting to give a hard-working college student some <span title="...or money?">encouragment</span>? How about telling him that his website is awesome? What about letting him know about something he messed up over in <a href="/projects/">projects</a>? If you said yes to any of those options, then this page is for you!</p>
+                    <h2 class="section-header">Wanna chat?</h2>
+                    <p>If you have the urge to give a hard-working college student some <span title="...or money...">encouragment</span>, then you've come to the right place! Leave a message using the form, or contact me elsewhere by following the links below. For the extra paranoid, I'll try to provide a GPG key soon enough.</p>
                     <div class="center-align">
                         <h2 class="red-text">NOTE: Form does not work yet!</h2>
                         <span class="whisper">(Looks good though!)</span>
