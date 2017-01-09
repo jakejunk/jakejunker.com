@@ -267,7 +267,7 @@ label[for="nav-button"]
 	height: 2.75rem;
 	
 	background: #c0392b;
-	background-image: url("icons.png");
+	background-image: url("/include_/img/icons.png");
 	background-repeat: no-repeat;
 }
 

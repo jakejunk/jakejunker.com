@@ -34,23 +34,6 @@ body
 	margin: 0;
 }
 
-.flex-container
-{
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.flex-mobile-wrap
-{
-    flex-wrap: wrap;
-}
-
-.mobile-second
-{
-    order: 2;
-}
-
 .red-text
 {
 	color: #e74c3c !important;
@@ -85,30 +68,4 @@ sup
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
-}
-
-.full-width
-{
-    position: relative;
-    margin-left: -16px;
-	margin-right: -16px;
-}
-
-@media only screen and (min-width: 1px) and (min-width: 737px)
-{	
-    .flex-mobile-wrap
-    {
-        flex-wrap: nowrap;
-    }
-    
-    .mobile-second
-    {
-        order: unset;
-    }
-    
-    .full-width
-    {
-        margin-left: 0;
-		margin-right: 0;
-    }
 }

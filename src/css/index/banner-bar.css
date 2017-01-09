@@ -7,13 +7,12 @@
 .btn.banner-bar-btn
 {
     font-size: 1.5rem;
-	font-weight: 300;
-    text-decoration: none;
     
     display: block;
     margin: 6px 16px;
-    padding: 24px 16px;
+    padding: 8px;
     min-width: 220px;
+    height: 66px;
 
     border-radius: 2px;
 }

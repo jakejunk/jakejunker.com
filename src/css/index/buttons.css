@@ -1,20 +1,24 @@
 .btn
 {
+	display: inline-block;
 	font-family: "Lato", sans-serif;
 	font-size: 18px;
-	line-height: 18px;
+	line-height: 46px;
 	text-align: center;
+    text-decoration: none !important;
 
 	min-width: 128px;
-    min-height: 48px;
-	padding: 0 16px 0 16px;
+    height: 48px;
+	padding: 0 16px;
+	border: solid 1px;
 }
 
 .btn.outline
 {
 	color: #3498db;
 	background: transparent;
-	border: solid 1px #3498db;
+	border-color: #3498db;
+	font-weight: 300;
 }
 
 .btn.solid,
@@ -22,7 +26,7 @@
 {
 	color: #fff;
 	background: #2980b9;
-    border: none;
+    border-color: #2980b9;
 }
 
 .btn.rect
@@ -38,10 +42,11 @@
 .btn.small
 {
 	font-size: 11px;
-	line-height: 11px;
+	font-weight: 400;
+	line-height: 30px;
 
 	min-width: 96px;
-	min-height: 24px;
+	height: 32px;
 }
 
 .btn:hover

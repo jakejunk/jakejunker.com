@@ -12,11 +12,15 @@
 {
     font-weight: normal;
     padding-bottom: 6px;
-    text-align: center;
     margin-top: 8px;
 	margin-bottom: 16px;
 }
 
+.section-header
+{
+    font-size: 1.6rem;
+    text-align: center;
+}
 
 p ~ .section-header
 {

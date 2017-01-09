@@ -20,6 +20,7 @@ var files =
 		index: "src/css/",
 		themes: "src/css/index/"
 	},
+	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
 	debugOutputs: "build/debug/www",
 	releaseOutputs: "build/release/www"
@@ -91,6 +92,9 @@ gulp.task("process-html", function(debug, release)
 });
 
 
+/**
+ * Copy images over.
+ */
 gulp.task("process-img", function(debug, release)
 {
 	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
@@ -100,7 +104,19 @@ gulp.task("process-img", function(debug, release)
 });
 
 
-gulp.task("build", ["process-css", "process-ts", "process-html", "process-img"], function(debug, release)
+/**
+ * Handle all things favicon related.
+ */
+gulp.task("process-fav", function(debug, release)
+{
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+
+	return gulp.src(files.fav)
+		.pipe(gulp.dest(outputFolder));
+});
+
+
+gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(debug, release)
 {
 	
 });
