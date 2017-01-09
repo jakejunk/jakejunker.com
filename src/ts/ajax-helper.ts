@@ -64,7 +64,10 @@ namespace AjaxHelper
         // Dims the current content
         currentContent.style.opacity = "0.5";
 
-        // Highlights the correct nav link up top
+        // Used for determining which navigation link is current.
+        // If a page at "/projects/something/whoa" is requested, then
+        // the "/projects/" link is highlighted up top
+        let rootDest = dest.substr(0, dest.indexOf("/", 1)) + "/";
         for (let i = 0, l = nav.childNodes.length; i < l; ++i)
         {
             let current = nav.childNodes[i] as HTMLAnchorElement;
@@ -73,7 +76,7 @@ namespace AjaxHelper
                 continue;
             }
         
-            if (current.getAttribute("href") === dest)
+            if (current.getAttribute("href") === rootDest)
             {
                 current.className = "nav-btn current";
             }
