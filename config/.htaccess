@@ -1,0 +1,11 @@
+RewriteEngine on
+
+Options -Indexes
+
+ErrorDocument 403 /~jakejunk/403.html
+ErrorDocument 404 /~jakejunk/404.html
+
+RewriteCond %{SERVER_PORT} 80 [OR]
+RewriteCond %{HTTP_HOST} ^jakejunker\.com$
+RewriteRule ^(.*)$ "https\:\/\/www\.jakejunker\.com\/$1" [R=301,L]
+

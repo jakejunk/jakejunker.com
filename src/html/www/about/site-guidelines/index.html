@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	@@include("html/widgets/head.html", {"title": "Jake Junker - Site guidelines"})@@
+	<body>
+		@@include("html/widgets/nav-bar.html", {"current": "about"})@@
+
+		<div id="main-container">
+			<section id="main">
+				<article id="main-content" class="">
+					<h1 class="main-header">Site guidelines</h1>
+
+                    <h2 class="section-header">Why?</h2>
+                    <p>Why not? This website began as an attempt to learn the basics of web development, starting from a single HTML file. As this site grows in size and complexity, I aim to continue learning the intricacies of front-end development without the abstractions provided by a framework or library. These guidelines are set in place not only to keep things interesting for myself, but also to allow me to develop some best practices through good ole trial-and-error. If any of the guidelines are broken in any way, please file an issue <a href="https://github.com/jakejunk/personal-site/issues">here</a>.</p>
+
+					<h2 class="section-header">The guidelines</h2>
+                    <h3 class="sub-section-header">1 - JavaScript is "extra"</h3>
+                    <p>JavaScript will be used for <u>enhancements only</u> (e.g., <a href="https://en.wikipedia.org/wiki/Ajax_(programming)">AJAX</a>). JavaScript is <i>technically</i> an optional feature, despite its usefullness, as many browsers allow you to disable JavaScript (though few users actually do so). Anything considered "necessary" for the site to work should not rely on JavaScript being available.</p>
+
+                    <h3 class="sub-section-header">2 - Performance is desirable</h3>
+					<p>Techniques such as gzipping and minification will be experimented with in an attempt to reduce file sizes (and help traffic performance). Also, I will work on making sure that stylesheets and script files are properly optimized, to ensure that an i7 + GTX 1080 rig isn't needed for visiting this page. Any optimization suggestions are welcome.</p>
+
+					<h3 class="sub-section-header">3 - Accessibility is important</h3>
+                    <p>Accounting for visual impairments and other disabilities changes how a website can be structured, along with how it is styled and presented. I will do my best to conform to <a href="https://www.w3.org/TR/WCAG20/">W3C’s Web Content Accessibility Guidelines</a> during the development of this site, even when implementing fancier interfaces such as modal windows or navigation menus.</p>
+
+                    <h3 class="sub-section-header">4 - No WCMS</h3>
+                    <p>Web Content Management Systems, such as <a href="https://wordpress.org/">WordPress</a>, are not going to be used. While they are extremely useful tools, and should probably be used for anything serious, I am choosing to do most things manually for now. Along with it being a learning experience, this development workflow will give me a better appreciation for WCMS-type tools in the future.</p>
+
+				</article>
+			</section>
+		</div>
+		@@include("html/widgets/footer.html")@@
+	</body>
+</html>
+

@@ -1,0 +1,22 @@
+#skip-link
+{
+    display: block;
+    position: absolute;
+
+    background: #3498db;
+    color: #fff;
+
+    padding: 0 16px;
+    z-index: 8;
+    align-self: center;
+    border-radius: 0 0 2px 2px;
+
+    will-change: transform;
+    transform: translateY(-100%);
+    transition: transform 0.15s;
+}
+
+#skip-link:focus
+{
+    transform: translateY(0);
+}
