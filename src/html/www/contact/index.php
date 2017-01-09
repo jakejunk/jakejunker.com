@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-        @@include("html/widgets/head.html")@@
-		<title>Jake Junker - Contact</title>
-	</head>
+	@@include("html/widgets/head.html", {"title": "Jake Junker - Contact"})@@
 	<body>
 		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
 

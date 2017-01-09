@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		@@include("html/widgets/head.html")@@
-		<title>Jake Junker</title>
-	</head>
+	@@include("html/widgets/head.html", {"title": "Jake Junker"})@@
 	<body>
 		@@include("html/widgets/nav-bar.html", {"current": "home"})@@
 
@@ -21,7 +18,7 @@
                 </div>
                 <article class="color-shift" id="main-content">
                     <h2 class="section-header">Hey there!</h2>
-                    <p>I'm Jake, a soon-to-be college graduate with a soft spot for anything slightly geeky. My interests range from nasty things like X11, buzzword-heavy technologies such as Node.js, and everything in between (except Perl). If you'd like to read more about me, or this site, I've typed up a nice little life story over on the <a href="/about/">about</a> page. If that sounds as uninteresting as it probably is, feel free to take a gander at some of my <a href="/work/"> latest work</a>!</p>
+                    <p>I'm Jake, a soon-to-be college graduate with a soft spot for anything slightly geeky. My interests include technologies such as Node.js, low-level libraries like X11/Xlib, and everything in between (except Perl). If you'd like to read more about me, or this site, I've typed up a few paragraphs over on the <a class="ajax" href="/about/">about</a> page. Otherwise, feel free to take a gander at some of my <a class="ajax" href="/work/"> latest work</a>!</p>
                 </article>
             </section>
         </div>
