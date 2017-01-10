@@ -15,13 +15,10 @@ function OnStart(): void
 {
     ThemeManager.InitToggleButton(<HTMLButtonElement>document.getElementById("nv"));
 
-    if (!AjaxHelper.HasHistoryAPI())
+    if (AjaxHelper.HasHistoryAPI())
     {
-        return;
+        AjaxHelper.InitPageState("main-nav", "main-container", "main");
     }
-    
-    AjaxHelper.InitPageState("main-nav", "main-container", "main");
-    window.onpopstate = OnPopState;
 }
 
 
@@ -33,13 +30,4 @@ function OnExit(): void
 {
     var cookieValue = ThemeManager.IsDarkTheme()? 'y' : 'n';
 	document.cookie = "dark=" + cookieValue + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/;";
-}
-
-
-/**
- * Called when going back and forth in browser history.
- */
-function OnPopState(): void
-{
-    AjaxHelper.LoadPage(document.location.pathname, true);
 }

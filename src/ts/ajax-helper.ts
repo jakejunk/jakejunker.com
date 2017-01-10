@@ -25,8 +25,9 @@ namespace AjaxHelper
         nav = document.getElementById(navid);
         holder = document.getElementById(holderid);
         currentContent = document.getElementById(maincontentid);
-
         mainContentId = maincontentid;
+        
+        window.onpopstate = OnPopState;
 
         UpdatePageState();
     }
@@ -50,16 +51,10 @@ namespace AjaxHelper
     /**
      * Called when a qualifying link is clicked.
      */
-    export function LoadPage(href: string, back: boolean): boolean
+    export function LoadPage(href: string, callback?: () => void): boolean
     {
         let dest = href.split('#')[0];
         if (dest === "" || dest === currentHref) return true;
-        
-        // Don't update the history if we're going back
-        if (!back)
-        {
-            history.pushState(null, null, href);
-        }
         
         // Dims the current content
         currentContent.style.opacity = "0.5";
@@ -87,19 +82,23 @@ namespace AjaxHelper
         }
         
         // Fetch the requested page
-        let request = new XMLHttpRequest();
-        request.open("GET", dest, true);
-        request.onreadystatechange = function()
+        let req = new XMLHttpRequest();
+        req.open("GET", dest, true);
+        req.onreadystatechange = function()
             {
-                if (request.readyState == 4)
+                if (req.readyState == 4)
                 {
-                    if(request.status == 200)
+                    if(req.status == 200)
                     {
                         // Create a temporary HTML doc out of the request's response
                         let temp = document.implementation.createHTMLDocument("test");
                         temp.documentElement.innerHTML = this.responseText;
 
                         SwapOutDocuments_(temp);
+                        if (callback)
+                        {
+                            callback();
+                        }
                     }
                 }
                 else // request.readyState !== 4
@@ -107,7 +106,7 @@ namespace AjaxHelper
                     // TODO?
                 }
             }
-        request.send();
+        req.send();
         return false;
     }
 
@@ -119,8 +118,23 @@ namespace AjaxHelper
      */
     function OnAjaxLinkClick_(event: Event)
     {
-        let target = event.target as HTMLAnchorElement;
-        return LoadPage(target.getAttribute("href"), false);
+        // Get the link destination
+        let href = (event.target as HTMLAnchorElement).getAttribute("href");
+        
+        history.pushState(null, null, href);
+        return LoadPage(href, function()
+            {
+                window.scrollTo(0, 0);
+            });
+    }
+
+
+    /**
+     * Called when going back and forth in browser history.
+     */
+    function OnPopState(): void
+    {
+        AjaxHelper.LoadPage(document.location.pathname);
     }
 
 
@@ -135,7 +149,6 @@ namespace AjaxHelper
     
         // Delete the old stuff from the "real" document and put the new stuff in its place
         holder.removeChild(currentContent);
-        window.scrollTo(0,0);
         newContent.className = "new";
         holder.appendChild(newContent);
 
