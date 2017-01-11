@@ -9,7 +9,7 @@ namespace AjaxHelper
     let holder: HTMLElement;
     let currentContent: HTMLElement;
     let mainContentId: string;
-
+    
 
     export function HasHistoryAPI(): boolean
     {
@@ -116,7 +116,7 @@ namespace AjaxHelper
     /**
      * Function that is invoked on ajax-enabled links.
      */
-    function OnAjaxLinkClick_(event: Event)
+    function OnAjaxLinkClick_(event: Event): boolean
     {
         // Get the link destination
         let href = (event.target as HTMLAnchorElement).getAttribute("href");
@@ -132,7 +132,7 @@ namespace AjaxHelper
     /**
      * Called when going back and forth in browser history.
      */
-    function OnPopState(): void
+    function OnPopState(e: PopStateEvent): void
     {
         AjaxHelper.LoadPage(document.location.pathname);
     }
@@ -143,22 +143,22 @@ namespace AjaxHelper
      */
     function SwapOutDocuments_(newDoc: Document): void
     {
-        // Grab important parts of the new document
+        // Grab important part of the new document
         let newContent = newDoc.getElementById(mainContentId);
+        newContent.className = "new";
+
+        // Change the title
         document.title = newDoc.title;
     
         // Delete the old stuff from the "real" document and put the new stuff in its place
         holder.removeChild(currentContent);
-        newContent.className = "new";
         holder.appendChild(newContent);
 
         UpdatePageState();
     
         // The new stuff is now current
         currentContent = newContent;
-        currentContent.offsetHeight;    // HACK
-    
-        // Move the new stuff in
+        currentContent.offsetHeight;    // HACK: causes a page reflow before changing className
         currentContent.className = "";
     }
 }

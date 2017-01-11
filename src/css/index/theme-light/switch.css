@@ -1,0 +1,10 @@
+.switch:before
+{
+    background: #a3aaaf;
+    border-color: #a3aaaf;
+}
+
+.switch:after
+{
+    background: #fff;
+}
