@@ -25,13 +25,13 @@
                         </div>
                         <form id="contact-form">
                             <label for="name">Full Name: </label>
-                            <input id="name" class="text-field" name="name" type="text" placeholder="John Doe" autocomplete="off" autocorrect="off" spellcheck="false">
+                            <input id="name" class="text-field" name="name" type="text" placeholder="John Doe" autocomplete="off" autocorrect="off" spellcheck="false" required>
                             <label for="name">Email: </label>
-                            <input id="address" class="text-field" name="email" type="email" placeholder="your@email.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <input id="address" class="text-field" name="email" type="email" placeholder="your@email.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
                             <label for="message">Message: </label>
-                            <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="12"></textarea>
+                            <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="12" required></textarea>
                             <input type="submit" class="btn rect solid" style="margin-top: 16px;" value="SEND">
-                            <input type="hidden" value="<?php echo(1) ?>">
+                            <input type="hidden" name="token" value="<?php echo(1) ?>">
                         </form>
                     </div>
                 </article>
