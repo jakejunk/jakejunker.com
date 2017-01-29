@@ -32,5 +32,9 @@
     .nav-btn.current
 	{
 		color: #3498db;
+		height: 98px;
+		top: -1px;
+		border: solid 1px;
+		border-bottom: none;
     }
 }

@@ -4,6 +4,7 @@ header
 	font-family: "Lato", sans-serif;
 	position: fixed;
 	width: 100%;
+	border-bottom: solid 1px;
 	text-align: center;
     z-index: 1;
 }

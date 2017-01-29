@@ -6,7 +6,7 @@
 
         <div id="main-container">
             <section id="main">
-                <article class="color-shift" id="main-content">
+                <article id="main-content">
                     <h1 class="main-header">Contact</h1>
                     <h2 class="section-header">Wanna chat?</h2>
                     <p>If you have the urge to give a hard-working college student some <span title="...or money...">encouragement</span>, then you've come to the right place! Leave a message using the form, or contact me elsewhere by following the links below. For the extra paranoid, I'll try to provide a GPG key soon enough.</p>

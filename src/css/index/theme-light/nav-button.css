@@ -2,11 +2,12 @@
 {
 	.nav-btn:hover
 	{
-		background: #e8e8e9;
+		background: #f0f0f1;
 	}
 
 	.nav-btn.current
 	{
-		background: #fafafa;
+		background: #fefeff;
+		border-color: #e8e8e9;
 	}
 }

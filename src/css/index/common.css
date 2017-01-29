@@ -14,26 +14,6 @@ input[type="reset"]::-moz-focus-inner
 	border: 0 none !important;
 }
 
-html
-{
-	height: 100%;
-	overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-body
-{
-	font-family: "Open Sans", sans-serif;
-	line-height: 2rem;
-	font-size: 1rem;
-
-	display: flex;
-	flex-direction: column;
-
-	height: 100%;
-	margin: 0;
-}
-
 .red-text
 {
 	color: #e74c3c !important;
