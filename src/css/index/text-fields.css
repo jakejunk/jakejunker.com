@@ -5,13 +5,12 @@
 
     width: 100%;
     padding: 14px 16px;
-    border: solid 1px;
+    border: none;
 }
 
 .text-field ~ .text-field
 {
-    /*margin-top: 2px;*/
-    border-top: none; 
+    margin-top: 2px;
 }
 
 textarea
