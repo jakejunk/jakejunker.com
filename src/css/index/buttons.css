@@ -22,11 +22,13 @@
 }
 
 .btn.solid,
-.btn.outline:hover
+.btn.outline:hover,
+.btn.outline:focus
 {
 	color: #fff;
 	background: #2980b9;
     border-color: #2980b9;
+	outline: none;
 }
 
 .btn.rect
