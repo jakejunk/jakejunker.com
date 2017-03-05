@@ -36,6 +36,7 @@ header
 	{
 		position: static;
 		border-bottom: solid 1px;
+		padding-top: 1px;
 	}
 
 	#nav-bar-container

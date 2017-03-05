@@ -27,6 +27,12 @@
 	{
 		color: inherit;
         text-shadow: none;
+		transition: background-color .2s;
+	}
+
+	.nav-btn:hover
+	{
+		transition: none;
 	}
 
     .nav-btn.current
