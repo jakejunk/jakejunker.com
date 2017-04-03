@@ -1,7 +1,7 @@
 /* Navigation links in header */
 .nav-btn
 {
-	font-family: "Lato", sans-serif;
+	font-family: "Open Sans", sans-serif;
 	text-align: center;
 	text-decoration: none !important;
 	
@@ -11,7 +11,6 @@
     text-shadow: 0 1px 0 #3498db;
     
 	width: 25%;
-    height: 100%;
 }
 
 /* Color the current location */
@@ -28,6 +27,7 @@
 		color: inherit;
         text-shadow: none;
 		transition: background-color .2s;
+		margin: 0 4px;
 	}
 
 	.nav-btn:hover
@@ -38,9 +38,14 @@
     .nav-btn.current
 	{
 		color: #3498db;
-		height: 98px;
-		top: -1px;
-		border: solid 1px;
-		border-bottom: none;
     }
+}
+
+@media only screen and (min-width: 850px)
+{
+	.nav-btn
+	{
+		padding: 0 24px;
+		width: unset;
+	}
 }
