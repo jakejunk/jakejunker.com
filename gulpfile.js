@@ -1,11 +1,12 @@
-var gulp = require("gulp-param")(require("gulp"), process.argv);
-var merge = require("merge-stream");
-var concatCss = require("gulp-concat-css");
-var include = require("gulp-file-include");
+var gulp       = require("gulp-param")(require("gulp"), process.argv);
+var merge      = require("merge-stream");
+var concatCss  = require("gulp-concat-css");
+var include    = require("gulp-file-include");
 var sourcemaps = require("gulp-sourcemaps");
-var ts = require("gulp-typescript");
-var fs = require("fs");
-var path = require("path");
+var ts         = require("gulp-typescript");
+var fs         = require("fs");
+var path       = require("path");
+var webserver  = require("gulp-webserver");
 
 
 var debugTs = ts.createProject("src/ts/tsconfig.json");
@@ -40,19 +41,19 @@ gulp.task("process-css", function(debug, release)
 
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
 	var concatenated = directories.map(function(folder)
-		{
-			return gulp.src(path.join(files.css.index, folder, "*.css"))
-				.pipe(concatCss(folder + ".css"))
-				.pipe(gulp.dest(outputFolder + "/include_/css"));
-		});
+	{
+		return gulp.src(path.join(files.css.index, folder, "*.css"))
+			.pipe(concatCss(folder + ".css"))
+			.pipe(gulp.dest(path.join(outputFolder, "/include_/css")));
+	});
 
 	// Style related CSS is separate
 	var everythingElse = themeDirs.map(function(folder)
-		{
-			return gulp.src(path.join(files.css.themes, folder, "*.css"))
-				.pipe(concatCss(folder + ".css"))
-				.pipe(gulp.dest(outputFolder + "/include_/css"));
-		});
+	{
+		return gulp.src(path.join(files.css.themes, folder, "*.css"))
+			.pipe(concatCss(folder + ".css"))
+			.pipe(gulp.dest(path.join(outputFolder, "/include_/css")));
+	});
 
 	return merge(concatenated, everythingElse);
 });
@@ -70,7 +71,7 @@ gulp.task("process-ts", function(debug, release)
         .pipe(sourcemaps.init())
         .pipe(proj()).js
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(outputFolder + "/include_/js"));
+        .pipe(gulp.dest(path.join(outputFolder, "/include_/js")));
 });
 
 
@@ -83,11 +84,11 @@ gulp.task("process-html", function(debug, release)
 
 	return gulp.src(files.www, {base: "src/html/www"})
 		.pipe(include(
-			{
-				prefix: "@@",
-				suffix: "@@",
-				basepath: "./src/"
-			}))
+		{
+			prefix: "@@",
+			suffix: "@@",
+			basepath: "./src/"
+		}))
 		.pipe(gulp.dest(outputFolder));
 });
 
@@ -100,7 +101,7 @@ gulp.task("process-img", function(debug, release)
 	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
 
 	return gulp.src(files.img)
-		.pipe(gulp.dest(outputFolder + "/include_/img"));
+		.pipe(gulp.dest(path.join(outputFolder, "/include_/img")));
 });
 
 
@@ -122,6 +123,20 @@ gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", 
 });
 
 
+gulp.task("serve", function(debug, release)
+{
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	console.log(path.join("/", outputFolder));
+
+	gulp.src(outputFolder)
+		.pipe(webserver(
+		{
+			host: "0.0.0.0",
+			port: 8000
+		}));
+});
+
+
 // Helper functions ========================================================
 
 /**
@@ -130,7 +145,7 @@ gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", 
 function getFolders(dir)
 {
     return fs.readdirSync(dir).filter(function(file)
-		{
-			return fs.statSync(path.join(dir, file)).isDirectory();
-		});
+	{
+		return fs.statSync(path.join(dir, file)).isDirectory();
+	});
 }
