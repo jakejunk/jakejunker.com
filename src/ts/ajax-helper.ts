@@ -27,7 +27,7 @@ namespace AjaxHelper
         currentContent = document.getElementById(maincontentid);
         mainContentId = maincontentid;
         
-        window.onpopstate = OnPopState;
+        window.onpopstate = OnPopState_;
 
         UpdatePageState();
     }
@@ -43,7 +43,8 @@ namespace AjaxHelper
         let ajaxLinks = document.getElementsByClassName("ajax") as HTMLCollectionOf<HTMLAnchorElement>;
         for (let i = 0; i < ajaxLinks.length; ++i)
         {
-            ajaxLinks[i].onclick = OnAjaxLinkClick_;
+            // FIXME: The cast is needed because of a TypeScript bug relating to generics.
+            (ajaxLinks[i] as HTMLAnchorElement).onclick = OnAjaxLinkClick_;
         }
     }
 
@@ -51,61 +52,55 @@ namespace AjaxHelper
     /**
      * Called when a qualifying link is clicked.
      */
-    export function LoadPage(href: string, callback?: () => void): boolean
+    export function LoadPage(href: string, pushNewState?: boolean, callback?: (err: number) => void): boolean
     {
-        let dest = href.split('#')[0];
-        if (dest === "" || dest === currentHref) return true;
-        
-        // Dims the current content
-        currentContent.style.opacity = "0.5";
+        console.log("Current page is: ", currentHref);
+        console.log("Going to page: ", href);
 
-        // Used for determining which navigation link is current.
-        // If a page at "/projects/something/whoa" is requested, then
-        // the "/projects/" link is highlighted up top
-        let rootDest = dest.substr(0, dest.indexOf("/", 1)) + "/";
-        for (let i = 0, l = nav.childNodes.length; i < l; ++i)
+        let dest = href.split('#')[0];
+        if (dest === "" || dest === currentHref)
         {
-            let current = nav.childNodes[i] as HTMLAnchorElement;
-            if (current.nodeType === 3)
-            {
-                continue;
-            }
-        
-            if (current.getAttribute("href") === rootDest)
-            {
-                current.className = "nav-btn current";
-            }
-            else
-            {
-                current.className = "nav-btn";
-            }
+            // If the clicked link was either 1) a hash link or 2) a link to the current page,
+            // then let the default browser behavior take over.
+            return true;
         }
         
         // Fetch the requested page
         let req = new XMLHttpRequest();
         req.open("GET", dest, true);
         req.onreadystatechange = function()
+        {
+            if (req.readyState == 4)
             {
-                if (req.readyState == 4)
+                if(req.status == 200)
                 {
-                    if(req.status == 200)
+                    // Push a new state into the history since we got something back,
+                    // but only if we are going to a new page
+                    if (pushNewState)
                     {
-                        // Create a temporary HTML doc out of the request's response
-                        let temp = document.implementation.createHTMLDocument("test");
-                        temp.documentElement.innerHTML = this.responseText;
+                        history.pushState(null, null, href);
+                    }
 
-                        SwapOutDocuments_(temp);
-                        if (callback)
-                        {
-                            callback();
-                        }
+                    // Create a temporary HTML doc out of the request's response
+                    let temp = document.implementation.createHTMLDocument("test");
+                    temp.documentElement.innerHTML = this.responseText;
+                    
+                    HighlightNavLink_(href);
+                    SwapOutDocuments_(temp);
+
+                    if (callback)
+                    {
+                        callback(200);
                     }
                 }
-                else // request.readyState !== 4
-                {
-                    // TODO?
-                }
+                
+                console.log("Server returned code: ", req.status);
             }
+            else // request.readyState !== 4
+            {
+                // TODO: Implement a loading bar, that'd be pretty cool
+            }
+        }
         req.send();
         return false;
     }
@@ -120,21 +115,53 @@ namespace AjaxHelper
     {
         // Get the link destination
         let href = (event.target as HTMLAnchorElement).getAttribute("href");
+
+        // Dims the current content
+        currentContent.style.opacity = "0.5";
         
-        history.pushState(null, null, href);
-        return LoadPage(href, function()
-            {
-                window.scrollTo(0, 0);
-            });
+        return LoadPage(href, true, function()
+        {
+            window.scrollTo(0, 0);
+        });
     }
 
 
     /**
      * Called when going back and forth in browser history.
      */
-    function OnPopState(e: PopStateEvent): void
+    function OnPopState_(e: PopStateEvent): void
     {
         AjaxHelper.LoadPage(document.location.pathname);
+    }
+
+
+    /**
+     * Whenever an ajax link is clicked, this will be called to highlight the correct
+     * navigation link in the header.
+     */
+    function HighlightNavLink_(dest: string): void
+    {
+        // Used for determining which navigation link is current.
+        // If a page at "/projects/something/whoa" is requested, then
+        // the "/projects/" link is highlighted up top
+        let rootDest = dest.substr(0, dest.indexOf("/", 1)) + "/";
+        for (let i = 0, l = nav.childNodes.length; i < l; ++i)
+        {
+            let current = nav.childNodes[i] as HTMLAnchorElement;
+
+            if (current.nodeType === 3)
+            {
+                continue;
+            }
+            else if (current.getAttribute("href") === rootDest)
+            {
+                current.className = "nav-btn current";
+            }
+            else
+            {
+                current.className = "nav-btn";
+            }
+        }
     }
 
 
