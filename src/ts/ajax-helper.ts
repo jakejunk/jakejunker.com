@@ -4,14 +4,14 @@
  */
 namespace AjaxHelper
 {
-    let currentHref: string;
-    let nav: HTMLElement;
-    let holder: HTMLElement;
-    let currentContent: HTMLElement;
-    let mainContentId: string;
+    let _currentHref: string;
     
 
-    export function HasHistoryAPI(): boolean
+    /**
+     * Returns a boolean value representing whether or not the browser can support
+     * the History API, which is needed for Ajax capabilities.
+     */
+    export function IsAvailable(): boolean
     {
         let hasHistory = "history" in window;
         let hasPushState = "pushState" in window.history;
@@ -20,15 +20,10 @@ namespace AjaxHelper
     }
 
 
-    export function InitPageState(navid: string, holderid: string, maincontentid: string): void
+    export function Init(): void
     {
-        nav = document.getElementById(navid);
-        holder = document.getElementById(holderid);
-        currentContent = document.getElementById(maincontentid);
-        mainContentId = maincontentid;
-        
-        window.onpopstate = OnPopState_;
-
+        window.onpopstate = _OnPopState;
+        Webpage.Init();
         UpdatePageState();
     }
 
@@ -38,13 +33,13 @@ namespace AjaxHelper
      */
     export function UpdatePageState(): void
     {
-        currentHref = document.location.pathname;
+        _currentHref = document.location.pathname;
 
         let ajaxLinks = document.getElementsByClassName("ajax") as HTMLCollectionOf<HTMLAnchorElement>;
         for (let i = 0; i < ajaxLinks.length; ++i)
         {
             // FIXME: The cast is needed because of a TypeScript bug relating to generics.
-            (ajaxLinks[i] as HTMLAnchorElement).onclick = OnAjaxLinkClick_;
+            (ajaxLinks[i] as HTMLAnchorElement).onclick = _OnAjaxLinkClick;
         }
     }
 
@@ -52,13 +47,10 @@ namespace AjaxHelper
     /**
      * Called when a qualifying link is clicked.
      */
-    export function LoadPage(href: string, pushNewState?: boolean, callback?: (err: number) => void): boolean
+    export function LoadPage(href: string, pushNewState?: boolean, callback?: (status: number) => void): boolean
     {
-        console.log("Current page is: ", currentHref);
-        console.log("Going to page: ", href);
-
         let dest = href.split('#')[0];
-        if (dest === "" || dest === currentHref)
+        if (dest === "" || dest === _currentHref)
         {
             // If the clicked link was either 1) a hash link or 2) a link to the current page,
             // then let the default browser behavior take over.
@@ -70,31 +62,26 @@ namespace AjaxHelper
         req.open("GET", dest, true);
         req.onreadystatechange = function()
         {
-            if (req.readyState == 4)
+            if (req.readyState === 4)
             {
-                if(req.status == 200)
+                // Push a new state into the history since we got something back,
+                // but only if we are going to a new page
+                if (pushNewState)
                 {
-                    // Push a new state into the history since we got something back,
-                    // but only if we are going to a new page
-                    if (pushNewState)
-                    {
-                        history.pushState(null, null, href);
-                    }
-
-                    // Create a temporary HTML doc out of the request's response
-                    let temp = document.implementation.createHTMLDocument("test");
-                    temp.documentElement.innerHTML = this.responseText;
-                    
-                    HighlightNavLink_(href);
-                    SwapOutDocuments_(temp);
-
-                    if (callback)
-                    {
-                        callback(200);
-                    }
+                    history.pushState(null, null, href);
                 }
+
+                // Create a temporary HTML doc out of the request's response
+                let temp = document.implementation.createHTMLDocument("test");
+                temp.documentElement.innerHTML = this.responseText;
                 
-                console.log("Server returned code: ", req.status);
+                _HighlightNavLink(href);
+                Webpage.SwapPageContent(temp);
+
+                if (callback)
+                {
+                    callback(req.status);
+                }
             }
             else // request.readyState !== 4
             {
@@ -111,16 +98,18 @@ namespace AjaxHelper
     /**
      * Function that is invoked on ajax-enabled links.
      */
-    function OnAjaxLinkClick_(event: Event): boolean
+    function _OnAjaxLinkClick(event: Event): boolean
     {
         // Get the link destination
-        let href = (event.target as HTMLAnchorElement).getAttribute("href");
+        let target = event.target as HTMLAnchorElement;
+        let href   = target.getAttribute("href");
 
         // Dims the current content
-        currentContent.style.opacity = "0.5";
+        Webpage.MainContent.style.opacity = "0.5";
         
-        return LoadPage(href, true, function()
+        return LoadPage(href, true, function(status)
         {
+            // TODO: Do we care if it 404s?
             window.scrollTo(0, 0);
         });
     }
@@ -129,7 +118,7 @@ namespace AjaxHelper
     /**
      * Called when going back and forth in browser history.
      */
-    function OnPopState_(e: PopStateEvent): void
+    function _OnPopState(e: PopStateEvent): void
     {
         AjaxHelper.LoadPage(document.location.pathname);
     }
@@ -139,53 +128,27 @@ namespace AjaxHelper
      * Whenever an ajax link is clicked, this will be called to highlight the correct
      * navigation link in the header.
      */
-    function HighlightNavLink_(dest: string): void
+    function _HighlightNavLink(dest: string): void
     {
         // Used for determining which navigation link is current.
         // If a page at "/projects/something/whoa" is requested, then
         // the "/projects/" link is highlighted up top
         let rootDest = dest.substr(0, dest.indexOf("/", 1)) + "/";
-        for (let i = 0, l = nav.childNodes.length; i < l; ++i)
+        for (let i = 0, nav = Webpage.Nav, l = nav.childNodes.length; i < l; ++i)
         {
             let current = nav.childNodes[i] as HTMLAnchorElement;
 
-            if (current.nodeType === 3)
+            if (current.nodeType !== 3)
             {
-                continue;
-            }
-            else if (current.getAttribute("href") === rootDest)
-            {
-                current.className = "nav-btn current";
-            }
-            else
-            {
-                current.className = "nav-btn";
+                if (current.getAttribute("href") === rootDest)
+                {
+                    current.className = "nav-btn current";
+                }
+                else
+                {
+                    current.className = "nav-btn";
+                }
             }
         }
-    }
-
-
-    /**
-     * Swaps the contents of the page.
-     */
-    function SwapOutDocuments_(newDoc: Document): void
-    {
-        // Grab important part of the new document
-        let newContent = newDoc.getElementById(mainContentId);
-        newContent.className = "new";
-
-        // Change the title
-        document.title = newDoc.title;
-    
-        // Delete the old stuff from the "real" document and put the new stuff in its place
-        holder.removeChild(currentContent);
-        holder.appendChild(newContent);
-
-        UpdatePageState();
-    
-        // The new stuff is now current
-        currentContent = newContent;
-        currentContent.offsetHeight;    // HACK: causes a page reflow before changing className
-        currentContent.className = "";
     }
 }

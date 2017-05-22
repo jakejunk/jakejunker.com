@@ -13,11 +13,11 @@ ThemeManager.InitTags();
  */
 function OnStart(): void
 {
-    ThemeManager.InitToggleButton(<HTMLButtonElement>document.getElementById("nv"));
+    ThemeManager.InitToggleButton(<HTMLButtonElement>Webpage.ID("nv"));
 
-    if (AjaxHelper.HasHistoryAPI())
+    if (AjaxHelper.IsAvailable())
     {
-        AjaxHelper.InitPageState("main-nav", "main-container", "main");
+        AjaxHelper.Init();
     }
 }
 

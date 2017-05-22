@@ -6,7 +6,7 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noEmitOnError": true,
-        "outFile": "main.js",
+        "outFile": "../../main.js",
         "preserveConstEnums": true,
         "pretty": true,
         "removeComments": false,

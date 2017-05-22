@@ -3,14 +3,14 @@
  */
 namespace ThemeManager
 {
-    let head_: HTMLHeadElement;
-    let lightThemeTag_: HTMLLinkElement;
-    let darkThemeTag_: HTMLLinkElement;
-    let useDarkTheme_ = false;
+    let _head: HTMLHeadElement;
+    let _lightThemeTag: HTMLLinkElement;
+    let _darkThemeTag: HTMLLinkElement;
+    let _useDarkTheme = false;
 
-    /* NOTE: These are in "backwards" order.
-     * The toggle button shows the text of the _next_ theme switch. */
-    let themeNames_ = ["LIGHTS OFF", "LIGHTS ON"];
+    // NOTE: These are in "backwards" order.
+    // The toggle button shows the text of the _next_ theme switch.
+    let _themeNames = ["LIGHTS OFF", "LIGHTS ON"];
 
 
 /* Public functions ======================================================== */
@@ -21,7 +21,7 @@ namespace ThemeManager
      */
     export function InitTags(): void
     {
-        head_ = document.getElementsByTagName('head')[0];
+        _head = document.getElementsByTagName('head')[0];
 
         if (document.cookie === "")
         {
@@ -29,11 +29,11 @@ namespace ThemeManager
         }
         else if (document.cookie.split("=")[1] === "y")
         {
-            useDarkTheme_ = true;
+            _useDarkTheme = true;
         }
 
-        lightThemeTag_ = CreateCSSLinkTag_("/include_/css/theme-light.css", themeNames_[1], useDarkTheme_);
-        darkThemeTag_ = CreateCSSLinkTag_("/include_/css/theme-dark.css", themeNames_[0], !useDarkTheme_);
+        _lightThemeTag = CreateCSSLinkTag_("/include_/css/theme-light.css", _themeNames[1], _useDarkTheme);
+        _darkThemeTag = CreateCSSLinkTag_("/include_/css/theme-dark.css", _themeNames[0], !_useDarkTheme);
     }
     
     /**
@@ -43,13 +43,13 @@ namespace ThemeManager
     {
         toggleButton.onclick = OnToggleButtonClick_;
         toggleButton.disabled = false;
-        toggleButton.innerHTML = themeNames_[+useDarkTheme_];
+        toggleButton.innerHTML = _themeNames[+_useDarkTheme];
     }
 
 
     export function IsDarkTheme(): boolean
     {
-        return useDarkTheme_;
+        return _useDarkTheme;
     }
 
 
@@ -68,7 +68,7 @@ namespace ThemeManager
 
         // FIXME: this is a hack
         result.disabled = disabled;
-        head_.appendChild(result);
+        _head.appendChild(result);
         result.disabled = disabled;
 
         return result;
@@ -79,10 +79,10 @@ namespace ThemeManager
 
     function OnToggleButtonClick_(this: HTMLButtonElement): void
     {
-        darkThemeTag_.disabled = useDarkTheme_;
-        useDarkTheme_ = !useDarkTheme_;
-        lightThemeTag_.disabled = useDarkTheme_;
+        _darkThemeTag.disabled = _useDarkTheme;
+        _useDarkTheme = !_useDarkTheme;
+        _lightThemeTag.disabled = _useDarkTheme;
 
-        this.innerHTML = themeNames_[+useDarkTheme_];
+        this.innerHTML = _themeNames[+_useDarkTheme];
     }
 }

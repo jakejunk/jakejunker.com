@@ -31,7 +31,7 @@ header
 }
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
-{	
+{
 	header
 	{
 		position: static;
@@ -77,10 +77,10 @@ header
 
 	@keyframes logoMove
 	{
-		5%        { transform: rotateZ(60deg); }
-		10%       { transform: rotateZ(-30deg); }
-		15%       { transform: rotateZ(15deg); }
-		20%, 100% { transform: rotateZ(0deg); }
+		8%        { transform: rotateZ(60deg); }
+		16%       { transform: rotateZ(-30deg); }
+		24%       { transform: rotateZ(15deg); }
+		32%, 100% { transform: rotateZ(0deg); }
 	}
 
 	.nav-bar-logo:before
@@ -103,7 +103,7 @@ header
 
 	.nav-bar-logo:hover:before
 	{
-		animation: logoMove 1.5s;
+		animation: logoMove 1s;
 		animation-iteration-count: infinite;
 	}
 
