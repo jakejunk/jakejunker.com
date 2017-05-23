@@ -101,7 +101,7 @@ header
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: cover;
-		background-image: url("/include_/img/logo_v2.svg");
+		background-image: url("/_include/img/logo_v2.svg");
 
 		height: 40px;
 		width: 40px;

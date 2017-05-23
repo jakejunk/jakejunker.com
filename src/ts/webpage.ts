@@ -47,7 +47,8 @@ namespace Webpage
         document.title = newPage.title;
         let newContent = newPage.getElementById(_MainContentIdStr);
 
-        // Is false if we navigated to a page that doesn't follow the template
+        // Is false when we navigate to a page that doesn't follow the template.
+        // Ideally, this should rarely occur... if at all.
         if (!newContent)
         {
             newContent = newPage.body.firstElementChild as HTMLElement;
