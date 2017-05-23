@@ -39,6 +39,16 @@ header
 		padding-top: 1px;
 	}
 
+	header:after
+	{
+		content: "";
+		position: absolute;
+		height: 1px;
+		left: 0;
+		width: 100%;
+		background-image: linear-gradient(to right, transparent, transparent, #3498db);
+	}
+
 	#nav-bar-container
 	{
 		display: flex;
