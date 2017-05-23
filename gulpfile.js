@@ -7,6 +7,7 @@ var ts         = require("gulp-typescript");
 var fs         = require("fs");
 var path       = require("path");
 var webserver  = require("gulp-webserver");
+var php        = require("gulp-connect-php");
 
 
 var debugTs = ts.createProject("src/ts/tsconfig.json");
@@ -23,6 +24,7 @@ var files =
 	},
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
+	php: "src/php/**/*",
 	debugOutputs: "build/debug/www",
 	releaseOutputs: "build/release/www"
 };
@@ -44,7 +46,7 @@ gulp.task("process-css", function(debug, release)
 	{
 		return gulp.src(path.join(files.css.index, folder, "*.css"))
 			.pipe(concatCss(folder + ".css"))
-			.pipe(gulp.dest(path.join(outputFolder, "/include_/css")));
+			.pipe(gulp.dest(path.join(outputFolder, "/_include/css")));
 	});
 
 	// Style related CSS is separate
@@ -52,7 +54,7 @@ gulp.task("process-css", function(debug, release)
 	{
 		return gulp.src(path.join(files.css.themes, folder, "*.css"))
 			.pipe(concatCss(folder + ".css"))
-			.pipe(gulp.dest(path.join(outputFolder, "/include_/css")));
+			.pipe(gulp.dest(path.join(outputFolder, "/_include/css")));
 	});
 
 	return merge(concatenated, everythingElse);
@@ -71,7 +73,7 @@ gulp.task("process-ts", function(debug, release)
         .pipe(sourcemaps.init())
         .pipe(proj()).js
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.join(outputFolder, "/include_/js")));
+        .pipe(gulp.dest(path.join(outputFolder, "/_include/js")));
 });
 
 
@@ -101,7 +103,7 @@ gulp.task("process-img", function(debug, release)
 	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
 
 	return gulp.src(files.img)
-		.pipe(gulp.dest(path.join(outputFolder, "/include_/img")));
+		.pipe(gulp.dest(path.join(outputFolder, "/_include/img")));
 });
 
 
@@ -117,7 +119,19 @@ gulp.task("process-fav", function(debug, release)
 });
 
 
-gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(debug, release)
+/**
+ * Handle PHP scripts.
+ */
+gulp.task("process-php", function(debug, release)
+{
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+
+	return gulp.src(files.php)
+		.pipe(gulp.dest(path.join(outputFolder, "/_include/php")));
+});
+
+
+gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav", "process-php"], function(debug, release)
 {
 	
 });
@@ -134,6 +148,20 @@ gulp.task("serve", function(debug, release)
 			host: "0.0.0.0",
 			port: 8000
 		}));
+});
+
+
+gulp.task("serve-php", function(debug, release)
+{
+	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	console.log(path.join("/", outputFolder));
+
+	php.server(
+	{
+		hostname: "0.0.0.0",
+		base: outputFolder,
+		ini: "/config/php.ini"
+	});
 });
 
 

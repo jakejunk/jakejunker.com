@@ -1,3 +1,18 @@
+<?php
+
+session_start();
+
+function generateFormToken($form)
+{    
+    // Generate a token from an unique value
+    $token = md5(uniqid(microtime(), true));  
+
+    // Write the generated token to the session variable to check against when the form is sent
+    $_SESSION[$form . "_token"] = $token; 
+    return $token;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en-US">
 	@@include("html/widgets/head.html", {"title": "Jake Junker - Contact"})@@
@@ -23,7 +38,7 @@
                                 <li><a href="https://github.com/jakejunk">GitHub Profile</a></li>
                             </ul>
                         </div>
-                        <form id="contact-form">
+                        <form action="/_include/php/process_mail.php" method="post" id="contact-form">
                             <label for="name">Full Name: </label>
                             <input id="name" class="text-field" name="name" type="text" placeholder="John Doe" autocomplete="off" autocorrect="off" spellcheck="false" required>
                             <label for="name">Email: </label>
@@ -31,6 +46,7 @@
                             <label for="message">Message: </label>
                             <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="8" required></textarea>
                             <input type="submit" class="btn rect solid" style="margin-top: 16px;" value="SEND">
+                            <input type="hidden" name="token" value="<?php echo generateFormToken("ef"); ?>">
                         </form>
                     </div>
                 </article>
