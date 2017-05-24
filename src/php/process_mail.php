@@ -23,43 +23,46 @@ function stripcleantohtml($s)
     return htmlentities(trim(strip_tags(stripslashes($s))), ENT_NOQUOTES, "UTF-8");
 }
 
-if (verifyFormToken("ef"))
+if (verifyFormToken('ef'))
 {
-    $whitelist = array("token", "name", "email", "message");
+    $whitelist = array('token', 'name', 'email', 'message');
 
     // Check each field for valid names
     foreach ($_POST as $key=>$item)
     {
 		if (!in_array($key, $whitelist))
         {
-			die("Please use only the fields in the form");
+			die('Please use only the fields in the form');
         }
     }
 
-    $message = "";
-    $message .= "Name:    " . stripcleantohtml($_POST["name"]) . "\n";
-    $message .= "Email:   " . stripcleantohtml($_POST["email"]) . "\n";
-    $message .= "Message: " . stripcleantohtml($_POST["message"]);
+    $message = '';
+    $message .= 'Name:    ' . stripcleantohtml($_POST['name']) . "\n";
+    $message .= 'Email:   ' . stripcleantohtml($_POST['email']) . "\n";
+    $message .= 'Message: ' . stripcleantohtml($_POST['message']);
 
-    $emailFrom = "contact@jakejunker.com";
-    $emailTo =   "contact@jakejunker.com";
-    $subject =   "Contact Form Submission";
+    $emailFrom = 'contact@jakejunker.com';
+    $emailTo =   'contact@jakejunker.com';
+    $subject =   'Contact Form Submission';
 
     $success = @mail($emailTo, $subject, $message, "From: <$emailFrom>");
 
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
+
     if ($success)
     {
-        header("Location: /contact/thank-you/");
+        header('Location: ' . $protocol . $_SERVER['HTTP_HOST'] . '/contact/thank-you/');
+        //header("Location: /contact/thank-you/");
     }
     else
     {
-        header("Location: /contact/oops/index.html");
+        header('Location: ' . $protocol . $_SERVER['HTTP_HOST'] . '/contact/oops/');
     }
     return;
 }
 else
 {
-    echo "Oops";
+    //echo "Oops";
 }
 
 
