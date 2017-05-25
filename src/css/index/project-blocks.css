@@ -12,11 +12,15 @@
 
 .project-blks a
 {
+    background-color: #1e5b83;
+    color: #fefeff;
+
     display: block;
     width: 100%;
     min-height: 200px;
-    
-    background-color: #1e5b83; 
+    padding: 16px;
+    text-align: center;
+    font-size: 1.15rem;
 }
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
@@ -29,6 +33,6 @@
     
     .project-blks a
     {
-        border-radius: 3px;   
+        border-radius: 8px;   
     }
 }

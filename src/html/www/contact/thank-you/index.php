@@ -2,16 +2,32 @@
 
 session_start();
 
-function verifyFormToken($form)
+function verifyFormToken()
 {    
-	if(!isset($_SESSION[$form . "_token"])                  // Check if token was sent
-    || !isset($_POST["token"])                              // Check if form sent a token
-    || ($_SESSION[$form . "_token"] !== $_POST["token"]))   // Compare the tokens
+	if(!isset($_SESSION["ef_token"])                  // Check if token was sent
+    || !isset($_POST["token"])                        // Check if form sent a token
+    || ($_SESSION["ef_token"] !== $_POST["token"]))   // Compare the tokens
     { 
 		return false;
     }
 	
 	return true;
+}
+
+function verifyFormData()
+{
+    $whitelist = array('token', 'name', 'email', 'message');
+
+    // Check each field for valid names
+    foreach ($_POST as $key=>$item)
+    {
+		if (!in_array($key, $whitelist))
+        {
+			return false;
+        }
+    }
+
+    return true;
 }
 
 function stripcleantohtml($s)
@@ -23,29 +39,25 @@ function stripcleantohtml($s)
     return htmlentities(trim(strip_tags(stripslashes($s))), ENT_NOQUOTES, "UTF-8");
 }
 
-if (verifyFormToken('ef'))
+if (verifyFormToken())
 {
-    $whitelist = array('token', 'name', 'email', 'message');
-
-    // Check each field for valid names
-    foreach ($_POST as $key=>$item)
+    if (verifyFormData())
     {
-		if (!in_array($key, $whitelist))
-        {
-			die('Please use only the fields in the form');
-        }
+        $message = '';
+        $message .= 'Name:    ' . stripcleantohtml($_POST['name']) . "\n";
+        $message .= 'Email:   ' . stripcleantohtml($_POST['email']) . "\n";
+        $message .= 'Message: ' . stripcleantohtml($_POST['message']);
+
+        $emailFrom = 'contact@jakejunker.com';
+        $emailTo =   'contact@jakejunker.com';
+        $subject =   'Contact Form Submission';
+
+        $success = @mail($emailTo, $subject, $message, "From: <$emailFrom>");
     }
+    else
+    {
 
-    $message = '';
-    $message .= 'Name:    ' . stripcleantohtml($_POST['name']) . "\n";
-    $message .= 'Email:   ' . stripcleantohtml($_POST['email']) . "\n";
-    $message .= 'Message: ' . stripcleantohtml($_POST['message']);
-
-    $emailFrom = 'contact@jakejunker.com';
-    $emailTo =   'contact@jakejunker.com';
-    $subject =   'Contact Form Submission';
-
-    $success = @mail($emailTo, $subject, $message, "From: <$emailFrom>");
+    }
 }
 else
 {
@@ -54,7 +66,7 @@ else
 }
 ?><!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"title": "Thank You"})@@
+	@@include("html/widgets/head.html", {"specialTitle": "Thank You"})@@
 	<body>
 		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
 

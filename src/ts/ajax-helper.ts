@@ -35,11 +35,17 @@ namespace AjaxHelper
     {
         _currentHref = document.location.pathname;
 
+        // Gather ajax links
         let ajaxLinks = document.getElementsByClassName("ajax") as HTMLCollectionOf<HTMLAnchorElement>;
         for (let i = 0; i < ajaxLinks.length; ++i)
         {
-            // FIXME: The cast is needed because of a TypeScript bug relating to generics.
-            (ajaxLinks[i] as HTMLAnchorElement).onclick = _OnAjaxLinkClick;
+            ajaxLinks[i].onclick = _OnAjaxLinkClick;
+        }
+
+        // Round up potential forms on the page
+        for (let i = 0; i < document.forms.length; ++i)
+        {
+            document.forms[i].onsubmit = _OnFormSubmit;
         }
     }
 
@@ -47,7 +53,8 @@ namespace AjaxHelper
     /**
      * Called when a qualifying link is clicked.
      */
-    export function LoadPage(href: string, pushNewState?: boolean, callback?: (status: number) => void): boolean
+    export function LoadPage(href: string, pushNewState?: boolean, callback?: (status: number) => void,
+                             method = "GET", elements?: HTMLFormControlsCollection): boolean
     {
         let dest = href.split('#')[0];
         if (dest === "" || dest === _currentHref)
@@ -59,7 +66,6 @@ namespace AjaxHelper
         
         // Fetch the requested page
         let req = new XMLHttpRequest();
-        req.open("GET", dest, true);
         req.onreadystatechange = function()
         {
             if (req.readyState === 4)
@@ -88,7 +94,31 @@ namespace AjaxHelper
                 // TODO: Implement a loading bar, that'd be pretty cool
             }
         }
-        req.send();
+        req.open(method, dest, true);
+
+        if (method === "POST")
+        {
+            let data = "";
+            for (let i = 0; i < elements.length; ++i)
+            {
+                let e = elements[i] as HTMLFormElement;
+                if (e.type !== "submit")
+                {
+                    if (i !== 0)
+                    {
+                        data += "&";
+                    }
+                    data += e.name + "=" + e.value;
+                }
+            }
+
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            req.send(data);
+        }
+        else
+        {
+            req.send();
+        }
         return false;
     }
 
@@ -104,14 +134,35 @@ namespace AjaxHelper
         let target = event.target as HTMLAnchorElement;
         let href   = target.getAttribute("href");
 
+        if (href)
+        {
+            // Dims the current content
+            Webpage.MainContent.style.opacity = "0.5";
+            
+            return LoadPage(href, true, function(status)
+            {
+                // TODO: Do we care if it 404s?
+                window.scrollTo(0, 0);
+            });
+        }
+
+        return true;
+    }
+
+
+    function _OnFormSubmit(event: Event): boolean
+    {
+        let target = event.target as HTMLFormElement;
+        let elements = target.elements;
+        
         // Dims the current content
         Webpage.MainContent.style.opacity = "0.5";
         
-        return LoadPage(href, true, function(status)
+        return LoadPage(target.action, true, function(status)
         {
             // TODO: Do we care if it 404s?
             window.scrollTo(0, 0);
-        });
+        }, "POST", elements);
     }
 
 
