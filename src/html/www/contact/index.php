@@ -38,7 +38,7 @@ function generateFormToken($form)
                                 <li><a href="https://github.com/jakejunk">GitHub Profile</a></li>
                             </ul>
                         </div>
-                        <form action="/_include/php/process_mail.php" method="post" id="contact-form">
+                        <form action="/contact/thank-you/" method="post" id="contact-form">
                             <label for="name">Full Name: </label>
                             <input id="name" class="text-field" name="name" type="text" placeholder="John Doe" autocomplete="off" autocorrect="off" spellcheck="false" required>
                             <label for="name">Email: </label>

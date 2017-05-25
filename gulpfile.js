@@ -24,7 +24,6 @@ var files =
 	},
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
-	php: "src/php/**/*",
 	debugOutputs: "build/debug/www",
 	releaseOutputs: "build/release/www"
 };
@@ -119,19 +118,7 @@ gulp.task("process-fav", function(debug, release)
 });
 
 
-/**
- * Handle PHP scripts.
- */
-gulp.task("process-php", function(debug, release)
-{
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
-
-	return gulp.src(files.php)
-		.pipe(gulp.dest(path.join(outputFolder, "/_include/php")));
-});
-
-
-gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav", "process-php"], function(debug, release)
+gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(debug, release)
 {
 	
 });

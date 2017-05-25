@@ -46,24 +46,34 @@ if (verifyFormToken('ef'))
     $subject =   'Contact Form Submission';
 
     $success = @mail($emailTo, $subject, $message, "From: <$emailFrom>");
-
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-
-    if ($success)
-    {
-        header('Location: ' . $protocol . $_SERVER['HTTP_HOST'] . '/contact/thank-you/');
-        //header("Location: /contact/thank-you/");
-    }
-    else
-    {
-        header('Location: ' . $protocol . $_SERVER['HTTP_HOST'] . '/contact/oops/');
-    }
-    return;
 }
 else
 {
-    //echo "Oops";
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
+	header('Location: ' . $protocol . $_SERVER['HTTP_HOST'] . '/contact/');
 }
+?><!DOCTYPE html>
+<html lang="en-US">
+	@@include("html/widgets/head.html", {"title": "Thank You"})@@
+	<body>
+		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
 
+		<div id="main-container">
+			<section id="main">
+				<article id="main-content">
 
-?>
+					<?php if($success): ?>
+                    <h2 class="section-header">Got it!</h2>
+                    <p>Thanks for the message! I'll get back to you as soon as I can.</p>
+
+					<?php else: ?>
+					<h2 class="section-header">Something broke</h2>
+                    <p>Thanks for using the form! Unfortunately, an error occurred on my end, so I suppose I'll need to fix that. Sorry for the inconvenience!</p>
+					<?php endif; ?>
+
+				</article>
+			</section>
+		</div>
+		@@include("html/widgets/footer.html")@@
+	</body>
+</html>
