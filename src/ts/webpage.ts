@@ -9,6 +9,12 @@ namespace Webpage
     export let ID: (elementId: string) => HTMLElement = document.getElementById.bind(document);
 
     /**
+     * The main header of the site. This contains the navigation links,
+     * as well as the progress bar for ajax requests.
+     */
+    export let MainHeader: HTMLElement
+
+    /**
      * The container holding all navigation links.
      */
     export let Nav: HTMLElement
@@ -32,6 +38,7 @@ namespace Webpage
      */
     export function Init()
     {
+        MainHeader = ID("main-header");
         Nav = ID("main-nav");
         MainContainer = ID("main-container");
         MainContent = ID(_MainContentIdStr);

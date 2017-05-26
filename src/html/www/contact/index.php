@@ -42,6 +42,7 @@ function generateFormToken()
                             <label for="message">Message: </label>
                             <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="8" required></textarea>
                             <input type="submit" class="btn rect solid" style="margin-top: 16px;" value="SEND">
+                            <div id="progress-indicator">Sending</div>
                             <input type="hidden" name="token" value="<?php echo generateFormToken(); ?>">
                         </form>
                     </div>

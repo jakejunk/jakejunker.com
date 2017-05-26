@@ -50,51 +50,44 @@ namespace AjaxHelper
     }
 
 
+// Private functions =======================================================
+
     /**
-     * Called when a qualifying link is clicked.
+     * Called when a qualifying link is clicked or when a form is submitted.
      */
-    export function LoadPage(href: string, pushNewState?: boolean, callback?: (status: number) => void,
-                             method = "GET", elements?: HTMLFormControlsCollection): boolean
+    export function _MakeRequest(href: string, callback: (status: number, doc: Document) => void,
+                                 loadingElement = Webpage.MainHeader, method = "GET", elements?: HTMLFormControlsCollection): void
     {
-        let dest = href.split('#')[0];
-        if (dest === "" || dest === _currentHref)
+        // Initialize progress of the request
+        if (loadingElement)
         {
-            // If the clicked link was either 1) a hash link or 2) a link to the current page,
-            // then let the default browser behavior take over.
-            return true;
+            loadingElement.dataset.progress = "0";
+            loadingElement.offsetHeight;   // HACK: causes a page reflow
         }
-        
+
         // Fetch the requested page
         let req = new XMLHttpRequest();
         req.onreadystatechange = function()
         {
+            // Update progress of the request
+            if (loadingElement)
+            {
+                loadingElement.dataset.progress = req.readyState.toString();
+            }
+
             if (req.readyState === 4)
             {
-                // Push a new state into the history since we got something back,
-                // but only if we are going to a new page
-                if (pushNewState)
-                {
-                    history.pushState(null, null, href);
-                }
-
                 // Create a temporary HTML doc out of the request's response
                 let temp = document.implementation.createHTMLDocument("test");
                 temp.documentElement.innerHTML = this.responseText;
-                
-                _HighlightNavLink(href);
-                Webpage.SwapPageContent(temp);
 
                 if (callback)
                 {
-                    callback(req.status);
+                    callback(req.status, temp);
                 }
             }
-            else // request.readyState !== 4
-            {
-                // TODO: Implement a loading bar, that'd be pretty cool
-            }
         }
-        req.open(method, dest, true);
+        req.open(method, href, true);
 
         if (method === "POST")
         {
@@ -102,14 +95,11 @@ namespace AjaxHelper
             for (let i = 0; i < elements.length; ++i)
             {
                 let e = elements[i] as HTMLFormElement;
-                if (e.type !== "submit")
+                if (i !== 0)
                 {
-                    if (i !== 0)
-                    {
-                        data += "&";
-                    }
-                    data += e.name + "=" + e.value;
+                    data += "&";
                 }
+                data += e.name + "=" + e.value;
             }
 
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -119,27 +109,71 @@ namespace AjaxHelper
         {
             req.send();
         }
+    }
+
+    
+    /**
+     * Performs a GET request to the remote server. Returns a boolean value based on whether
+     * an Ajax request was made or not, e.g. will return false if the default browser behavior
+     * took place (for hashlinks or something).
+     * @param href               The requested address.
+     * @param pushHistoryState   Whether to update the browser history or not.
+     * @param callback           A callback returning the status of the request.
+     */
+    function _GetPage(href: string, pushHistoryState: boolean, callback: (status: number) => void): boolean
+    {
+        let dest = href.split('#')[0];
+        if (dest === "" || dest === _currentHref)
+        {
+            // If the clicked link was either 1) a hash link or 2) a link to the current page,
+            // then let the default browser behavior take over.
+            return true;
+        }
+
+        _MakeRequest(href, function(status, doc)
+        {
+            // Push a new state into the history since we got something back,
+            // but only if we are going to a new page
+            if (pushHistoryState)
+            {
+                history.pushState(null, null, href);
+            }
+
+            _HighlightNavLink(href);
+            Webpage.SwapPageContent(doc);
+
+            callback(status);
+        });
+
         return false;
     }
 
 
-// Private functions =======================================================
+    function _PostToServer(actionHref: string, elements: HTMLFormControlsCollection, callback: (status: number, doc: Document) => void): boolean
+    {
+        _MakeRequest(actionHref, function(status, doc)
+        {
+            callback(status, doc);
+        }, null, "POST", elements);
+
+        return false;
+    }
+
 
     /**
      * Function that is invoked on ajax-enabled links.
      */
     function _OnAjaxLinkClick(event: Event): boolean
     {
-        // Get the link destination
         let target = event.target as HTMLAnchorElement;
         let href   = target.getAttribute("href");
 
+        // Necessary check because I like to assign the `ajax` className to containers of links,
+        // and clicking on _just_ the container can break things.
         if (href)
         {
-            // Dims the current content
             Webpage.MainContent.style.opacity = "0.5";
-            
-            return LoadPage(href, true, function(status)
+            return _GetPage(href, true, function(status)
             {
                 // TODO: Do we care if it 404s?
                 window.scrollTo(0, 0);
@@ -155,14 +189,13 @@ namespace AjaxHelper
         let target = event.target as HTMLFormElement;
         let elements = target.elements;
         
-        // Dims the current content
-        Webpage.MainContent.style.opacity = "0.5";
-        
-        return LoadPage(target.action, true, function(status)
+        return _PostToServer(target.action, elements, function(status, doc)
         {
+            Webpage.SwapPageContent(doc);
+
             // TODO: Do we care if it 404s?
             window.scrollTo(0, 0);
-        }, "POST", elements);
+        });
     }
 
 
@@ -171,7 +204,13 @@ namespace AjaxHelper
      */
     function _OnPopState(e: PopStateEvent): void
     {
-        AjaxHelper.LoadPage(document.location.pathname);
+        // Dims the current content
+        Webpage.MainContent.style.opacity = "0.5";
+
+        _GetPage(document.location.pathname, false, function(status)
+        {
+            
+        });
     }
 
 
