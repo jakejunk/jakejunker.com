@@ -3,3 +3,8 @@
     color: #ddd;
 	border-color: #3a3e42;
 }
+
+.text-field:hover
+{
+    background-color: #2c2f34;
+}

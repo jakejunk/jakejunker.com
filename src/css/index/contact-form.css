@@ -4,11 +4,6 @@
     width: 100%;
 }
 
-#contact-form label
-{
-    display: none;
-}
-
 #contact-pane
 {
 	text-align: center;
@@ -33,5 +28,10 @@
         margin: 0 0 32px 0;
         order: 2;
         width: auto;
+	}
+
+	#contact-submit
+	{
+		margin-left: 76px;
 	}
 }

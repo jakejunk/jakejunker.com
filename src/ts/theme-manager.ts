@@ -23,11 +23,12 @@ namespace ThemeManager
     {
         _head = document.getElementsByTagName('head')[0];
 
-        if (document.cookie === "")
+        let isDark = Webpage.GetCookie("dark");
+        if (isDark === null)
         {
             document.cookie = "dark=n; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/;";
         }
-        else if (document.cookie.split("=")[1] === "y")
+        else if (isDark === "y")
         {
             _useDarkTheme = true;
         }
@@ -84,5 +85,8 @@ namespace ThemeManager
         _lightThemeTag.disabled = _useDarkTheme;
 
         this.innerHTML = _themeNames[+_useDarkTheme];
+
+        var cookieValue = _useDarkTheme? 'y' : 'n';
+	    document.cookie = "dark=" + cookieValue + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/;";
     }
 }

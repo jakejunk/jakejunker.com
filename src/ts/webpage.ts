@@ -9,10 +9,9 @@ namespace Webpage
     export let ID: (elementId: string) => HTMLElement = document.getElementById.bind(document);
 
     /**
-     * The main header of the site. This contains the navigation links,
-     * as well as the progress bar for ajax requests.
+     * The main progress bar for ajax requests.
      */
-    export let MainHeader: HTMLElement
+    export let MainProgressBar: HTMLElement
 
     /**
      * The container holding all navigation links.
@@ -38,7 +37,7 @@ namespace Webpage
      */
     export function Init()
     {
-        MainHeader = ID("main-header");
+        MainProgressBar = ID("main-progress-bar");
         Nav = ID("main-nav");
         MainContainer = ID("main-container");
         MainContent = ID(_MainContentIdStr);
@@ -72,5 +71,17 @@ namespace Webpage
         MainContent = newContent;
         MainContent.offsetHeight;    // HACK: causes a page reflow before changing className
         MainContent.className = "";
+    }
+
+
+    /**
+     * Returns a cookie matching the provided name.
+     * Taken from: https://stackoverflow.com/questions/10730362/get-cookie-by-name
+     * @param name The name of the cookie to get.
+     */
+    export function GetCookie(name: string): string
+    {
+        let match = document.cookie.match(RegExp("(?:^|;\\s*)" + name + "=([^;]*)"));
+        return match ? match[1] : null;
     }
 }

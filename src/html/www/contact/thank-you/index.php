@@ -72,7 +72,7 @@ else
 
 		<div id="main-container">
 			<section id="main">
-				<article id="main-content">
+				<article id="main-content" data-result="<?php echo $success? 'true' : 'false'; ?>">
 
 					<?php if($success): ?>
                     <h2 class="section-header">Got it!</h2>

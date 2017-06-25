@@ -3,3 +3,8 @@
     color: #555;
 	border-color: #ececed;
 }
+
+.text-field:hover
+{
+    background-color: #f8f8f9;
+}

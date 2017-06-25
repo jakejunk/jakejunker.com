@@ -11,7 +11,21 @@
     outline: none;
 }
 
-.text-field ~ .text-field
+label
+{
+    display: block;
+    font-size: 14px;
+    padding: 13px 0;
+    line-height: 1rem;
+}
+
+.input-row
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.input-row + .input-row
 {
     margin-top: 16px;
 }
@@ -38,9 +52,28 @@ textarea
     font-weight: 100;
 }
 
+.text-field:not(:placeholder-shown):not(:focus):invalid
+{
+    box-shadow: 0 0 3px #e74c3c;
+    border-color: #e74c3c;
+}
+
 .text-field:focus
 {
     outline: none;
     box-shadow: 0 0 3px #3498db;
     border-color: #3498db;
+}
+
+@media only screen and (min-width: 1px) and (min-width: 737px)
+{
+    label
+    {
+        min-width: 76px;
+    }
+
+    .input-row
+    {
+        flex-wrap: nowrap;
+    }
 }

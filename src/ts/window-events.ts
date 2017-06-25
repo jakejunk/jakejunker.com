@@ -4,7 +4,6 @@
 
 /* Do all this as soon as the script loads */
 window.onload = OnStart;
-window.onbeforeunload = OnExit;
 ThemeManager.InitTags();
 
 
@@ -19,15 +18,4 @@ function OnStart(): void
     {
         AjaxHelper.Init();
     }
-}
-
-
-/**
- * Called when the user is about to exit the page.
- * Keep it short and quick...
- */
-function OnExit(): void
-{
-    var cookieValue = ThemeManager.IsDarkTheme()? 'y' : 'n';
-	document.cookie = "dark=" + cookieValue + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/;";
 }

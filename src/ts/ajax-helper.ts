@@ -56,7 +56,7 @@ namespace AjaxHelper
      * Called when a qualifying link is clicked or when a form is submitted.
      */
     export function _MakeRequest(href: string, callback: (status: number, doc: Document) => void,
-                                 loadingElement = Webpage.MainHeader, method = "GET", elements?: HTMLFormControlsCollection): void
+                                 loadingElement?: HTMLElement, method = "GET", elements?: HTMLFormControlsCollection): void
     {
         // Initialize progress of the request
         if (loadingElement)
@@ -72,7 +72,7 @@ namespace AjaxHelper
             // Update progress of the request
             if (loadingElement)
             {
-                loadingElement.dataset.progress = req.readyState.toString();
+                loadingElement.dataset.progress = ((req.readyState + 1) * 20).toString();
             }
 
             if (req.readyState === 4)
@@ -86,7 +86,7 @@ namespace AjaxHelper
                     callback(req.status, temp);
                 }
             }
-        }
+        };
         req.open(method, href, true);
 
         if (method === "POST")
@@ -118,9 +118,10 @@ namespace AjaxHelper
      * took place (for hashlinks or something).
      * @param href               The requested address.
      * @param pushHistoryState   Whether to update the browser history or not.
+     * @param showLoading        Whether to display the progress bar.
      * @param callback           A callback returning the status of the request.
      */
-    function _GetPage(href: string, pushHistoryState: boolean, callback: (status: number) => void): boolean
+    function _GetPage(href: string, pushHistoryState: boolean, showProgress: boolean, callback: (status: number) => void): boolean
     {
         let dest = href.split('#')[0];
         if (dest === "" || dest === _currentHref)
@@ -130,6 +131,7 @@ namespace AjaxHelper
             return true;
         }
 
+        let progressBar = showProgress? Webpage.MainProgressBar : null;
         _MakeRequest(href, function(status, doc)
         {
             // Push a new state into the history since we got something back,
@@ -143,18 +145,18 @@ namespace AjaxHelper
             Webpage.SwapPageContent(doc);
 
             callback(status);
-        });
+        }, progressBar);
 
         return false;
     }
 
 
-    function _PostToServer(actionHref: string, elements: HTMLFormControlsCollection, callback: (status: number, doc: Document) => void): boolean
+    function _PostToServer(actionHref: string, elements: HTMLFormControlsCollection, callback: (status: number, doc: Document) => void, progressElement?: HTMLElement): boolean
     {
         _MakeRequest(actionHref, function(status, doc)
         {
             callback(status, doc);
-        }, null, "POST", elements);
+        }, progressElement, "POST", elements);
 
         return false;
     }
@@ -173,7 +175,7 @@ namespace AjaxHelper
         if (href)
         {
             Webpage.MainContent.style.opacity = "0.5";
-            return _GetPage(href, true, function(status)
+            return _GetPage(href, true, true, function(status)
             {
                 // TODO: Do we care if it 404s?
                 window.scrollTo(0, 0);
@@ -188,14 +190,33 @@ namespace AjaxHelper
     {
         let target = event.target as HTMLFormElement;
         let elements = target.elements;
+
+        let submitButton = target.getElementsByClassName("form-submit")[0] as HTMLButtonElement;
+        let progressBar = submitButton.getElementsByClassName("submit-progress-bar")[0] as HTMLElement;
+        let text = submitButton.getElementsByClassName("submit-text")[0];
+
+        submitButton.classList.add("in-progress");
+        text.innerHTML = "SENDING...";
         
         return _PostToServer(target.action, elements, function(status, doc)
         {
-            Webpage.SwapPageContent(doc);
+            if (status === 200)
+            {
+                submitButton.classList.remove("in-progress");
+                submitButton.disabled = true;
 
-            // TODO: Do we care if it 404s?
-            window.scrollTo(0, 0);
-        });
+                if (doc.getElementById("main-content").dataset.result === "true")
+                {
+                    submitButton.classList.add("success");
+                    text.innerHTML = "SENT!";
+                }
+                else
+                {
+                    submitButton.classList.add("error");
+                    text.innerHTML = "ERROR";
+                }
+            }
+        }, progressBar);
     }
 
 
@@ -207,7 +228,7 @@ namespace AjaxHelper
         // Dims the current content
         Webpage.MainContent.style.opacity = "0.5";
 
-        _GetPage(document.location.pathname, false, function(status)
+        _GetPage(document.location.pathname, false, false, function(status)
         {
             
         });
