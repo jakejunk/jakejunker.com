@@ -8,10 +8,12 @@ var fs         = require("fs");
 var path       = require("path");
 var webserver  = require("gulp-webserver");
 var php        = require("gulp-connect-php");
+var cleanCSS   = require("gulp-clean-css");
+var uglify     = require("gulp-uglify");
 
 
 var debugTs = ts.createProject("src/ts/tsconfig.json");
-var releaseTs;
+var releaseTs = ts.createProject("src/ts/tsconfig.release.json");
 
 // Various file locations
 var files = 
@@ -43,17 +45,13 @@ gulp.task("process-css", function(debug, release)
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
 	var concatenated = directories.map(function(folder)
 	{
-		return gulp.src(path.join(files.css.index, folder, "*.css"))
-			.pipe(concatCss(folder + ".css"))
-			.pipe(gulp.dest(path.join(outputFolder, "/_include/css")));
+		return cssProcessDirectory(files.css.index, folder, outputFolder, release);
 	});
 
 	// Style related CSS is separate
 	var everythingElse = themeDirs.map(function(folder)
 	{
-		return gulp.src(path.join(files.css.themes, folder, "*.css"))
-			.pipe(concatCss(folder + ".css"))
-			.pipe(gulp.dest(path.join(outputFolder, "/_include/css")));
+		return cssProcessDirectory(files.css.themes, folder, outputFolder, release);
 	});
 
 	return merge(concatenated, everythingElse);
@@ -68,11 +66,23 @@ gulp.task("process-ts", function(debug, release)
 	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
     var proj = debug ? debugTs : releaseTs;
 
-    return proj.src()
-        .pipe(sourcemaps.init())
-        .pipe(proj()).js
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.join(outputFolder, "/_include/js")));
+	var main = proj.src();
+
+	if (debug)
+	{
+		main = main.pipe(sourcemaps.init())
+			.pipe(proj()).js
+			.pipe(sourcemaps.write());
+	}
+	else
+	{
+		main = main.pipe(proj()).js
+			.pipe(uglify({
+				toplevel: true
+			}));
+	}
+
+    return main.pipe(gulp.dest(path.join(outputFolder, "/_include/js")));
 });
 
 
@@ -163,4 +173,27 @@ function getFolders(dir)
 	{
 		return fs.statSync(path.join(dir, file)).isDirectory();
 	});
+}
+
+
+function cssProcessDirectory(dirPath, folderName, outFolder, release)
+{
+	// Concatenate all files in the specified folder
+	var main = gulp.src(path.join(dirPath, folderName, "*.css"))
+			.pipe(concatCss(folderName + ".css"));
+
+	if (release)
+	{
+		main = main.pipe(cleanCSS(
+			{
+				compatibility: "ie10",
+				level: 2
+			}, function(details)
+		{
+			console.log(details.name + ': ' + details.stats.originalSize);
+			console.log(details.name + ': ' + details.stats.minifiedSize);
+		})); 
+	}
+
+	return main.pipe(gulp.dest(path.join(outFolder, "/_include/css")));
 }
