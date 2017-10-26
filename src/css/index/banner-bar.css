@@ -29,9 +29,9 @@
 .banner-header
 {
     font-family: "Lato", sans-serif;
-    font-weight: 400;
+    font-weight: 100;
     font-size: 96px;
-    line-height: 96px;
+    line-height: 112px;
     text-align: center;
     margin: 64px auto;
 
@@ -58,7 +58,7 @@
     #banner-bar-content
 	{
         text-align: left;
-		padding: 96px 96px 48px 96px;
+		padding: 96px 32px 48px 32px;
     }
 
     .btn.banner-bar-btn
@@ -69,10 +69,18 @@
 
 @media only screen and (min-width: 850px)
 {
+    .banner-header
+    {
+        font-size: 112px;
+    }
+
     #banner-bar-content > .banner-header:before,
     #banner-bar-content > .banner-header:after
     {
-        color: #3498db;
+        background-image: linear-gradient(to bottom right, #3498db, #9b59b6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
         white-space: pre;
     }
 

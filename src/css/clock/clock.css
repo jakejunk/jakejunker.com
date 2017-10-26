@@ -1,0 +1,55 @@
+#clock
+{
+    position: relative;
+    width: 256px;
+    height: 256px;
+
+    border: solid 1px #000;
+    border-radius: 128px;
+}
+
+@keyframes rotate-hand
+{
+    from { transform: rotateZ(0deg); }
+    to   { transform: rotateZ(360deg); }
+}
+
+#minute-hand
+{
+    background-color: #000;
+
+    position: relative;
+    width: 96px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+
+    transform-origin: 0;
+    animation: rotate-hand 60s linear 0s infinite;
+}
+
+.label
+{
+    position: absolute;
+    display: inline-block;
+
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    text-align: center;
+}
+
+.label[data-num="12"] { top: 16px; left: 50%; }
+.label[data-num="1"]  { top: 30px; left: 185px; }
+.label[data-num="2"]  { top: 72px; left: 226px; }
+.label[data-num="3"]  { top: 50%; left: 240px; }
+.label[data-num="4"]  { top: 185px; left: 226px; }
+.label[data-num="5"]  { top: 226px; left: 185px; }
+.label[data-num="6"]  { top: 240px; left: 50%; }
+.label[data-num="7"]  { top: 226px; left: 72px; }
+.label[data-num="8"]  { top: 185px; left: 30px; }
+.label[data-num="9"]  { top: 50%; left: 16px; }
+.label[data-num="10"] { top: 72px; left: 30px; }
+.label[data-num="11"] { top: 30px; left: 72px; }

@@ -9,8 +9,6 @@
 	text-align: center;
 	margin: 0 0 32px 0;
 	padding: 7px 16px 16px 16px;
-	border: solid 1px;
-	border-radius: 2px;
     
     width: 100%;
 }
@@ -27,11 +25,12 @@
 	{
         margin: 0 0 32px 0;
         order: 2;
-        width: auto;
+		width: auto;
+		text-align: left
 	}
 
 	#contact-submit
 	{
-		margin-left: 76px;
+		margin-left: 96px;
 	}
 }

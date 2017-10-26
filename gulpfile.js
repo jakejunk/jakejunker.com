@@ -10,6 +10,7 @@ var webserver  = require("gulp-webserver");
 var php        = require("gulp-connect-php");
 var cleanCSS   = require("gulp-clean-css");
 var uglify     = require("gulp-uglify");
+var sass       = require("gulp-sass");
 
 
 var debugTs = ts.createProject("src/ts/tsconfig.json");
@@ -22,7 +23,8 @@ var files =
 	css:
 	{
 		index: "src/css/",
-		themes: "src/css/index/"
+		//themes: "src/css/index/",
+		//themesTests: "src/css/index-test/"
 	},
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
@@ -40,21 +42,28 @@ gulp.task("process-css", function(debug, release)
 {
 	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
 	var directories = getFolders(files.css.index);
-	var themeDirs = getFolders(files.css.themes);
+	//var themeDirs = getFolders(files.css.themesTests);
 
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
 	var concatenated = directories.map(function(folder)
 	{
-		return cssProcessDirectory(files.css.index, folder, outputFolder, release);
-	});
+		console.log(folder);
+		var processsedDir = cssProcessDirectory(files.css.index, folder, outputFolder, release);
 
+		//console.log(processsedDir);
+		return processsedDir;
+	});
+/*
 	// Style related CSS is separate
 	var everythingElse = themeDirs.map(function(folder)
 	{
-		return cssProcessDirectory(files.css.themes, folder, outputFolder, release);
+		return cssProcessDirectory(files.css.themesTests, folder, outputFolder, release);
 	});
 
 	return merge(concatenated, everythingElse);
+	*/
+
+	return concatenated;
 });
 
 
@@ -178,21 +187,28 @@ function getFolders(dir)
 
 function cssProcessDirectory(dirPath, folderName, outFolder, release)
 {
-	// Concatenate all files in the specified folder
-	var main = gulp.src(path.join(dirPath, folderName, "*.css"))
+	var cssFiles  = path.join(dirPath, folderName, "*.css");
+	var scssFiles = path.join(dirPath, folderName, "*.scss");
+
+	console.log(cssFiles + " " + scssFiles + "\n");
+
+	// Compile and then oncatenate all files in the specified folder
+	var main = gulp.src([cssFiles, scssFiles])
+			.pipe(sass().on("error", sass.logError))
 			.pipe(concatCss(folderName + ".css"));
 
 	if (release)
 	{
-		main = main.pipe(cleanCSS(
-			{
+		var cleaned = cleanCSS({
 				compatibility: "ie10",
 				level: 2
-			}, function(details)
-		{
-			console.log(details.name + ': ' + details.stats.originalSize);
-			console.log(details.name + ': ' + details.stats.minifiedSize);
-		})); 
+			}, function(details) {
+				console.log(details.name + ': ' + details.stats.originalSize);
+				console.log(details.name + ': ' + details.stats.minifiedSize);
+			});
+
+		// Perform CSS cleaning/minifying
+		main = main.pipe(cleaned); 
 	}
 
 	return main.pipe(gulp.dest(path.join(outFolder, "/_include/css")));

@@ -3,7 +3,7 @@
 {
 	font-family: "Open Sans", sans-serif;
 	text-align: center;
-	text-decoration: none !important;
+	border: none !important;
 	
 	display: inline-block;
     position: relative;
@@ -39,7 +39,13 @@
     .nav-btn.current
 	{
 		color: #3498db;
-    }
+	}
+	
+	.nav-btn.current,
+	.nav-btn:active
+	{
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+	}
 }
 
 @media only screen and (min-width: 850px)

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	@@include("html/widgets/head.html", {"specialTitle": "Clock" })@@
+	<body>
+		@@include("html/widgets/nav-bar.html", {"current": "work"})@@
+        <div id="main-container">
+            <section id="main">
+                <article id="main-content">
+                    <div id="clock">
+                        <span class="label" data-num="12">12</span>
+                        <span class="label" data-num="1">1</span>
+                        <span class="label" data-num="2">2</span>
+                        <span class="label" data-num="3">3</span>
+                        <span class="label" data-num="4">4</span>
+                        <span class="label" data-num="5">5</span>
+                        <span class="label" data-num="6">6</span>
+                        <span class="label" data-num="7">7</span>
+                        <span class="label" data-num="8">8</span>
+                        <span class="label" data-num="9">9</span>
+                        <span class="label" data-num="10">10</span>
+                        <span class="label" data-num="11">11</span>
+                        <div id="minute-hand"></div>
+                        <div id="hour-hand"></div>
+                    </div>
+                </article>
+            </section>
+        </div>
+		@@include("html/widgets/footer.html")@@
+	</body>
+</html>
+

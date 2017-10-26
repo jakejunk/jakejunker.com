@@ -1,0 +1,15 @@
+// Global variables ===========================================================
+
+// Fonts
+$body-font: "Open Sans", sans-serif;
+$secondary-font: "Lato", sans-serif;
+
+// Colors
+$main-color: #3498db;
+$secondary-color: #9b59b6;
+
+@mixin main-gradient
+{
+    background-color: $main-color;
+    background-image: linear-gradient(to bottom right, $main-color, $secondary-color);
+}

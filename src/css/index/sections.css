@@ -1,8 +1,15 @@
+.main-header,
+.sub-section-header,
+.section-header
+{
+    font-family: "Lato", sans-serif;
+    font-weight: lighter;
+}
+
 .main-header
 {
 	font-size: 2rem;
     line-height: 64px;
-	font-weight: normal;
     text-align: center;
     margin: 0;
 }
@@ -10,7 +17,6 @@
 .sub-section-header,
 .section-header
 {
-    font-weight: normal;
     padding-bottom: 6px;
     margin-top: 8px;
 	margin-bottom: 16px;

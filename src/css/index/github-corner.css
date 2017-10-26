@@ -10,8 +10,12 @@
         display: initial;
         position: absolute;
         z-index: 1;
-        top: 97px;
         right: 0;
+    }
+
+    .github-corner:hover
+    {
+        border: none !important;
     }
 
     @keyframes octocat-wave

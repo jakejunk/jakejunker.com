@@ -43,14 +43,16 @@ if (verifyFormToken())
 {
     if (verifyFormData())
     {
+        $senderAddr = stripcleantohtml($_POST['email']);
+
         $message = '';
         $message .= 'Name:    ' . stripcleantohtml($_POST['name']) . "\n";
-        $message .= 'Email:   ' . stripcleantohtml($_POST['email']) . "\n";
+        $message .= 'Email:   ' . $senderAddr . "\n";
         $message .= 'Message: ' . stripcleantohtml($_POST['message']);
 
         $emailFrom = 'contact@jakejunker.com';
         $emailTo =   'contact@jakejunker.com';
-        $subject =   'Contact Form Submission';
+        $subject =   'Contact Form - ' . $senderAddr;
 
         $success = @mail($emailTo, $subject, $message, "From: <$emailFrom>");
     }

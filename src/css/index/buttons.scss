@@ -1,0 +1,66 @@
+@import "globals";
+
+.btn
+{
+	border: solid 1px;
+	display: inline-block;
+	font-family: $secondary-font;
+	font-size: 17px;
+	font-weight: lighter;
+	height: 48px;
+	line-height: 46px;
+	min-width: 128px;
+	padding: 0 16px;
+	text-align: center;
+    text-decoration: none !important;
+	transition: color .2s, border-color .2s;
+
+	// Override some values for a "small" button
+	&.small
+	{
+		font-size: 11px;
+		font-weight: 400;
+		height: 32px;
+		line-height: 30px;
+		min-width: 96px;
+	}
+
+	// A solid button looks the same as a focused "outline" button
+	&.solid
+	{
+		@include main-gradient;
+		background-origin: border-box;
+		border-color: transparent;
+		color: #fff;
+		transition: none;
+	}
+
+	// A button with a single color line surrounding it
+	&.outline
+	{
+		background: transparent;
+		border-color: $main-color;
+		color: $main-color;
+
+		&:hover, &:focus
+		{
+			@extend .btn.solid;
+		}
+	}
+
+	// A button with a more rectanglular look
+	&.rect
+	{
+		border-radius: 8px;
+	}
+
+	// Curved edges. Curved. Edges.
+	&.round
+	{
+		border-radius: 16px;
+	}
+
+	// Cursor stuff
+	&:hover    { cursor: pointer; }
+	&:disabled { cursor: default !important; }
+}

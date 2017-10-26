@@ -1,9 +1,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#2980b9">
-    <meta name="msapplication-navbutton-color" content="#2980b9">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#2980b9">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
@@ -16,5 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/_include/css/index.css">
     <noscript><link rel="stylesheet" type="text/css" href="/_include/css/theme-light.css"></noscript>
     <script src="/_include/js/main.js"></script>
+    @@if(context.extraStyle) { <link rel="stylesheet" type="text/css" href="/_include/css/@@extraStyle@@"> }@@
+    @@if(context.extraScript) { <script src="/_include/js/@@extraScript@@"></script> }@@
     <title>@@if(context.title) { @@title@@ - Jake Junker }@@ @@if(context.specialTitle) {@@specialTitle@@}@@</title>
 </head>
