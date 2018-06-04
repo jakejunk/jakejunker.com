@@ -18,6 +18,12 @@
     border-color: #27ae60;
 }
 
+/* Special case */
+.btn.form-submit.success::before
+{
+    visibility: hidden;
+}
+
 .form-submit.error
 {
     background: #e74c3c;

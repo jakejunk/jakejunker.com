@@ -7,9 +7,9 @@
         "noImplicitThis": true,
         "noEmitOnError": true,
         "outFile": "main.js",
-        "preserveConstEnums": false,
-        "removeComments": true,
-        "sourceMap": false
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true
     },
     "include":
     [
@@ -17,7 +17,7 @@
     ],
     "exclude":
     [
-        "../node_modules",
-        "../**/*.spec.ts"
+        "../../node_modules",
+        "../../**/*.spec.ts"
     ]
 }

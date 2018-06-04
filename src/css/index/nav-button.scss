@@ -1,0 +1,51 @@
+@import "globals";
+
+/* Navigation links in header */
+.nav-btn
+{
+	border: none !important;
+	color: rgba(255, 255, 255, 0.4);
+	display: inline-block;
+	font-family: $body-font;
+    position: relative;
+	text-align: center;
+	width: 25%;
+
+	// Color the current location
+	&.current
+	{
+		color: #fff;
+		text-shadow: none;
+	}
+
+	@media only screen and (min-width: 737px)
+	{
+		color: inherit;
+        text-shadow: none;
+		transition: background-color .2s;
+		margin: 0 4px;
+		border-radius: 8px;
+		
+		&.current
+		{
+			color: $main-color;
+		}
+
+		&:hover
+		{
+			transition: none;
+		}
+
+		&.current,
+		&:active
+		{
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+		}
+	}
+
+	@media only screen and (min-width: 850px)
+	{
+		padding: 0 24px;
+		width: unset;
+	}
+}

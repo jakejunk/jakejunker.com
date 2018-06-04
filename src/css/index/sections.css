@@ -1,12 +1,10 @@
-.main-header,
-.sub-section-header,
-.section-header
+h1, h2, h3
 {
     font-family: "Lato", sans-serif;
     font-weight: lighter;
 }
 
-.main-header
+h1
 {
 	font-size: 2rem;
     line-height: 64px;
@@ -14,45 +12,43 @@
     margin: 0;
 }
 
-.sub-section-header,
-.section-header
+h2, h3
 {
     padding-bottom: 6px;
     margin-top: 8px;
 	margin-bottom: 16px;
 }
 
-.section-header
+h2
 {
     font-size: 1.6rem;
-    text-align: center;
 }
 
-p ~ .section-header
+p ~ h2
 {
     margin-top: 64px; 
 }
 
-p ~ .sub-section-header
+p ~ h3
 {
     margin-top: 32px;
 }
 
 @media only screen and (min-width: 1px) and (min-width: 737px)
 {
-    .main-header
+    h1
     {
         line-height: 96px;
         font-size: 3rem;
         text-align: left;
     }
 
-    .section-header
+    h2
 	{
 		font-size: 2.08rem;
 	}
 
-    .sub-section-header
+    h3
 	{
 		font-size: 1.4rem;
 	}

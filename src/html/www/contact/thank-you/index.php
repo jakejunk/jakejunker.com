@@ -77,11 +77,11 @@ else
 				<article id="main-content" data-result="<?php echo $success? 'true' : 'false'; ?>">
 
 					<?php if($success): ?>
-                    <h2 class="section-header">Got it!</h2>
+                    <h2 class="center-align">Got it!</h2>
                     <p>Thanks for the message! I'll get back to you as soon as I can.</p>
 
 					<?php else: ?>
-					<h2 class="section-header">Something broke</h2>
+					<h2 class="center-align">Something broke</h2>
                     <p>Thanks for using the form! Unfortunately, an error occurred on my end, so I suppose I'll need to fix that. Sorry for the inconvenience!</p>
 					<?php endif; ?>
 

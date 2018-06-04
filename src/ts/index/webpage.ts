@@ -1,3 +1,5 @@
+/// <reference path="ajax-helper.ts"/>
+
 /**
  * A namespace for containing elements common to all pages on the site.
  */
@@ -62,15 +64,13 @@ namespace Webpage
         
         // Necessary for CSS animations
         newContent.className = "new";
-    
         MainContainer.removeChild(MainContent);
         MainContainer.appendChild(newContent);
-        AjaxHelper.UpdatePageState();
-    
-        // The new stuff is now current
         MainContent = newContent;
         MainContent.offsetHeight;    // HACK: causes a page reflow before changing className
         MainContent.className = "";
+        
+        AjaxHelper.UpdatePageState();
     }
 
 

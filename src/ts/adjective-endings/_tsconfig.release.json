@@ -1,0 +1,23 @@
+{
+    "compilerOptions":
+    {
+        "module": "system",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "outFile": "adjective-endings.js",
+        "preserveConstEnums": false,
+        "removeComments": true,
+        "sourceMap": false
+    },
+    "include":
+    [
+        "./**/*"
+    ],
+    "exclude":
+    [
+        "../../node_modules",
+        "../../**/*.spec.ts"
+    ]
+}

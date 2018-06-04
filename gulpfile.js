@@ -13,19 +13,15 @@ var uglify     = require("gulp-uglify");
 var sass       = require("gulp-sass");
 
 
-var debugTs = ts.createProject("src/ts/tsconfig.json");
-var releaseTs = ts.createProject("src/ts/tsconfig.release.json");
+//var debugTs = ts.createProject("src/ts/tsconfig.json");
+//var releaseTs = ts.createProject("src/ts/tsconfig.release.json");
 
 // Various file locations
 var files = 
 {
 	www: "src/html/www/**/*",
-	css:
-	{
-		index: "src/css/",
-		//themes: "src/css/index/",
-		//themesTests: "src/css/index-test/"
-	},
+	css: "src/css/",
+	ts:  "src/ts/",
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
 	debugOutputs: "build/debug/www",
@@ -38,30 +34,19 @@ var files =
 /**
  * Concatenates all css files in `src/css`.
  */
-gulp.task("process-css", function(debug, release)
+gulp.task("process-css", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
-	var directories = getFolders(files.css.index);
-	//var themeDirs = getFolders(files.css.themesTests);
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
+	var directories = getFolders(files.css);
 
 	// For each folder in `src/css`, create concatenated files `<folder>.css`
 	var concatenated = directories.map(function(folder)
 	{
 		console.log(folder);
-		var processsedDir = cssProcessDirectory(files.css.index, folder, outputFolder, release);
+		var processsedDir = cssProcessDirectory(files.css, folder, outputFolder, release);
 
-		//console.log(processsedDir);
 		return processsedDir;
 	});
-/*
-	// Style related CSS is separate
-	var everythingElse = themeDirs.map(function(folder)
-	{
-		return cssProcessDirectory(files.css.themesTests, folder, outputFolder, release);
-	});
-
-	return merge(concatenated, everythingElse);
-	*/
 
 	return concatenated;
 });
@@ -70,37 +55,30 @@ gulp.task("process-css", function(debug, release)
 /**
  * Compiles all TypeScript files.
  */
-gulp.task("process-ts", function(debug, release)
+gulp.task("process-ts", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
-    var proj = debug ? debugTs : releaseTs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
+	var directories = getFolders(files.ts);
 
-	var main = proj.src();
-
-	if (debug)
+	// For each folder in `src/ts`, create concatenated files `<folder>.js`
+	var concatenated = directories.map(function(folder)
 	{
-		main = main.pipe(sourcemaps.init())
-			.pipe(proj()).js
-			.pipe(sourcemaps.write());
-	}
-	else
-	{
-		main = main.pipe(proj()).js
-			.pipe(uglify({
-				toplevel: true
-			}));
-	}
+		console.log(folder);
+		var processsedDir = tsProcessDirectory(files.ts, folder, outputFolder, release);
 
-    return main.pipe(gulp.dest(path.join(outputFolder, "/_include/js")));
+		return processsedDir;
+	});
+	
+	return concatenated;
 });
 
 
 /**
  * Process all HTML files and handle file includes.
  */
-gulp.task("process-html", function(debug, release)
+gulp.task("process-html", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
 
 	return gulp.src(files.www, {base: "src/html/www"})
 		.pipe(include(
@@ -116,9 +94,9 @@ gulp.task("process-html", function(debug, release)
 /**
  * Copy images over.
  */
-gulp.task("process-img", function(debug, release)
+gulp.task("process-img", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
 
 	return gulp.src(files.img)
 		.pipe(gulp.dest(path.join(outputFolder, "/_include/img")));
@@ -128,24 +106,31 @@ gulp.task("process-img", function(debug, release)
 /**
  * Handle all things favicon related.
  */
-gulp.task("process-fav", function(debug, release)
+gulp.task("process-fav", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
 
 	return gulp.src(files.fav)
 		.pipe(gulp.dest(outputFolder));
 });
 
 
-gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(debug, release)
+gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(release)
 {
-	
+	if (release)
+	{
+		console.log("Release");
+	}
+	else
+	{
+		console.log("Debug");
+	}
 });
 
 
-gulp.task("serve", function(debug, release)
+gulp.task("serve", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
 	console.log(path.join("/", outputFolder));
 
 	gulp.src(outputFolder)
@@ -157,9 +142,9 @@ gulp.task("serve", function(debug, release)
 });
 
 
-gulp.task("serve-php", function(debug, release)
+gulp.task("serve-php", function(release)
 {
-	var outputFolder = debug ? files.debugOutputs : files.releaseOutputs;
+	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
 	console.log(path.join("/", outputFolder));
 
 	php.server(
@@ -190,8 +175,6 @@ function cssProcessDirectory(dirPath, folderName, outFolder, release)
 	var cssFiles  = path.join(dirPath, folderName, "*.css");
 	var scssFiles = path.join(dirPath, folderName, "*.scss");
 
-	console.log(cssFiles + " " + scssFiles + "\n");
-
 	// Compile and then oncatenate all files in the specified folder
 	var main = gulp.src([cssFiles, scssFiles])
 			.pipe(sass().on("error", sass.logError))
@@ -212,4 +195,31 @@ function cssProcessDirectory(dirPath, folderName, outFolder, release)
 	}
 
 	return main.pipe(gulp.dest(path.join(outFolder, "/_include/css")));
+}
+
+
+function tsProcessDirectory(dirPath, folderName, outFolder, release)
+{
+	// FIXME: I'm lazy
+	var debug = !release;
+
+	var configName = debug ? "_tsconfig.json" : "_tsconfig.release.json";
+	var proj = ts.createProject(path.join(dirPath, folderName, configName));
+	var main = proj.src();
+
+	if (debug)
+	{
+		main = main.pipe(sourcemaps.init())
+			.pipe(proj()).js
+			.pipe(sourcemaps.write());
+	}
+	else
+	{
+		main = main.pipe(proj()).js
+			.pipe(uglify({
+				toplevel: true
+			}));
+	}
+
+    return main.pipe(gulp.dest(path.join(outFolder, "/_include/js")));
 }

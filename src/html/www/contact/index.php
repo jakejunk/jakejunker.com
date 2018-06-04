@@ -22,12 +22,12 @@ function generateFormToken()
         <div id="main-container">
             <section id="main">
                 <article id="main-content">
-                    <h1 class="main-header">Contact</h1>
-                    <h2 class="section-header">Wanna chat?</h2>
+                    <h1>Contact</h1>
+                    <h2 class="center-align">Wanna chat?</h2>
                     <p>If you have the urge to give a hard-working college graduate some <span title="...or money...">encouragement</span>, then you've come to the right place! Leave a message using the form, or contact me elsewhere by following the links below.</p>
                     <div class="flex-container flex-mobile-wrap" style="margin-top: 48px;">
                         <div id="contact-pane">
-                            <h3 class="sub-section-header" style="margin-top: 0">Contact Info</h3>
+                            <h3 style="margin-top: 0">Contact Info</h3>
                             <ul class="list-no-style">
                                 <li><a href="mailto:contact@jakejunker.com?Subject=Hey!">contact@jakejunker.com</a></li>
                                 <li><a href="https://www.linkedin.com/in/jakejunk">LinkedIn Profile</a></li>

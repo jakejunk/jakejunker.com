@@ -4,6 +4,9 @@
  */
 namespace AjaxHelper
 {
+    // Keeps the compiler from complaining
+    declare function OnFragmentLoad(): void;
+
     let _currentHref: string;
     
 
@@ -46,6 +49,14 @@ namespace AjaxHelper
         for (let i = 0; i < document.forms.length; ++i)
         {
             document.forms[i].onsubmit = _OnFormSubmit;
+        }
+
+        /* Once the content has been swapped, any "OnFragmentLoad" should be called (if it exists).
+         * The function `OnFragmentLoad()` is used by other script files in place
+         * of a "window.onload()" callback. */
+        if (document.getElementById("fragment-entry") !== null && typeof OnFragmentLoad !== "undefined")
+        {
+            OnFragmentLoad();
         }
     }
 
