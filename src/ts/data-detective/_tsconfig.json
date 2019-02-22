@@ -1,0 +1,23 @@
+{
+    "compilerOptions":
+    {
+        "module": "system",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "outFile": "data-detective.js",
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true
+    },
+    "include":
+    [
+        "./**/*"
+    ],
+    "exclude":
+    [
+        "../../node_modules",
+        "../../**/*.spec.ts"
+    ]
+}

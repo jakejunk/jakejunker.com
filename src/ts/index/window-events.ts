@@ -3,9 +3,9 @@
 /// <reference path="webpage.ts"/>
 
 
-/* Do all this as soon as the script loads */
+// Do this as soon as the script loads
 window.onload = OnStart;
-ThemeManager.InitTags();
+ThemeManager.Init();
 
 
 /**
@@ -13,10 +13,11 @@ ThemeManager.InitTags();
  */
 function OnStart(): void
 {
-    ThemeManager.InitToggleButton(<HTMLButtonElement>Webpage.ID("nv"));
+    ThemeManager.InitToggleButton(<HTMLButtonElement>document.getElementById("nv"));
 
     if (AjaxHelper.IsAvailable())
     {
         AjaxHelper.Init();
+        Webpage.RunFragment();
     }
 }

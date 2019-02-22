@@ -1,8 +1,0 @@
-@media only screen and (min-width: 1px) and (min-width: 737px)
-{
-	.nav-btn:hover,
-	.nav-btn.current
-	{
-		background: #f0f0f2;
-	}
-}

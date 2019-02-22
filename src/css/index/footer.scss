@@ -1,0 +1,68 @@
+@keyframes fadeInFooter
+{
+    from
+    {
+        transform: translateY(72px);
+        opacity: 0;
+    }
+    to
+    {
+        transform: translateY(0);
+        opacity: 0.1;
+    }
+}
+
+#main-footer
+{
+    font-size: 11px;
+	padding: 16px 0;
+    position: relative;
+    //z-index: 1;
+    
+    /*
+    &::before
+    {
+        animation: fadeInFooter 720ms ease-in-out;
+        animation-delay: 100ms;
+        bottom: 0;
+        background-image: url(/_include/img/mountains.svg);
+        background-position: bottom;
+        background-repeat: repeat-x;
+        background-size: contain;
+        content: "";
+        display: block;
+        height: 40vh;
+        // Uncomment this to make the mountain thing scroll
+        //position: absolute;
+        opacity: 0.1;
+        position: fixed;
+        width: 100%;
+        z-index: -1;
+    }*/
+
+    a
+    {
+        margin: 4px;
+	    font-weight: normal;
+    }
+}
+
+#footer-content
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+	margin: 0 auto;
+	max-width: 1100px;
+    padding: 0 16px;
+    
+    > nav
+    {
+        display: inline-block;
+    }
+
+    @media only screen and (min-width: 1px) and (min-width: 737px)
+    {
+        padding: 0 32px;
+    }
+}

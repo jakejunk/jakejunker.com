@@ -1,0 +1,22 @@
+table
+{
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+td + td
+{
+    color: #27ae60;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.05rem;
+}
+
+td
+{
+    text-align: right;
+
+    + td
+    {
+        text-align: left;
+    }
+}

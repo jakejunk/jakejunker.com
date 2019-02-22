@@ -1,15 +1,25 @@
 // Global variables ===========================================================
 
 // Fonts
-$body-font: "Open Sans", sans-serif;
+$body-font: "Raleway", sans-serif;
 $secondary-font: "Lato", sans-serif;
 
 // Colors
-$main-color: #3498db;
+$primary-color: #3498db;
 $secondary-color: #9b59b6;
+$flat-red: #e74c3c;
+$flat-green: #27ae60;
 
 @mixin main-gradient
 {
-    background-color: $main-color;
-    background-image: linear-gradient(to bottom right, $main-color, $secondary-color);
+    background-color: $primary-color;
+    background-image: linear-gradient(to bottom right, $primary-color, $secondary-color);
+}
+
+@mixin media-phone-only
+{
+    @media (max-width: 736.98px)
+    {
+        @content;
+    }
 }

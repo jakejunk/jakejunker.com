@@ -22,6 +22,7 @@
 	{
 		@include main-gradient;
 
+		border-radius: 8px;
 		content: "";
 		height: 100%;
 		left: 0;
@@ -47,8 +48,8 @@
 	&.solid
 	{
 		background-origin: border-box;
-		border-color: transparent;
-		color: #fff;
+		border-color: transparent !important;
+		color: #fff !important;
 		transition: none;
 
 		&:before
@@ -61,8 +62,10 @@
 	// A button with a single color line surrounding it
 	&.outline
 	{
-		border-color: $main-color;
-		color: $main-color;
+		//border-color: $primary-color;
+		//color: $primary-color;
+		border-color: #333;
+		color: #333;
 
 		&:hover, &:focus
 		{
@@ -85,4 +88,10 @@
 	// Cursor stuff
 	&:hover    { cursor: pointer; }
 	&:disabled { cursor: default !important; }
+}
+
+html.night-vision .btn.outline
+{
+	color: #ddd;
+	border-color: #ddd;
 }

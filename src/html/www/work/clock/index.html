@@ -5,24 +5,29 @@
 		@@include("html/widgets/nav-bar.html", {"current": "work"})@@
         <div id="main-container">
             <section id="main">
-                <article id="main-content">
-                    <div id="clock">
-                        <span class="label" data-num="12">12</span>
-                        <span class="label" data-num="1">1</span>
-                        <span class="label" data-num="2">2</span>
-                        <span class="label" data-num="3">3</span>
-                        <span class="label" data-num="4">4</span>
-                        <span class="label" data-num="5">5</span>
-                        <span class="label" data-num="6">6</span>
-                        <span class="label" data-num="7">7</span>
-                        <span class="label" data-num="8">8</span>
-                        <span class="label" data-num="9">9</span>
-                        <span class="label" data-num="10">10</span>
-                        <span class="label" data-num="11">11</span>
-                        <div id="minute-hand"></div>
-                        <div id="hour-hand"></div>
+                <link class="ext-style" rel="stylesheet" type="text/css" href="/_include/css/clock.css">
+                <article id="main-content" class="vertical-align-center">
+                    <div id="clock-container">
+                        <div id="clock">
+                            <span class="label" data-num="12">12</span>
+                            <span class="label" data-num="1">1</span>
+                            <span class="label" data-num="2">2</span>
+                            <span class="label" data-num="3">3</span>
+                            <span class="label" data-num="4">4</span>
+                            <span class="label" data-num="5">5</span>
+                            <span class="label" data-num="6">6</span>
+                            <span class="label" data-num="7">7</span>
+                            <span class="label" data-num="8">8</span>
+                            <span class="label" data-num="9">9</span>
+                            <span class="label" data-num="10">10</span>
+                            <span class="label" data-num="11">11</span>
+                            <div id="second-hand"></div>
+                            <div id="minute-hand"></div>
+                            <div id="hour-hand"></div>
+                        </div>
                     </div>
                 </article>
+                <script class="ext-script" src="/_include/js/clock.js"></script>
             </section>
         </div>
 		@@include("html/widgets/footer.html")@@

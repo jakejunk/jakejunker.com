@@ -1,0 +1,70 @@
+@import "globals";
+
+h1, h2, h3
+{
+    //font-family: "Lato", sans-serif;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: lighter;
+}
+
+h2, h3
+{
+    margin: 16px 0;
+    padding-bottom: 6px;
+}
+
+h1
+{
+	font-size: 2rem;
+    line-height: 64px;
+    text-align: center;
+    margin: 0;
+
+    @media only screen and (min-width: 737px)
+    {
+        line-height: 96px;
+        font-size: 3rem;
+        text-align: left;
+    }
+}
+
+h2
+{
+    font-size: 1.6rem;
+
+    @media only screen and (min-width: 737px)
+    {
+        font-size: 2.08rem;
+    }
+}
+
+h3
+{
+    font-size: 1.17rem;
+
+    @media only screen and (min-width: 737px)
+    {
+        font-size: 1.4rem;
+    }
+}
+
+p ~ h2
+{
+    margin-top: 64px; 
+}
+
+p ~ h3
+{
+    margin-top: 32px;
+}
+
+.error-page > h1
+{
+    color: $flat-red;
+    text-align: center;
+}
+
+.error-page > p
+{
+    text-align: center;
+}

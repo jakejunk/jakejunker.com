@@ -1,0 +1,86 @@
+*, *:before, *:after
+{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner
+{
+	padding: 0 !important;
+	border: 0 none !important;
+}
+
+.whisper
+{
+	color: #9C9C9C;
+}
+
+sup
+{
+	vertical-align: super;
+	line-height: 0;
+}
+
+.center-align
+{
+	text-align: center;
+}
+
+.drop-shadow
+{
+	box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+}
+
+.list-no-style
+{
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+
+// Color stuff ====================================================================================
+
+.color-shift-pop
+{
+	color: #555;
+	background-color: #ecf0f1;
+}
+
+.color-shift
+{
+	color: #555;
+	background-color: #fafafa;
+}
+
+:focus
+{
+	outline-color: #555;
+}
+
+//#theme-settings.night-vision ~ *
+html.night-vision
+{
+	.color-shift-pop
+	{
+		color: #ddd;
+		background-color: #26292E;
+	}
+
+	.color-shift
+	{
+		color: #ddd;
+		background-color: #2F3238;
+	}
+
+	:focus
+	{
+		outline-color: #eee;
+	}
+}

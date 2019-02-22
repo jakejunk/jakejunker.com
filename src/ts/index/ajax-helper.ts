@@ -1,18 +1,17 @@
+/// <reference path="webpage.ts"/>
+
 /**
  * Utility namespace for ajax-style functionality.
  * For now, this is just used for faster page loading.
  */
 namespace AjaxHelper
 {
-    // Keeps the compiler from complaining
-    declare function OnFragmentLoad(): void;
-
-    let _currentHref: string;
+    //let _currentHref: string;
     
 
     /**
-     * Returns a boolean value representing whether or not the browser can support
-     * the History API, which is needed for Ajax capabilities.
+     * Gets whether or not the browser can support the History API,
+     * which is needed for Ajax capabilities.
      */
     export function IsAvailable(): boolean
     {
@@ -36,32 +35,94 @@ namespace AjaxHelper
      */
     export function UpdatePageState(): void
     {
-        _currentHref = document.location.pathname;
-
         // Gather ajax links
         let ajaxLinks = document.getElementsByClassName("ajax") as HTMLCollectionOf<HTMLAnchorElement>;
-        for (let i = 0; i < ajaxLinks.length; ++i)
+        for (let i = 0; i < ajaxLinks.length; i += 1)
         {
             ajaxLinks[i].onclick = _OnAjaxLinkClick;
         }
 
         // Round up potential forms on the page
-        for (let i = 0; i < document.forms.length; ++i)
+        for (let i = 0; i < document.forms.length; i += 1)
         {
             document.forms[i].onsubmit = _OnFormSubmit;
-        }
-
-        /* Once the content has been swapped, any "OnFragmentLoad" should be called (if it exists).
-         * The function `OnFragmentLoad()` is used by other script files in place
-         * of a "window.onload()" callback. */
-        if (document.getElementById("fragment-entry") !== null && typeof OnFragmentLoad !== "undefined")
-        {
-            OnFragmentLoad();
         }
     }
 
 
-// Private functions =======================================================
+// Events =========================================================================================
+
+    /**
+     * Called when going back and forth in browser history.
+     */
+    function _OnPopState(e: PopStateEvent): void
+    {
+        let href = location.pathname + location.hash;
+        _GetPage(href, false, false, function(status) {
+
+        });
+    }
+
+
+    /**
+     * Function that is invoked on ajax-enabled links.
+     */
+    function _OnAjaxLinkClick(event: Event)
+    {
+        let target = event.target as HTMLAnchorElement;
+
+        // Necessary check because I like to assign the `ajax` className to containers of links,
+        // and clicking on _just_ the container can break things.
+        if (typeof target.pathname !== "undefined")
+        {
+            let href = target.pathname + target.hash;
+            let defaultShouldHappen = _GetPage(href, true, true, function(status) {
+                
+            });
+
+            if (!defaultShouldHappen)
+            {
+                event.preventDefault();
+            }
+        }
+    }
+
+
+    function _OnFormSubmit(event: Event): boolean
+    {
+        let target = event.target as HTMLFormElement;
+        let elements = target.elements;
+
+        let submitButton = target.getElementsByClassName("form-submit")[0] as HTMLButtonElement;
+        let progressBar = submitButton.getElementsByClassName("submit-progress-bar")[0] as HTMLElement;
+        let text = submitButton.getElementsByClassName("submit-text")[0];
+
+        submitButton.classList.add("in-progress");
+        text.innerHTML = "SENDING...";
+        
+        return _PostToServer(target.action, elements, function(status, doc) {
+            
+            if (status === 200)
+            {
+                submitButton.classList.remove("in-progress");
+                submitButton.disabled = true;
+
+                if (doc.getElementById("main-content").dataset.result === "true")
+                {
+                    submitButton.classList.add("success");
+                    text.innerHTML = "SENT!";
+                }
+                else
+                {
+                    submitButton.classList.add("error");
+                    text.innerHTML = "ERROR";
+                }
+            }
+        }, progressBar);
+    }
+
+
+// Private functions ==============================================================================
 
     /**
      * Called when a qualifying link is clicked or when a form is submitted.
@@ -78,8 +139,8 @@ namespace AjaxHelper
 
         // Fetch the requested page
         let req = new XMLHttpRequest();
-        req.onreadystatechange = function()
-        {
+        req.onreadystatechange = function() {
+
             // Update progress of the request
             if (loadingElement)
             {
@@ -122,29 +183,36 @@ namespace AjaxHelper
         }
     }
 
-    
+
     /**
      * Performs a GET request to the remote server. Returns a boolean value based on whether
-     * an Ajax request was made or not, e.g. will return false if the default browser behavior
+     * an Ajax request was made or not, e.g. will return true if the default browser behavior
      * took place (for hashlinks or something).
-     * @param href               The requested address.
-     * @param pushHistoryState   Whether to update the browser history or not.
-     * @param showLoading        Whether to display the progress bar.
-     * @param callback           A callback returning the status of the request.
+     * @param href             The requested address.
+     * @param pushHistoryState Whether to update the browser history or not.
+     * @param showLoading      Whether to display the progress bar.
+     * @param callback         A callback returning the status of the request.
      */
     function _GetPage(href: string, pushHistoryState: boolean, showProgress: boolean, callback: (status: number) => void): boolean
     {
-        let dest = href.split('#')[0];
-        if (dest === "" || dest === _currentHref)
+        let hrefParts = href.split('#');
+        let dest = hrefParts[0];
+        let hash = hrefParts[1] || "";
+
+        //  1               2
+        if (dest === "" || (dest === document.location.pathname) && pushHistoryState)
         {
-            // If the clicked link was either 1) a hash link or 2) a link to the current page,
-            // then let the default browser behavior take over.
+            // Let the default behavior take over if:
+            // 1) The new destination is just a hash link, or
+            // 2) The destination is where we already are, IFF we clicked on link
+            //    (because popstate, aka not pushing new history state, changes the location immediately)
             return true;
         }
 
-        let progressBar = showProgress? Webpage.MainProgressBar : null;
-        _MakeRequest(href, function(status, doc)
-        {
+        Webpage.MainContent.style.opacity = "0.5";
+        Webpage.MainContent.style.cursor = "progress";
+
+        _MakeRequest(href, function(status, doc) {
             // Push a new state into the history since we got something back,
             // but only if we are going to a new page
             if (pushHistoryState)
@@ -155,8 +223,18 @@ namespace AjaxHelper
             _HighlightNavLink(href);
             Webpage.SwapPageContent(doc);
 
+            if (hash)
+            {
+                document.getElementById(hash).scrollIntoView();
+            }
+            else if (pushHistoryState)
+            {
+                window.scrollTo(0, 0);
+                //document.body.focus();
+            }
+
             callback(status);
-        }, progressBar);
+        }, showProgress? Webpage.MainProgressBar : null);
 
         return false;
     }
@@ -164,85 +242,11 @@ namespace AjaxHelper
 
     function _PostToServer(actionHref: string, elements: HTMLFormControlsCollection, callback: (status: number, doc: Document) => void, progressElement?: HTMLElement): boolean
     {
-        _MakeRequest(actionHref, function(status, doc)
-        {
+        _MakeRequest(actionHref, function(status, doc) {
             callback(status, doc);
         }, progressElement, "POST", elements);
 
         return false;
-    }
-
-
-    /**
-     * Function that is invoked on ajax-enabled links.
-     */
-    function _OnAjaxLinkClick(event: Event): boolean
-    {
-        let target = event.target as HTMLAnchorElement;
-        let href   = target.getAttribute("href");
-
-        // Necessary check because I like to assign the `ajax` className to containers of links,
-        // and clicking on _just_ the container can break things.
-        if (href)
-        {
-            Webpage.MainContent.style.opacity = "0.5";
-            return _GetPage(href, true, true, function(status)
-            {
-                // TODO: Do we care if it 404s?
-                window.scrollTo(0, 0);
-            });
-        }
-
-        return true;
-    }
-
-
-    function _OnFormSubmit(event: Event): boolean
-    {
-        let target = event.target as HTMLFormElement;
-        let elements = target.elements;
-
-        let submitButton = target.getElementsByClassName("form-submit")[0] as HTMLButtonElement;
-        let progressBar = submitButton.getElementsByClassName("submit-progress-bar")[0] as HTMLElement;
-        let text = submitButton.getElementsByClassName("submit-text")[0];
-
-        submitButton.classList.add("in-progress");
-        text.innerHTML = "SENDING...";
-        
-        return _PostToServer(target.action, elements, function(status, doc)
-        {
-            if (status === 200)
-            {
-                submitButton.classList.remove("in-progress");
-                submitButton.disabled = true;
-
-                if (doc.getElementById("main-content").dataset.result === "true")
-                {
-                    submitButton.classList.add("success");
-                    text.innerHTML = "SENT!";
-                }
-                else
-                {
-                    submitButton.classList.add("error");
-                    text.innerHTML = "ERROR";
-                }
-            }
-        }, progressBar);
-    }
-
-
-    /**
-     * Called when going back and forth in browser history.
-     */
-    function _OnPopState(e: PopStateEvent): void
-    {
-        // Dims the current content
-        Webpage.MainContent.style.opacity = "0.5";
-
-        _GetPage(document.location.pathname, false, false, function(status)
-        {
-            
-        });
     }
 
 
@@ -256,20 +260,16 @@ namespace AjaxHelper
         // If a page at "/projects/something/whoa" is requested, then
         // the "/projects/" link is highlighted up top
         let rootDest = dest.substr(0, dest.indexOf("/", 1)) + "/";
-        for (let i = 0, nav = Webpage.Nav, l = nav.childNodes.length; i < l; ++i)
+        for (let i = 0, nav = Webpage.Nav, l = nav.children.length; i < l; ++i)
         {
-            let current = nav.childNodes[i] as HTMLAnchorElement;
-
-            if (current.nodeType !== 3)
+            let current = nav.children.item(i) as HTMLAnchorElement;
+            if (current.getAttribute("href") === rootDest)
             {
-                if (current.getAttribute("href") === rootDest)
-                {
-                    current.className = "nav-btn current";
-                }
-                else
-                {
-                    current.className = "nav-btn";
-                }
+                current.classList.add("current");
+            }
+            else
+            {
+                current.classList.remove("current");
             }
         }
     }

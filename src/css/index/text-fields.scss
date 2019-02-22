@@ -1,9 +1,10 @@
 .text-field
 {
-    background: transparent;
+    background-color: #fefeff;
     border: none;
     border-radius: 2px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: #555;
     font-family: "Lato", sans-serif;
     font-size: 1rem;
     outline: none;
@@ -15,6 +16,13 @@
     {
         background-color: rgba(231, 76, 60, 0.1);
     }
+}
+
+//#theme-settings.night-vision ~ * .text-field
+html.night-vision .text-field
+{
+    color: #ddd;
+    background-color: #2f3238;
 }
 
 textarea

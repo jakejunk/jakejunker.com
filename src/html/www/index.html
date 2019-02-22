@@ -2,24 +2,21 @@
 <html lang="en-US">
 	@@include("html/widgets/head.html", {"specialTitle": "Jake Junker"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "home"})@@
-
+		@@include("html/widgets/nav-bar.html", {"current": "home", "hidden": "true"})@@
         <div id="main-container">
             <section id="main">
-                <div id="banner-bar">
+                <div id="banner-bar-container">
                     <div id="banner-bar-content">
-                        <h1 class="banner-header">Jake Junker</h1>
-                        <div class="flex-container flex-mobile-wrap ajax" style="padding-bottom: 48px;">
-                            <a class="btn outline banner-bar-btn" href="/work/">WORK</a>
-                            <a class="btn outline banner-bar-btn" href="/contact/">CONTACT</a>
-                            <a class="btn outline banner-bar-btn" href="/about/">ABOUT</a>
-                        </div>
+                        <h1 id="banner-header">Jake Junker</h1>
+                        <h3 id="banner-sub-header">Developer, designer, and <span id="descriptor">a dreamer</span></h3>
+                    </div>
+                    <div class="flex-container flex-mobile-wrap ajax" style="margin-bottom: 64px;">
+                        <a class="btn outline banner-bar-btn" href="/work/">WORK</a>
+                        <a class="btn outline banner-bar-btn" href="/contact/">CONTACT</a>
+                        <a class="btn outline banner-bar-btn" href="/about/">ABOUT</a>
                     </div>
                 </div>
-                <article id="main-content">
-                    <h2 class="center-align">Hey there!</h2>
-                    <p>I'm Jake, a recent college graduate with a soft spot for anything slightly geeky. My interests include technologies such as Node.js, low-level libraries like X11/Xlib, and everything in between (except Perl). If you'd like to read more about me, or this site, I've typed up a few paragraphs over on the <a class="ajax" href="/about/">about</a> page. Otherwise, feel free to take a gander at some of my <a class="ajax" href="/work/"> latest work</a>!</p>
-                </article>
+                <script class="ext-script" src="/_include/js/banner-fun.js"></script>
             </section>
         </div>
 		@@include("html/widgets/footer.html")@@

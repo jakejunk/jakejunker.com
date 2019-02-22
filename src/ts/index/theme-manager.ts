@@ -3,25 +3,27 @@
  */
 namespace ThemeManager
 {
-    let _head: HTMLHeadElement;
-    let _lightThemeTag: HTMLLinkElement;
-    let _darkThemeTag: HTMLLinkElement;
+    let _themeElement: HTMLElement;
     let _useDarkTheme = false;
+
 
     // NOTE: These are in "backwards" order.
     // The toggle button shows the text of the _next_ theme switch.
-    let _themeNames = ["LIGHTS OFF", "LIGHTS ON"];
+    let _themeNames  = ["LIGHTS OFF", "LIGHTS ON"];
 
 
 /* Public functions ======================================================== */
 
     /**
-     * Initializes style tags in the head element.
      * Which theme to start in is determined by a cookie.
      */
-    export function InitTags(): void
+    export function Init(): void
     {
-        _head = document.getElementsByTagName('head')[0];
+        _themeElement = document.documentElement;
+        if (!_themeElement)
+        {
+            return;
+        }
 
         let isDark = Webpage.GetCookie("dark");
         if (isDark === null)
@@ -33,8 +35,14 @@ namespace ThemeManager
             _useDarkTheme = true;
         }
 
-        _lightThemeTag = CreateCSSLinkTag_("/_include/css/theme-light.css", _themeNames[1], _useDarkTheme);
-        _darkThemeTag = CreateCSSLinkTag_("/_include/css/theme-dark.css", _themeNames[0], !_useDarkTheme);
+        // Workaround explanation:
+        // The background property of the html element is set to transition,
+        // so disable it temporarily to prevent "flashes" of color 
+        _themeElement.style.transition = "none";
+        _UpdateTheme();
+        // This fixes background flashing in Edge, but causes animation issues in Chrome ¯\_(ツ)_/¯
+        //_themeElement.offsetLeft; // Force reflow
+        _themeElement.style.transition = "";
     }
     
     /**
@@ -42,7 +50,7 @@ namespace ThemeManager
      */
     export function InitToggleButton(toggleButton: HTMLButtonElement): void
     {
-        toggleButton.onclick = OnToggleButtonClick_;
+        toggleButton.onclick = _OnToggleButtonClick;
         toggleButton.disabled = false;
         toggleButton.innerHTML = _themeNames[+_useDarkTheme];
     }
@@ -54,39 +62,32 @@ namespace ThemeManager
     }
 
 
-/* Private functions ======================================================= */
+// Private ========================================================================================
 
-    /**
-     * Creates and appends to the head element a link to an external stylesheet.
-     */
-    function CreateCSSLinkTag_(href: string, title: string, disabled: boolean): HTMLLinkElement
+    function _UpdateTheme()
     {
-        let result = document.createElement("link");
-        result.rel = "stylesheet";
-        result.type = "text/css";
-        result.href = href;
-        result.title = title;
-
-        // FIXME: this is a hack
-        result.disabled = disabled;
-        _head.appendChild(result);
-        result.disabled = disabled;
-
-        return result;
+        if (_useDarkTheme)
+        {
+            _themeElement.classList.add("night-vision");
+        }
+        else
+        {
+            _themeElement.classList.remove("night-vision");
+        }
     }
 
 
-/* Callbacks =============================================================== */
+// Callbacks ======================================================================================
 
-    function OnToggleButtonClick_(this: HTMLButtonElement): void
+    function _OnToggleButtonClick(this: HTMLButtonElement): void
     {
-        _darkThemeTag.disabled = _useDarkTheme;
         _useDarkTheme = !_useDarkTheme;
-        _lightThemeTag.disabled = _useDarkTheme;
+        _UpdateTheme();
 
+        // Sets button text
         this.innerHTML = _themeNames[+_useDarkTheme];
 
-        var cookieValue = _useDarkTheme? 'y' : 'n';
+        let cookieValue = _useDarkTheme? 'y' : 'n';
 	    document.cookie = "dark=" + cookieValue + "; expires=Tue, 19 Jan 2038 03:14:07 UTC; path=/;";
     }
 }

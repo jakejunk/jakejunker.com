@@ -26,6 +26,7 @@
 /* Seperate rule for largely unsupported stuff */
 .image-round
 {
+    margin-top: 16px;
     shape-outside: margin-box;
 }
 
@@ -33,7 +34,7 @@
 {
     .image-round
     {
-        margin-bottom: 32px;
+        margin-bottom: 16px;
     }
 
     .image-round.inline-left

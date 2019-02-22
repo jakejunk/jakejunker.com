@@ -1,5 +1,8 @@
 code
 {
+	color: #555;
+	background-color: #ecf0f1;
+
 	font-family: "Consolas", monaco, monospace;
 
 	display: block;
@@ -15,6 +18,20 @@ code
 	tab-size: 4;
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
+}
+
+/*
+#theme-settings.night-vision ~ * code
+{
+	color: #ddd;
+	background-color: #26292E;
+}
+*/
+
+html.night-vision code
+{
+	color: #ddd;
+	background-color: #26292E;
 }
 
 code.code-block
@@ -39,7 +56,7 @@ code > table
 
 code > table > tbody > tr:before
 {
-    color: #555;
+	color: #555;
     border-right: solid 1px #555;
     
 	content: counter(level1) " ";
@@ -53,6 +70,18 @@ code > table > tbody > tr:before
 	-webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+}
+
+/*#theme-settings.night-vision ~ * code > table > tbody > tr:before
+{
+	color: #bdc3c7;
+    border-right: solid 1px #bdc3c7;
+}*/
+
+html.night-vision code > table > tbody > tr:before
+{
+	color: #bdc3c7;
+    border-right: solid 1px #bdc3c7;
 }
 
 code > table > tbody > tr > td

@@ -217,7 +217,8 @@ function tsProcessDirectory(dirPath, folderName, outFolder, release)
 	{
 		main = main.pipe(proj()).js
 			.pipe(uglify({
-				toplevel: true
+				//toplevel: true,
+				compress: { inline: false, passes: 1 },
 			}));
 	}
 
