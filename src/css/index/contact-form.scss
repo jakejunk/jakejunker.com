@@ -1,0 +1,35 @@
+#contact-form
+{
+    padding: 0 0 32px 0;
+	width: 100%;
+	
+	@media only screen and (min-width: 1px) and (min-width: 737px)
+	{
+        order: 1;
+		padding: 0 32px 32px 0;
+	}
+}
+
+#contact-pane
+{
+	margin: 0 0 32px 0;
+	padding: 7px 16px 16px 16px;
+	text-align: center;
+	width: 100%;
+	
+	@media only screen and (min-width: 1px) and (min-width: 737px)
+	{
+		margin: 0 0 32px 0;
+        order: 2;
+		width: auto;
+		text-align: left;
+	}
+}
+
+#contact-submit
+{
+	@media only screen and (min-width: 1px) and (min-width: 737px)
+	{
+		margin-left: 96px;
+	}
+}
