@@ -1,0 +1,39 @@
+.flex-container
+{
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+}
+
+.flex-mobile-wrap
+{
+    flex-wrap: wrap;
+
+    @media only screen and (min-width: 1px) and (min-width: 737px)
+    {
+        flex-wrap: nowrap;
+    }
+}
+
+.mobile-second
+{
+    order: 2;
+
+    @media only screen and (min-width: 1px) and (min-width: 737px)
+    {
+        order: unset;
+    }
+}
+
+.full-width
+{
+    margin-left: -16px;
+    margin-right: -16px;
+    position: relative;
+    
+    @media only screen and (min-width: 1px) and (min-width: 737px)
+    {
+        margin-left: 0;
+		margin-right: 0;
+    }
+}
