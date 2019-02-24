@@ -1,3 +1,3 @@
-# www.jakejunker.com
+# jakejunker.com
 
-This repository holds various HTML, CSS, and JS files for creating the www.jakejunker.com webpage.
+This repository holds various HTML, SCSS, and TS files for creating the jakejunker.com webpage.
