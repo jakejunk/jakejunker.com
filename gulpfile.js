@@ -1,176 +1,85 @@
-var gulp       = require("gulp-param")(require("gulp"), process.argv);
-var merge      = require("merge-stream");
-var concatCss  = require("gulp-concat-css");
-var include    = require("gulp-file-include");
-var sourcemaps = require("gulp-sourcemaps");
-var ts         = require("gulp-typescript");
-var fs         = require("fs");
-var path       = require("path");
-var webserver  = require("gulp-webserver");
-var php        = require("gulp-connect-php");
-var cleanCSS   = require("gulp-clean-css");
-var uglify     = require("gulp-uglify");
-var sass       = require("gulp-sass");
+const gulp       = require("gulp");
+const concatCss  = require("gulp-concat-css");
+const include    = require("gulp-file-include");
+const sourcemaps = require("gulp-sourcemaps");
+const ts         = require("gulp-typescript");
+const fs         = require("fs");
+const path       = require("path");
+const php        = require("gulp-connect-php");
+const cleanCSS   = require("gulp-clean-css");
+const uglify     = require("gulp-uglify");
+const sass       = require("gulp-sass");
+const cmdParams  = require("yargs").argv;
+const merge      = require("merge-stream");
+const del        = require("del");
 
-
-//var debugTs = ts.createProject("src/ts/tsconfig.json");
-//var releaseTs = ts.createProject("src/ts/tsconfig.release.json");
-
-// Various file locations
-var files = 
-{
+const files = {
 	www: "src/html/www/**/*",
-	css: "src/css/",
+	scss: "src/css/",
 	ts:  "src/ts/",
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
 	debugOutputs: "build/debug/www",
-	releaseOutputs: "build/release/www"
+	releaseOutputs: "build/release/www",
+	outputFolder: "",
 };
 
 
-/* Tasks =================================================================== */
+// Tasks ==========================================================================================
 
-/**
- * Concatenates all css files in `src/css`.
- */
-gulp.task("process-css", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-	var directories = getFolders(files.css);
+gulp.task("clean", gulp.series(InitEnv, CleanOutput));
+gulp.task("build", gulp.series(InitEnv, BuildOutput));
+gulp.task("serve", gulp.series(InitEnv, () => {
+	console.log(`Serving files from: ${path.join("/", files.outputFolder)}`);
 
-	// For each folder in `src/css`, create concatenated files `<folder>.css`
-	var concatenated = directories.map(function(folder)
-	{
-		console.log(folder);
-		var processsedDir = cssProcessDirectory(files.css, folder, outputFolder, release);
-
-		return processsedDir;
+	php.server({
+		base: files.outputFolder,
+		ini: "/config/php.ini",
+		keepalive: true,
+		port: 8000,
 	});
-
-	return concatenated;
-});
+}));
 
 
-/**
- * Compiles all TypeScript files.
- */
-gulp.task("process-ts", function(release)
+// Helper functions ===============================================================================
+
+async function InitEnv()
 {
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-	var directories = getFolders(files.ts);
-
-	// For each folder in `src/ts`, create concatenated files `<folder>.js`
-	var concatenated = directories.map(function(folder)
-	{
-		console.log(folder);
-		var processsedDir = tsProcessDirectory(files.ts, folder, outputFolder, release);
-
-		return processsedDir;
-	});
-	
-	return concatenated;
-});
-
-
-/**
- * Process all HTML files and handle file includes.
- */
-gulp.task("process-html", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-
-	return gulp.src(files.www, {base: "src/html/www"})
-		.pipe(include(
-		{
-			prefix: "@@",
-			suffix: "@@",
-			basepath: "./src/"
-		}))
-		.pipe(gulp.dest(outputFolder));
-});
-
-
-/**
- * Copy images over.
- */
-gulp.task("process-img", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-
-	return gulp.src(files.img)
-		.pipe(gulp.dest(path.join(outputFolder, "/_include/img")));
-});
-
-
-/**
- * Handle all things favicon related.
- */
-gulp.task("process-fav", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-
-	return gulp.src(files.fav)
-		.pipe(gulp.dest(outputFolder));
-});
-
-
-gulp.task("build", ["process-css", "process-ts", "process-html", "process-img", "process-fav"], function(release)
-{
-	if (release)
-	{
-		console.log("Release");
-	}
-	else
-	{
-		console.log("Debug");
-	}
-});
-
-
-gulp.task("serve", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-	console.log(path.join("/", outputFolder));
-
-	gulp.src(outputFolder)
-		.pipe(webserver(
-		{
-			host: "0.0.0.0",
-			port: 8000
-		}));
-});
-
-
-gulp.task("serve-php", function(release)
-{
-	var outputFolder = release ? files.releaseOutputs : files.debugOutputs;
-	console.log(path.join("/", outputFolder));
-
-	php.server(
-	{
-		hostname: "0.0.0.0",
-		base: outputFolder,
-		ini: "/config/php.ini"
-	});
-});
-
-
-// Helper functions ========================================================
-
-/**
- * Returns an array of all folders in a specified directory
- */
-function getFolders(dir)
-{
-    return fs.readdirSync(dir).filter(function(file)
-	{
-		return fs.statSync(path.join(dir, file)).isDirectory();
-	});
+	files.outputFolder = cmdParams.release ? files.releaseOutputs : files.debugOutputs;
 }
 
 
-function cssProcessDirectory(dirPath, folderName, outFolder, release)
+async function CleanOutput()
+{
+	console.log(`Cleaning ${files.outputFolder}...`);
+	return del(files.outputFolder);
+}
+
+
+async function BuildOutput(done)
+{
+	if (cmdParams.clean)
+	{
+		await CleanOutput();
+	}
+
+	console.log(`Building ${files.outputFolder}...`);
+	gulp.parallel(CompileScss, CompileTs, ProcessHtml, CopyImages, CopyFaviconFiles)(done);
+} 
+
+
+function CompileScss()
+{
+	// For each folder in `src/css`, create concatenated files `<folder name>.css`
+	var concatenatedCssFiles = GetFolders(files.scss).map((folder) => {
+		return ProcessScssDirectory(files.scss, folder, files.outputFolder, cmdParams.release);;
+	});
+
+	return merge(concatenatedCssFiles);
+}
+
+
+function ProcessScssDirectory(dirPath, folderName, outFolder)
 {
 	var cssFiles  = path.join(dirPath, folderName, "*.css");
 	var scssFiles = path.join(dirPath, folderName, "*.scss");
@@ -180,17 +89,15 @@ function cssProcessDirectory(dirPath, folderName, outFolder, release)
 			.pipe(sass().on("error", sass.logError))
 			.pipe(concatCss(folderName + ".css"));
 
-	if (release)
+	if (cmdParams.release)
 	{
 		var cleaned = cleanCSS({
 				compatibility: "ie10",
 				level: 2
-			}, function(details) {
-				console.log(details.name + ': ' + details.stats.originalSize);
-				console.log(details.name + ': ' + details.stats.minifiedSize);
+			}, (details) => {
+				console.log(`${details.name}: ${details.stats.originalSize} -> ${details.stats.minifiedSize}`);
 			});
 
-		// Perform CSS cleaning/minifying
 		main = main.pipe(cleaned); 
 	}
 
@@ -198,29 +105,73 @@ function cssProcessDirectory(dirPath, folderName, outFolder, release)
 }
 
 
-function tsProcessDirectory(dirPath, folderName, outFolder, release)
+function CompileTs()
 {
-	// FIXME: I'm lazy
-	var debug = !release;
+	// For each folder in `src/ts`, create concatenated files `<folder name>.js`
+	var concatenatedJsFiles = GetFolders(files.ts).map((folder) => {
+		return ProcessTsDirectory(files.ts, folder, files.outputFolder, cmdParams.release);
+	});
+	
+	return merge(concatenatedJsFiles);
+}
 
-	var configName = debug ? "_tsconfig.json" : "_tsconfig.release.json";
+
+function ProcessTsDirectory(dirPath, folderName, outFolder)
+{
+	var configName = cmdParams.release ? "_tsconfig.release.json" : "_tsconfig.json";
 	var proj = ts.createProject(path.join(dirPath, folderName, configName));
 	var main = proj.src();
 
-	if (debug)
+	if (cmdParams.release)
+	{
+		main = main.pipe(proj()).js
+			.pipe(uglify({
+				compress: {
+					inline: false,
+					passes: 1
+				},
+			}));
+	}
+	else
 	{
 		main = main.pipe(sourcemaps.init())
 			.pipe(proj()).js
 			.pipe(sourcemaps.write());
 	}
-	else
-	{
-		main = main.pipe(proj()).js
-			.pipe(uglify({
-				//toplevel: true,
-				compress: { inline: false, passes: 1 },
-			}));
-	}
 
     return main.pipe(gulp.dest(path.join(outFolder, "/_include/js")));
+}
+
+
+function GetFolders(dir)
+{
+    return fs.readdirSync(dir).filter((file) => {
+		return fs.statSync(path.join(dir, file)).isDirectory();
+	});
+}
+
+
+function ProcessHtml()
+{
+	return gulp.src(files.www, {base: "src/html/www"})
+		.pipe(include({
+			prefix: "@@",
+			suffix: "@@",
+			basepath: "./src/"
+		}))
+		.pipe(gulp.dest(files.outputFolder));
+}
+
+
+function CopyImages()
+{
+	return gulp.src(files.img)
+		.pipe(gulp.dest(path.join(files.outputFolder, "/_include/img")));
+}
+
+
+function CopyFaviconFiles()
+{
+	return gulp.src(files.fav)
+		.pipe(gulp.dest(files.outputFolder));
 }
