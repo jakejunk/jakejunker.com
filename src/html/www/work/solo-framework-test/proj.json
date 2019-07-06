@@ -1,4 +1,5 @@
 {
+    "ajaxTarget": "#main",
     "title": "Solo Framework Test",
     "description": "An interactive project used to test a custom game framework. This will continuously update as more features are added to the framework.",
     "image": "/_include/img/projects/solo-test.jpg"

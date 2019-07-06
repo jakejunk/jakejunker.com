@@ -1,4 +1,5 @@
 {
+    "ajaxTarget": "#main",
     "title": "Data Detective",
     "description": "Gathers various clues from your browser to demonstrate cookieless tracking."
 }

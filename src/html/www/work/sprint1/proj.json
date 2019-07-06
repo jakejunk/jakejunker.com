@@ -1,4 +1,5 @@
 {
+    "ajaxTarget": "#main",
     "title": "CS 4183 Sprints",
     "description": "These few projects were programming \"sprint\" assignments in a video game design class using <a href=\"https://threejs.org/\">three.js</a>. This was probably my first experience with JavaScript and webdev in general, so it's a little rough around the edges.",
     "image": "/_include/img/projects/sprints.jpg"

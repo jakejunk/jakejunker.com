@@ -21,25 +21,32 @@ $dir = new DirectoryIterator('./');
                             <?php
                             foreach ($dir as $fileinfo)
                             {
-                                if ($fileinfo->isDir() && !$fileinfo->isDot())
+                                if (!$fileinfo->isDir() || $fileinfo->isDot())
                                 {
-                                    $dirname = $fileinfo->getFilename();
-                                    $filename = $dirname.'/proj.json';
-
-                                    if (file_exists($filename) && filesize($filename) > 0)
-                                    {
-                                        $proj = json_decode(file_get_contents($filename));
-                                        if ($proj !== NULL)
-                                        {
-                                            $projTitle = $proj->{'title'};
-                                            $projElementStyle = 'style="background-image: url(' . $proj->{'image'} . '), url(/_include/img/logo_v2_gradient.svg)"';
-
-                                            // This assumes a file called "/_include/img/logo_v2_gradient.svg" exists
-                                            echo '<li class="proj-block"><a class="proj-link"' . $projElementStyle . 'data-projTitle="' . $projTitle . '" href="' . $dirname . '/"></a>' .
-                                            '<div class="proj-desc"><h3>' . $projTitle . '</h3><p>' . $proj->{'description'} . '</p></div></li>';
-                                        }
-                                    }
+                                    continue;
                                 }
+
+                                $dirname = $fileinfo->getFilename();
+                                $filename = $dirname.'/proj.json';
+                                if (!file_exists($filename) || filesize($filename) <= 0)
+                                {
+                                    continue;
+                                }
+
+                                $proj = json_decode(file_get_contents($filename));
+                                if ($proj === NULL)
+                                {
+                                    continue;
+                                }
+
+                                $projTitle = $proj->{'title'};
+                                $projElementStyle = 'style="background-image: url(' . $proj->{'image'} . '), url(/_include/img/logo_v2_gradient.svg)"';
+                                $ajaxTargetAttr = isset($proj->{'ajaxTarget'}) ? 'data-ajax-target="' . $proj->{'ajaxTarget'} . '"' : '';
+
+                                // This assumes a file called "/_include/img/logo_v2_gradient.svg" exists
+                                echo '<li class="proj-block">' .
+                                '<a class="proj-link"' . $projElementStyle . 'data-projTitle="' . $projTitle . '" href="' . $dirname . '/"' . $ajaxTargetAttr .'></a>' .
+                                '<div class="proj-desc"><h3>' . $projTitle . '</h3><p>' . $proj->{'description'} . '</p></div></li>';
                             }
                             ?>
                             </ul>

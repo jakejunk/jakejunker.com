@@ -1,4 +1,5 @@
 {
+    "ajaxTarget": "#main",
     "title": "Clock",
     "description": "This is just a clock. It looks nice.",
     "image": "/_include/img/projects/clock.jpg"
