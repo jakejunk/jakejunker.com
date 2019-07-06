@@ -15,7 +15,7 @@ const del        = require("del");
 
 const files = {
 	www: "src/html/www/**/*",
-	scss: "src/css/",
+	scss: "src/scss/",
 	ts:  "src/ts/",
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",

@@ -34,21 +34,18 @@ function generateFormToken()
                                 <li><a href="https://github.com/jakejunk">GitHub Profile</a></li>
                             </ul>
                         </div>
-                        <form action="/contact/thank-you/" method="post" id="contact-form">
+                        <form action="/contact/thank-you/" method="post" id="contact-form" data-ajax-target="#main">
                             <div class="input-row">
                                 <label for="name">Name*</label>
                                 <input id="name" class="text-field" name="name" type="text" placeholder="John Doe" autocomplete="off" autocorrect="off" spellcheck="false" required>
-                                <span></span>
                             </div>
                             <div class="input-row">
                                 <label for="address">Email*</label>
                                 <input id="address" class="text-field" name="email" type="email" placeholder="your@email.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
-                                <span></span>
                             </div>
                             <div class="input-row">
                                 <label for="message">Message*</label>
                                 <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="8" required></textarea>
-                                <span></span>
                             </div>
                             <button id="contact-submit" type="submit" class="btn rect solid form-submit">
                                 <div class="submit-progress-bar" data-progress="100"></div>
