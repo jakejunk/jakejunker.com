@@ -118,7 +118,7 @@ function CompileTs()
 
 function ProcessTsDirectory(dirPath, folderName, outFolder)
 {
-	var configName = cmdParams.release ? "_tsconfig.release.json" : "_tsconfig.json";
+	var configName = "tsconfig.json";
 	var proj = ts.createProject(path.join(dirPath, folderName, configName));
 	var main = proj.src();
 
