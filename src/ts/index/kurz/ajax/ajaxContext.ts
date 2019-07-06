@@ -82,32 +82,31 @@ namespace Kurz
          */
         async navigateTo(url: string, targetSelector: string, postBody?: FormData, updateHistory = true): Promise<void>
         {
-            if (this._transitionOutClassName != undefined)
+            this._toggleTransition(targetSelector);
+
+            let response: Response;
+
+            try
             {
-                const oldElement = document.querySelector(targetSelector);
-                if (oldElement != undefined)
-                {
-                    oldElement.classList.add(this._transitionOutClassName);
-                }
+                response = postBody ?
+                    await this.ajaxClient.post(url, postBody) :
+                    await this.ajaxClient.get(url);
+            }
+            catch (e)
+            {
+                console.error("TODO: Display error code alert.");
+                this._toggleTransition(targetSelector);
+
+                return;
             }
 
-            const response = postBody ?
-                await this.ajaxClient.post(url, postBody) :
-                await this.ajaxClient.get(url);
-
-            const fetchedDocument = await this.documentParser.parseFromResponse(response);
-            this._eventManager.invokeDocumentFetchedListeners(fetchedDocument);
-
-            const insertResult = this.documentParser.insertIntoCurrentDocument(fetchedDocument, targetSelector, this._transitionInClassName);
-            if (insertResult.isError())
+            const handleResponseResult = await this._handleResponse(response, targetSelector);
+            if (handleResponseResult.isError())
             {
-                console.log(insertResult.errorValue);
+                console.error(handleResponseResult.errorValue);
                 return;
             }
             
-            this._eventManager.invokeDocumentInsertedListeners();
-            const scriptsLoadedPromise = insertResult.okValue;
-
             if (updateHistory)
             {
                 this.historyManager.pushState({url: url, ajaxTargetSelector: targetSelector});
@@ -115,8 +114,36 @@ namespace Kurz
 
             this.refreshContext();
 
-            await scriptsLoadedPromise;
+            await handleResponseResult.okValue;
             this._eventManager.invokeScriptsLoadedListeners();
+        }
+
+        private _toggleTransition(targetSelector: string)
+        {
+            if (this._transitionOutClassName != undefined)
+            {
+                const oldElement = document.querySelector(targetSelector);
+                if (oldElement != undefined)
+                {
+                    oldElement.classList.toggle(this._transitionOutClassName);
+                }
+            }
+        }
+
+        private async _handleResponse(response: Response, targetSelector: string): Promise<Result<Promise<{}>, string>>
+        {
+            const fetchedDocument = await this.documentParser.parseFromResponse(response);
+            this._eventManager.invokeDocumentFetchedListeners(fetchedDocument);
+
+            const insertResult = this.documentParser.insertIntoCurrentDocument(fetchedDocument, targetSelector, this._transitionInClassName);
+            if (insertResult.isError())
+            {
+                return Result.OfError(insertResult.errorValue);
+            }
+            
+            this._eventManager.invokeDocumentInsertedListeners();
+
+            return Result.OfOk(insertResult.okValue);
         }
     }
 }
