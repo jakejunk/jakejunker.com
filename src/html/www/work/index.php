@@ -14,7 +14,7 @@ $dir = new DirectoryIterator('./');
                     <h1>Work</h1>
 
                     <h2 class="center-align">It's a portfolio, I guess</h2>
-                    <p>I'll try to keep this page updated with personal projects of mine that I find worth sharing. I'm always looking for improvement, so feel free to share any criticism or praise over on the <a href="/contact/" class="ajax">contact</a> page. Thanks for stopping by!</p>
+                    <p>I'll try to keep this page updated with personal projects of mine that I find worth sharing. I'm always looking for improvement, so feel free to share any criticism or praise over on the <a href="/contact/" data-ajax-target="#main">contact</a> page. Thanks for stopping by!</p>
 
                     <nav class="project-blks">
                         <ul class="list-no-style">
@@ -32,9 +32,10 @@ $dir = new DirectoryIterator('./');
                                         if ($proj !== NULL)
                                         {
                                             $projTitle = $proj->{'title'};
+                                            $projElementStyle = 'style="background-image: url(' . $proj->{'image'} . '), url(/_include/img/logo_v2_gradient.svg)"';
 
                                             // This assumes a file called "/_include/img/logo_v2_gradient.svg" exists
-                                            echo '<li class="proj-block"><a class="proj-link ' . $proj->{'className'} . '" style="background-image: url(' . $proj->{'image'} . '), url(/_include/img/logo_v2_gradient.svg)" data-projTitle="' . $projTitle . '" href="' . $dirname . '/"></a>' .
+                                            echo '<li class="proj-block"><a class="proj-link"' . $projElementStyle . 'data-projTitle="' . $projTitle . '" href="' . $dirname . '/"></a>' .
                                             '<div class="proj-desc"><h3>' . $projTitle . '</h3><p>' . $proj->{'description'} . '</p></div></li>';
                                         }
                                     }

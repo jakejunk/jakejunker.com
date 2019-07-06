@@ -13,19 +13,19 @@ namespace DataDetective
 {
     export function Init()
     {
-        let fields = document.getElementsByClassName("_dd-client-calc");
-        for (let i = 0; i < fields.length; i += 1)
-        {
-            let field  = fields[i] as HTMLElement;
-            let fn = _functions[field.dataset.calcType] as () => string | undefined;
+        let fields = document.getElementsByClassName("_dd-client-calc") as HTMLCollectionOf<HTMLElement>;
 
-            let result: string = undefined;
+        for (let field of fields)
+        {
+            let fn = _functions[field.dataset.calcType as string] as () => string | undefined;
+
+            let result: string | undefined = undefined;
             if (typeof fn === "function")
             {
                 result = fn();
             }
 
-            if (result !== undefined)
+            if (result != undefined)
             {
                 field.innerText = result;
             }
@@ -87,7 +87,7 @@ namespace DataDetective
         ram: () => {
             
             let ram = (navigator as any).deviceMemory as number;
-            return ram !== undefined ? ram + " GB" : undefined;
+            return ram != undefined ? ram + " GB" : undefined;
         },
 
 

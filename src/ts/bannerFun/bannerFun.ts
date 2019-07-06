@@ -5,7 +5,7 @@
  */
 function OnFragmentLoad()
 {
-    BannerFun.Init();
+    BannerFun.Init("descriptor");
 }
 
 
@@ -63,9 +63,15 @@ namespace BannerFun
     ];
 
 
-    export function Init()
+    export function Init(toggleElementId: string)
     {
-        _element = document.getElementById("descriptor");
+        const toggleElement = document.getElementById(toggleElementId);
+        if (toggleElement == undefined)
+        {
+            throw new Error(`Element "${toggleElementId}" not found.`);
+        }
+
+        _element = toggleElement;
         _element.addEventListener("click", _OnDescriptorClick, false);
     }
 
