@@ -84,23 +84,17 @@ namespace Kurz
         {
             this._toggleTransition(targetSelector);
 
-            let response: Response;
-
-            try
+            const responseResult = await this._performFetch(url, targetSelector, postBody);
+            if (responseResult.isError())
             {
-                response = postBody ?
-                    await this.ajaxClient.post(url, postBody) :
-                    await this.ajaxClient.get(url);
-            }
-            catch (e)
-            {
-                console.error("TODO: Display error code alert.");
+                // TODO: Use an alert or something
+                console.error(responseResult.errorValue);
                 this._toggleTransition(targetSelector);
 
                 return;
             }
 
-            const handleResponseResult = await this._handleResponse(response, targetSelector);
+            const handleResponseResult = await this._handleResponse(responseResult.okValue, targetSelector);
             if (handleResponseResult.isError())
             {
                 console.error(handleResponseResult.errorValue);
@@ -128,6 +122,26 @@ namespace Kurz
                     oldElement.classList.toggle(this._transitionOutClassName);
                 }
             }
+        }
+
+        private async _performFetch(url: string, targetSelector: string, postBody?: FormData): Promise<Result<Response, string>>
+        {
+            let response: Response;
+
+            try
+            {
+                response = postBody ?
+                    await this.ajaxClient.post(url, postBody) :
+                    await this.ajaxClient.get(url);
+            }
+            catch (e)
+            {
+                return Result.OfError("TODO: Display error code alert.");
+            }
+
+            // TODO: Handle non 200 return codes
+
+            return Result.OfOk(response);
         }
 
         private async _handleResponse(response: Response, targetSelector: string): Promise<Result<Promise<{}>, string>>

@@ -48,13 +48,11 @@ async function InitEnv()
 	files.outputFolder = cmdParams.release ? files.releaseOutputs : files.debugOutputs;
 }
 
-
 async function CleanOutput()
 {
 	console.log(`Cleaning ${files.outputFolder}...`);
 	return del(files.outputFolder);
 }
-
 
 async function BuildOutput(done)
 {
@@ -67,7 +65,6 @@ async function BuildOutput(done)
 	gulp.parallel(CompileScss, CompileTs, ProcessHtml, CopyImages, CopyFaviconFiles)(done);
 } 
 
-
 function CompileScss()
 {
 	// For each folder in `src/css`, create concatenated files `<folder name>.css`
@@ -77,7 +74,6 @@ function CompileScss()
 
 	return merge(concatenatedCssFiles);
 }
-
 
 function ProcessScssDirectory(dirPath, folderName, outFolder)
 {
@@ -104,7 +100,6 @@ function ProcessScssDirectory(dirPath, folderName, outFolder)
 	return main.pipe(gulp.dest(path.join(outFolder, "/_include/css")));
 }
 
-
 function CompileTs()
 {
 	// For each folder in `src/ts`, create concatenated files `<folder name>.js`
@@ -114,7 +109,6 @@ function CompileTs()
 	
 	return merge(concatenatedJsFiles);
 }
-
 
 function ProcessTsDirectory(dirPath, folderName, outFolder)
 {
@@ -142,14 +136,12 @@ function ProcessTsDirectory(dirPath, folderName, outFolder)
     return main.pipe(gulp.dest(path.join(outFolder, "/_include/js")));
 }
 
-
 function GetFolders(dir)
 {
     return fs.readdirSync(dir).filter((file) => {
 		return fs.statSync(path.join(dir, file)).isDirectory();
 	});
 }
-
 
 function ProcessHtml()
 {
@@ -162,13 +154,11 @@ function ProcessHtml()
 		.pipe(gulp.dest(files.outputFolder));
 }
 
-
 function CopyImages()
 {
 	return gulp.src(files.img)
 		.pipe(gulp.dest(path.join(files.outputFolder, "/_include/img")));
 }
-
 
 function CopyFaviconFiles()
 {
