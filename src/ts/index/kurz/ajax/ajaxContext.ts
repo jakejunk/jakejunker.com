@@ -9,7 +9,7 @@ namespace Kurz
      */
     export class AjaxContext
     {
-        private _eventManager: AjaxEventManager;
+        private _eventManager: _AjaxEventManager;
         private _transitionInClassName?: string;
         private _transitionOutClassName?: string;
 
@@ -18,7 +18,7 @@ namespace Kurz
             readonly documentParser: AjaxDocumentParser,
             readonly historyManager: HistoryManager)
         {
-            this._eventManager = new AjaxEventManager(this, historyManager);
+            this._eventManager = new _AjaxEventManager(this, historyManager);
         }
 
         /**
@@ -57,7 +57,7 @@ namespace Kurz
 
         addEventListener<T extends keyof AjaxEventMap>(type: T, callback: AjaxEventMap[T])
         {
-            this._eventManager.addEventListener(type, callback);
+            this._eventManager._addEventListener(type, callback);
         }
 
         /**
@@ -109,7 +109,7 @@ namespace Kurz
             this.refreshContext();
 
             await handleResponseResult.okValue;
-            this._eventManager.invokeScriptsLoadedListeners();
+            this._eventManager._invokeScriptsLoadedListeners();
         }
 
         private _toggleTransition(targetSelector: string)
@@ -147,15 +147,15 @@ namespace Kurz
         private async _handleResponse(response: Response, targetSelector: string): Promise<Result<Promise<{}>, string>>
         {
             const fetchedDocument = await this.documentParser.parseFromResponse(response);
-            this._eventManager.invokeDocumentFetchedListeners(fetchedDocument);
+            this._eventManager._invokeDocumentFetchedListeners(fetchedDocument);
 
-            const insertResult = this.documentParser.insertIntoCurrentDocument(fetchedDocument, targetSelector, this._transitionInClassName);
+            const insertResult = this.documentParser.insertIntoDocument(fetchedDocument, targetSelector, this._transitionInClassName);
             if (insertResult.isError())
             {
                 return Result.OfError(insertResult.errorValue);
             }
             
-            this._eventManager.invokeDocumentInsertedListeners();
+            this._eventManager._invokeDocumentInsertedListeners();
 
             return Result.OfOk(insertResult.okValue);
         }

@@ -4,7 +4,7 @@ namespace Kurz
      * @internal
      * Manages all event-related aspects of AJAX, including updating history.
      */
-    export class AjaxEventManager
+    export class _AjaxEventManager
     {
         private _managingContext: AjaxContext;
         private _documentFetchedListeners: DocumentFetchedListener[];
@@ -22,23 +22,23 @@ namespace Kurz
             historyManager.addPopStateListener(this._onHistoryPopState.bind(this));
         }
 
-        addEventListener<T extends keyof AjaxEventMap>(type: T, callback: AjaxEventMap[T])
+        _addEventListener<T extends keyof AjaxEventMap>(type: T, callback: AjaxEventMap[T])
         {
             switch (type)
             {
             case "documentfetched":
-                this._addEventListener(this._documentFetchedListeners, callback);
+                this._addNewEventListener(this._documentFetchedListeners, callback);
                 break;
             case "documentinserted":
-                this._addEventListener(this._documentInsertedListeners, callback);
+                this._addNewEventListener(this._documentInsertedListeners, callback);
                 break;
             case "scriptsloaded":
-                this._addEventListener(this._scriptsLoadedListeners, callback);
+                this._addNewEventListener(this._scriptsLoadedListeners, callback);
                 break;
             }
         }
 
-        invokeDocumentFetchedListeners(fetchedDocument: Document)
+        _invokeDocumentFetchedListeners(fetchedDocument: Document)
         {
             for (const documentFetchedListener of this._documentFetchedListeners)
             {
@@ -46,7 +46,7 @@ namespace Kurz
             }
         }
 
-        invokeDocumentInsertedListeners()
+        _invokeDocumentInsertedListeners()
         {
             for (const documentInsertedListener of this._documentInsertedListeners)
             {
@@ -54,7 +54,7 @@ namespace Kurz
             }
         }
 
-        invokeScriptsLoadedListeners()
+        _invokeScriptsLoadedListeners()
         {
             for (const scriptsLoadedListener of this._scriptsLoadedListeners)
             {
@@ -62,7 +62,7 @@ namespace Kurz
             }
         }
 
-        private _addEventListener<T>(listeners: T[], listener: T)
+        private _addNewEventListener<T>(listeners: T[], listener: T)
         {
             if (listeners.indexOf(listener) === -1)
             {

@@ -3,17 +3,15 @@ namespace Kurz
     export class AjaxDocumentParser
     {
         private _docParser: DOMParser;
-        private _replacementBehavior: InsertionBehavior;
 
-        private constructor(replacementBehavior: InsertionBehavior)
+        private constructor()
         {
             this._docParser = new DOMParser();
-            this._replacementBehavior = replacementBehavior;
         }
 
-        static Create(replacementBehavior?: InsertionBehavior): AjaxDocumentParser
+        static Create(): AjaxDocumentParser
         {
-            return new AjaxDocumentParser(replacementBehavior || InsertionBehavior.REPLACE);
+            return new AjaxDocumentParser();
         }
         
         async parseFromResponse(response: Response): Promise<Document>
@@ -27,7 +25,7 @@ namespace Kurz
          * Uses the target element selector to move an element from the `fetchedDocument` to the `targetDocument`.
          * TODO: `<noscript>` elements will be completely stripped out.
          */
-        insertIntoCurrentDocument(fetchedDocument: Document, targetSelector: string, transitionClass?: string): Result<Promise<{}>, string>
+        insertIntoDocument(fetchedDocument: Document, targetSelector: string, transitionClass?: string): Result<Promise<{}>, string>
         {
             const targetElement = document.querySelector<HTMLElement>(targetSelector);
             if (targetElement == undefined)
