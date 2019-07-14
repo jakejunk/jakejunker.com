@@ -1,0 +1,24 @@
+{
+    "compilerOptions":
+    {
+        "module": "system",
+        "noImplicitReturns": true,
+        "noEmitOnError": true,
+        "outFile": "main.js",
+        "preserveConstEnums": false,
+        "removeComments": false,
+        "sourceMap": true,
+        "strict": true,
+        "stripInternal": true,
+        "target": "es2017"
+    },
+    "include":
+    [
+        "./**/*"
+    ],
+    "exclude":
+    [
+        "../../node_modules",
+        "../../**/*.spec.ts"
+    ]
+}

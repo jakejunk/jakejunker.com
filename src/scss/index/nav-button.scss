@@ -1,0 +1,84 @@
+@import "globals";
+
+/* Navigation links in header */
+.nav-btn
+{
+	border: none !important;
+	color: rgba(255, 255, 255, 0.4);
+	display: inline-block;
+	flex: 1;
+	font-family: $body-font;
+    position: relative;
+	text-align: center;
+
+	// Color the current location
+	&.current
+	{
+		color: #fff;
+		text-shadow: none;
+	}
+
+	@media only screen and (min-width: 737px)
+	{
+		color: inherit;
+		flex: 0;
+        text-shadow: none;
+		transition: background-color 200ms;
+		padding: 0 24px;
+		border-radius: 8px;
+		width: unset;
+		margin: 0 4px;
+
+		&.home
+		{
+			display: none;
+		}
+		
+		&.current
+		{
+			color: $primary-color;
+		}
+
+		&:hover
+		{
+			transition: none;
+		}
+
+		&.current
+		{
+			box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+		}
+
+		&:hover, &.current
+		{
+			background: #fdfdff;
+		}
+
+		&:active
+		{
+			background: #f0f0f2;
+			box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1) inset;
+		}
+	}
+
+	@media only screen and (min-width: 850px)
+	{
+
+	}
+}
+
+@media only screen and (min-width: 737px)
+{
+	html.night-vision .nav-btn
+	{
+		&:hover, &.current
+		{
+			background: #313438;
+		}
+
+		&:active
+		{
+			background: #212428;
+		}
+	}
+}

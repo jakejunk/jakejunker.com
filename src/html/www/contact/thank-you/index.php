@@ -68,9 +68,9 @@ else
 }
 ?><!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"specialTitle": "Thank You"})@@
+	@@include("html/partials/head.html", {"specialTitle": "Thank You"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
+		@@include("html/partials/nav-bar.html", {"current": "contact"})@@
 
 		<div id="main-container">
 			<section id="main">
@@ -88,6 +88,6 @@ else
 				</article>
 			</section>
 		</div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>
