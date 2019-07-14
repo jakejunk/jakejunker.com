@@ -17,6 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const context = ajaxContextResult.okValue;
 
+    context.setLoadingIndicator(".nav-bar-logo", "loading");
     context.setTransitionOutClass("new");
     context.setTransitionInClass("new");
     context.addEventListener("documentfetched", OnDocumentFetched);

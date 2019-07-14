@@ -10,6 +10,7 @@ namespace Kurz
     export class AjaxContext
     {
         private _eventManager: _AjaxEventManager;
+        private _loadingIndicator?: [HTMLElement, string];
         private _transitionInClassName?: string;
         private _transitionOutClassName?: string;
 
@@ -22,8 +23,7 @@ namespace Kurz
         }
 
         /**
-         * Creates a new `AjaxContext`, which can be used to implement
-         * "unobtrusive" AJAX functionality.
+         * Creates a new `AjaxContext`, which can be used to implement "unobtrusive" AJAX functionality.
          */
         static Create(): Result<AjaxContext, string>
         {
@@ -60,6 +60,19 @@ namespace Kurz
             this._eventManager._addEventListener(type, callback);
         }
 
+        setLoadingIndicator(selector: string, className: string): Result<undefined, string>
+        {
+            const loadingElement = document.querySelector<HTMLElement>(selector);
+            if (loadingElement == undefined)
+            {
+                return Result.OfError(`Element with selector ${selector} not found`);
+            }
+
+            this._loadingIndicator = [loadingElement, className];
+
+            return Result.OfOk(undefined);
+        }
+
         /**
          * Customizes the AJAX transition of fetched content by applying the specified class.
          */
@@ -83,13 +96,16 @@ namespace Kurz
         async navigateTo(url: string, targetSelector: string, postBody?: FormData, updateHistory = true): Promise<void>
         {
             this._toggleTransition(targetSelector);
+            this._toggleLoading();
 
             const responseResult = await this._performFetch(url, targetSelector, postBody);
             if (responseResult.isError())
             {
                 // TODO: Use an alert or something
                 console.error(responseResult.errorValue);
+
                 this._toggleTransition(targetSelector);
+                this._toggleLoading();
 
                 return;
             }
@@ -109,6 +125,8 @@ namespace Kurz
             this.refreshContext();
 
             await handleResponseResult.okValue;
+            
+            this._toggleLoading();
             this._eventManager._invokeScriptsLoadedListeners();
         }
 
@@ -121,6 +139,17 @@ namespace Kurz
                 {
                     oldElement.classList.toggle(this._transitionOutClassName);
                 }
+            }
+        }
+
+        private _toggleLoading()
+        {
+            if (this._loadingIndicator != undefined)
+            {
+                const element = this._loadingIndicator[0];
+                const className = this._loadingIndicator[1];
+
+                element.classList.toggle(className);
             }
         }
 

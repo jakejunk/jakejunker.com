@@ -93,7 +93,7 @@ html.night-vision #main-header
 		}
 
 		// The svg portion of the logo thing
-		&:before
+		&::before
 		{
 			content: "";
 			background-image: url("/_include/img/logo_v2_gradient.svg");
@@ -109,7 +109,8 @@ html.night-vision #main-header
 		}
 
 		// Hovering over the logo makes the svg part move
-		&:hover:before
+		&:hover::before,
+		&.loading::before
 		{
 			animation: logoMove 1s ease-in-out;
 			animation-iteration-count: infinite;
