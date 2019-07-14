@@ -15,9 +15,9 @@ function generateFormToken()
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"title": "Contact"})@@
+	@@include("html/partials/head.html", {"title": "Contact"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
+		@@include("html/partials/nav-bar.html", {"current": "contact"})@@
 
         <div id="main-container">
             <section id="main">
@@ -57,6 +57,6 @@ function generateFormToken()
                 </article>
             </section>
         </div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>

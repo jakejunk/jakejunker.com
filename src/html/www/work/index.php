@@ -5,9 +5,9 @@ $dir = new DirectoryIterator('./');
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"title": "Work"})@@
+	@@include("html/partials/head.html", {"title": "Work"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "work"})@@
+		@@include("html/partials/nav-bar.html", {"current": "work"})@@
         <div id="main-container">
             <section id="main">
                 <article id="main-content">
@@ -54,6 +54,6 @@ $dir = new DirectoryIterator('./');
                 </article>
             </section>
         </div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>
