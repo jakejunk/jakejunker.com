@@ -14,6 +14,10 @@ namespace Clock
     const _SecondsPerMinute  = 60;
     const _SecondsPerHour    = 60 * 60;
     const _SecondsPerHalfDay = 60 * 60 * 12;
+    // For CSS reasons, all clock hands start at their "25% complete" position.
+    //const _SecondsOffset = _SecondsPerMinute / 4 * 3;
+    //const _HoursOffset   = _SecondsPerHour / 4 * 3;
+    //const _HalfDayOffset = _SecondsPerHalfDay / 4 * 3;
 
     let SecHand: HTMLElement;
     let MinHand: HTMLElement;
@@ -22,18 +26,9 @@ namespace Clock
 
     export function Init()
     {
-        let secHand = document.getElementById("second-hand");
-        let minHand = document.getElementById("minute-hand");
-        let hourHand = document.getElementById("hour-hand");
-
-        if (!secHand || !minHand || !hourHand)
-        {
-            throw new Error("A required element is missing.");
-        }
-
-        SecHand = secHand;
-        MinHand = minHand;
-        HourHand = hourHand;
+        SecHand = document.getElementById("second-hand");
+        MinHand = document.getElementById("minute-hand");
+        HourHand = document.getElementById("hour-hand");
 
         _SetTimeToNow();
     }

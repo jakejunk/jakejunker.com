@@ -1,0 +1,62 @@
+.switch
+{
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 56px;
+    height: 0;
+}
+
+.switch:before, .switch:after
+{
+    content: "";
+    display: block;
+    position: absolute;
+}
+
+.switch:before
+{
+    background: #a3aaaf;
+    border-color: #a3aaaf;
+    width: 56px;
+    height: 32px;
+    
+    border-radius: 16px;
+    transition: background-color .2s;
+}
+
+//#theme-settings.night-vision ~ * .switch:before
+html.night-vision .switch:before
+{
+	background: #55575a;
+    border-color: #55575a;
+}
+
+.switch:after
+{
+    background: #fff;
+    width: 26px;
+    height: 26px;
+    
+    border-radius: 14px;
+    transition: transform 0.2s;
+    left: 3px;
+    top: 3px;
+}
+
+//#theme-settings.night-vision ~ * .switch:after
+html.night-vision .switch:after
+{
+	background: #2F3238;
+}
+
+.switch:checked:before
+{
+    background: #2980b9;
+    border-color: #2980b9;
+}
+
+.switch:checked:after
+{
+    transform: translateX(24px);
+}

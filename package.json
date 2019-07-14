@@ -9,14 +9,12 @@
     "gulp-concat-css": "^3.1.0",
     "gulp-connect-php": "^1.0.3",
     "gulp-file-include": "^2.0.1",
-    "gulp-htmlmin": "^5.0.1",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.0",
     "gulp-uglify": "^3.0.1",
     "merge-stream": "^1.0.1",
     "typescript": "^3.3.3333",
-    "uglify-es": "^3.3.9",
     "yargs": "^13.2.1"
   },
   "scripts": {
