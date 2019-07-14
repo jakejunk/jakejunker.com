@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"specialTitle": "Jake Junker"})@@
+	@@include("html/partials/head.html", {"specialTitle": "Jake Junker"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "home", "hidden": "true"})@@
+		@@include("html/partials/nav-bar.html", {"current": "home", "hidden": "true"})@@
         <div id="main-container">
             <section id="main">
                 <div id="banner-bar-container">
@@ -10,16 +10,16 @@
                         <h1 id="banner-header">Jake Junker</h1>
                         <h3 id="banner-sub-header">Developer, designer, and <span id="descriptor">a dreamer</span></h3>
                     </div>
-                    <div class="flex-container flex-mobile-wrap ajax" style="margin-bottom: 64px;">
-                        <a class="btn outline banner-bar-btn" href="/work/">WORK</a>
-                        <a class="btn outline banner-bar-btn" href="/contact/">CONTACT</a>
-                        <a class="btn outline banner-bar-btn" href="/about/">ABOUT</a>
+                    <div class="flex-container flex-mobile-wrap" style="margin-bottom: 64px;">
+                        <a class="btn outline banner-bar-btn" href="/work/" data-ajax-target="#main">WORK</a>
+                        <a class="btn outline banner-bar-btn" href="/contact/" data-ajax-target="#main">CONTACT</a>
+                        <a class="btn outline banner-bar-btn" href="/about/" data-ajax-target="#main">ABOUT</a>
                     </div>
                 </div>
                 <script class="ext-script" src="/_include/js/banner-fun.js"></script>
             </section>
         </div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>
 

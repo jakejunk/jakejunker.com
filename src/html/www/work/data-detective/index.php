@@ -6,9 +6,9 @@ $extIP = $_SERVER['REMOTE_ADDR'];
 
 <!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"specialTitle": "Data Detective" })@@
+	@@include("html/partials/head.html", {"specialTitle": "Data Detective" })@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "work"})@@
+		@@include("html/partials/nav-bar.html", {"current": "work"})@@
         <div id="main-container">
             <section id="main">
                 <link rel="stylesheet" type="text/css" href="/_include/css/data-detective.css">
@@ -61,7 +61,7 @@ $extIP = $_SERVER['REMOTE_ADDR'];
                 <script class="ext-script" src="/_include/js/data-detective.js"></script>
             </section>
         </div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>
 
