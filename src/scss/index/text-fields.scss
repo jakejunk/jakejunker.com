@@ -3,7 +3,7 @@
     background-color: #fefeff;
     border: none;
     border-radius: 2px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
     color: #555;
     font-family: "Lato", sans-serif;
     font-size: 1rem;
@@ -18,7 +18,6 @@
     }
 }
 
-//#theme-settings.night-vision ~ * .text-field
 html.night-vision .text-field
 {
     color: #ddd;

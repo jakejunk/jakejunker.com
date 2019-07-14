@@ -40,7 +40,6 @@ $nav-bar-height-desktop: 96px;
 	}
 }
 
-//#theme-settings.night-vision ~ #main-header
 html.night-vision #main-header
 {
 	border-color: #505050;
@@ -57,13 +56,7 @@ html.night-vision #main-header
 		justify-content: space-between;
 		margin: 0 auto;
 		max-width: 1300px;
-		//padding: 0 32px;
 		padding: 0 80px 0 32px;
-	}
-
-	@media only screen and (min-width: 850px)
-	{
-		
 	}
 
 	@media only screen and (min-width: 1400px)
@@ -124,7 +117,6 @@ html.night-vision #main-header
 	}
 }
 
-//#theme-settings.night-vision ~ * .nav-bar-logo
 html.night-vision .nav-bar-logo
 {
 	color: #ddd;
@@ -146,13 +138,6 @@ html.night-vision .nav-bar-logo
 		background: none;
         height: $nav-bar-height-desktop;
 		justify-content: flex-end;
-		//margin: 0 auto;
-		//padding-right: 16px;
 		width: 475px;
-	}
-
-	@media only screen and (min-width: 850px)
-	{
-		
 	}
 }
