@@ -95,7 +95,7 @@ function ProcessScssDirectory(dirPath, folderName, outFolder)
 		var cleaned = cleanCSS({
 				compatibility: "ie10",
 				level: 2
-			}, (details) => {
+			}, details => {
 				console.log(`${details.name}: ${details.stats.originalSize} -> ${details.stats.minifiedSize}`);
 			});
 
@@ -149,7 +149,7 @@ function ProcessTsDirectory(dirPath, folderName, outFolder)
 
 function GetFolders(dir)
 {
-    return fs.readdirSync(dir).filter((file) => {
+    return fs.readdirSync(dir).filter(file => {
 		return fs.statSync(path.join(dir, file)).isDirectory();
 	});
 }
