@@ -7,20 +7,15 @@ const fs         = require("fs");
 const path       = require("path");
 const php        = require("gulp-connect-php");
 const cleanCSS   = require("gulp-clean-css");
-const uglifyes   = require("uglify-es");
-const composer   = require("gulp-uglify/composer");
-const uglify     = composer(uglifyes, console);
+const uglify     = require("gulp-uglify");
 const sass       = require("gulp-sass");
-const htmlmin    = require("gulp-htmlmin");
 const cmdParams  = require("yargs").argv;
 const merge      = require("merge-stream");
 const del        = require("del");
 
 const files = {
-	html: "src/html/www/**/*.html",
-	php: "src/html/www/**/*.php",
-	misc: "src/html/www/**/*",
-	scss: "src/scss/",
+	www: "src/html/www/**/*",
+	scss: "src/css/",
 	ts:  "src/ts/",
 	fav: "src/favicon/**/*",
 	img: "src/img/**/*",
@@ -53,11 +48,13 @@ async function InitEnv()
 	files.outputFolder = cmdParams.release ? files.releaseOutputs : files.debugOutputs;
 }
 
+
 async function CleanOutput()
 {
 	console.log(`Cleaning ${files.outputFolder}...`);
 	return del(files.outputFolder);
 }
+
 
 async function BuildOutput(done)
 {
@@ -67,18 +64,20 @@ async function BuildOutput(done)
 	}
 
 	console.log(`Building ${files.outputFolder}...`);
-	gulp.parallel(CompileScss, CompileTs, ProcessHtml, CopyImages, CopyFaviconFiles, CopyMiscFiles)(done);
+	gulp.parallel(CompileScss, CompileTs, ProcessHtml, CopyImages, CopyFaviconFiles)(done);
 } 
+
 
 function CompileScss()
 {
 	// For each folder in `src/css`, create concatenated files `<folder name>.css`
-	var concatenatedCssFiles = GetFolders(files.scss).map(folder => {
+	var concatenatedCssFiles = GetFolders(files.scss).map((folder) => {
 		return ProcessScssDirectory(files.scss, folder, files.outputFolder, cmdParams.release);;
 	});
 
 	return merge(concatenatedCssFiles);
 }
+
 
 function ProcessScssDirectory(dirPath, folderName, outFolder)
 {
@@ -105,19 +104,21 @@ function ProcessScssDirectory(dirPath, folderName, outFolder)
 	return main.pipe(gulp.dest(path.join(outFolder, "/_include/css")));
 }
 
+
 function CompileTs()
 {
 	// For each folder in `src/ts`, create concatenated files `<folder name>.js`
-	var concatenatedJsFiles = GetFolders(files.ts).map(folder => {
-		return ProcessTsDirectory(files.ts, folder, files.outputFolder);
+	var concatenatedJsFiles = GetFolders(files.ts).map((folder) => {
+		return ProcessTsDirectory(files.ts, folder, files.outputFolder, cmdParams.release);
 	});
 	
 	return merge(concatenatedJsFiles);
 }
 
+
 function ProcessTsDirectory(dirPath, folderName, outFolder)
 {
-	var configName = "tsconfig.json";
+	var configName = cmdParams.release ? "_tsconfig.release.json" : "_tsconfig.json";
 	var proj = ts.createProject(path.join(dirPath, folderName, configName));
 	var main = proj.src();
 
@@ -126,15 +127,9 @@ function ProcessTsDirectory(dirPath, folderName, outFolder)
 		main = main.pipe(proj()).js
 			.pipe(uglify({
 				compress: {
-					ecma: 8,
+					inline: false,
+					passes: 1
 				},
-				mangle: {
-					// This causes different minified files to share identifiers
-					//toplevel: true,
-					properties: {
-						regex: /^_/
-					}
-				}
 			}));
 	}
 	else
@@ -147,6 +142,7 @@ function ProcessTsDirectory(dirPath, folderName, outFolder)
     return main.pipe(gulp.dest(path.join(outFolder, "/_include/js")));
 }
 
+
 function GetFolders(dir)
 {
     return fs.readdirSync(dir).filter((file) => {
@@ -154,32 +150,18 @@ function GetFolders(dir)
 	});
 }
 
+
 function ProcessHtml()
 {
-	var constructedHtml = gulp.src([files.html, files.php], {base: "src/html/www"})
+	return gulp.src(files.www, {base: "src/html/www"})
 		.pipe(include({
 			prefix: "@@",
 			suffix: "@@",
 			basepath: "./src/"
-		}));
-
-	if (cmdParams.release)
-	{
-		constructedHtml = constructedHtml
-			.pipe(htmlmin({
-				collapseBooleanAttributes: true,
-				collapseInlineTagWhitespace: true,
-				collapseWhitespace: true,
-				conservativeCollapse: true,
-				decodeEntities: true,
-				minifyCSS: true,
-				removeAttributeQuotes: true,
-				removeComments: true,
-			}));
-	}
-
-	return constructedHtml.pipe(gulp.dest(files.outputFolder));
+		}))
+		.pipe(gulp.dest(files.outputFolder));
 }
+
 
 function CopyImages()
 {
@@ -187,17 +169,9 @@ function CopyImages()
 		.pipe(gulp.dest(path.join(files.outputFolder, "/_include/img")));
 }
 
+
 function CopyFaviconFiles()
 {
 	return gulp.src(files.fav)
 		.pipe(gulp.dest(files.outputFolder));
-}
-
-function CopyMiscFiles()
-{
-	return gulp.src([
-		files.misc,
-		`!${files.html}`,
-		`!${files.php}`
-	]).pipe(gulp.dest(files.outputFolder));
 }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/partials/head.html", {"title": "About"})@@
+	@@include("html/widgets/head.html", {"title": "About"})@@
 	<body>
-		@@include("html/partials/nav-bar.html", {"current": "about"})@@
+		@@include("html/widgets/nav-bar.html", {"current": "about"})@@
 
 		<div id="main-container">
 			<section id="main">
-				<article id="main-content">
+				<article id="main-content" class="">
 					<h1>About</h1>
 
 					<h2 class="center-align">About me</h2>
@@ -16,11 +16,11 @@
 
 					<h2 class="center-align">About this site</h2>
 					<img class="image-round inline-right" src="/_include/img/code-blur.jpg" alt="Picture of code."/>
-					<p>This website is all about learning the hard way. Using a framework like <a href="https://getbootstrap.com/">Bootstrap</a> or <a href="http://foundation.zurb.com/">Foundation</a> could've made development much easier, but where's the fun in that? Working on this site by myself<sup>1</sup> has led to some incredible learning experiences, and will hopefully continue to do so in the future. On a similar note, new up-and-coming technologies such as <a href="http://webassembly.org/">WebAssembly</a> are always welcome here, and will probably be used overzealously. I'll try not to break the site <i>too</i> often, I promise.</p>
+					<p>This website is all about learning the hard way. Using a framework like <a href="https://v4-alpha.getbootstrap.com/">Bootstrap</a> or <a href="http://foundation.zurb.com/">Foundation</a> could've made development much easier, but where's the fun in that? Working on this site by myself<sup>1</sup> has led to some incredible learning experiences, and will hopefully continue to do so in the future. On a similar note, new up-and-coming technologies such as <a href="http://webassembly.org/">WebAssembly</a> are always welcome here, and will probably be used overzealously. I'll try not to break the site <i>too</i> often, I promise.</p>
 					<p>In the spirit of learning, I've created a few "guidelines" for this site to abide by, which you can read about on the page linked below. Additionally, all source code relating to this site and its development can be viewed on GitHub.</p>
 
 					<div class="flex-container flex-mobile-wrap" style="margin: 32px auto;">
-						<a class="btn rect outline" style="width:250px;margin:16px;" href="/about/site-guidelines/" data-ajax-target="#main">VIEW SITE GUIDELINES</a>
+						<a class="btn rect outline ajax" style="width:250px;margin:16px;" href="/about/site-guidelines/">VIEW SITE GUIDELINES</a>
 						<a class="btn rect outline" style="width:250px;margin:16px;" href="https://github.com/jakejunk/personal-site">VIEW GITHUB PAGE</a>
 					</div>
 					
@@ -28,7 +28,7 @@
 				</article>
 			</section>
 		</div>
-		@@include("html/partials/footer.html")@@
+		@@include("html/widgets/footer.html")@@
 	</body>
 </html>
 

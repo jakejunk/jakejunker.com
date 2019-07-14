@@ -1,0 +1,100 @@
+#clock-container
+{
+    width: 512px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+#clock
+{
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    border-radius: 100%;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+html.night-vision #clock
+{
+    background: rgba(49, 52, 56, 0.5);
+}
+
+@keyframes rotate-hand
+{
+    from { transform: rotateZ(0deg); }
+    to   { transform: rotateZ(360deg); }
+}
+
+#second-hand,
+#minute-hand,
+#hour-hand
+{
+    background-color: #3498db;
+    bottom: 50%;
+    left: 50%;
+    //margin-bottom: -32px;
+    margin-bottom: -10%;
+    //margin-left: -32px;
+    position: absolute;
+    //top: 50%;
+    //transform-origin: 32px;
+    transform-origin: 50% 80%;
+}
+
+#second-hand
+{
+    border-radius: 1px;
+    height: 50%;
+    width: 2px;
+    margin-left: -1px;
+    //animation: rotate-hand 60s linear 0s infinite;
+    animation: rotate-hand 60s steps(60) 0s infinite;
+}
+
+#minute-hand
+{
+    border-radius: 2px;
+    height: 50%;
+    width: 4px;
+    margin-left: -2px;
+    //animation: rotate-hand 3600s linear 0s infinite;
+    animation: rotate-hand 3600s steps(60) 0s infinite;
+}
+
+#hour-hand
+{
+    border-radius: 3px; 
+    height: 25%;
+    width: 6px;
+    margin-bottom: -5%;
+    margin-left: -3px;
+    animation: rotate-hand 43200s linear 0s infinite;
+    //animation: rotate-hand 43200s steps(3600) 0s infinite;
+}
+
+.label
+{
+    position: absolute;
+    display: inline-block;
+
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    text-align: center;
+}
+
+.label[data-num="12"] { top: 6.25%; left: 50%; }
+.label[data-num="1"]  { top: 11.72%; left: 72.27%; }
+.label[data-num="2"]  { top: 28.13%; left: 88.28%; }
+.label[data-num="3"]  { top: 50%; left: 93.75%; }
+.label[data-num="4"]  { top: 72.27%; left: 88.28%; }
+.label[data-num="5"]  { top: 88.28%; left: 72.27%; }
+.label[data-num="6"]  { top: 93.75%; left: 50%; }
+.label[data-num="7"]  { top: 88.28%; left: 28.13%; }
+.label[data-num="8"]  { top: 72.27%; left: 11.72%; }
+.label[data-num="9"]  { top: 50%; left: 6.25%; }
+.label[data-num="10"] { top: 28.13%; left: 11.72%; }
+.label[data-num="11"] { top: 11.72%; left: 28.13%; }

@@ -1,0 +1,66 @@
+.text-field
+{
+    background-color: #fefeff;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: #555;
+    font-family: "Lato", sans-serif;
+    font-size: 1rem;
+    outline: none;
+    padding: 14px;
+    width: 100%;
+
+    // Text fields with invalid values
+    &:not(:placeholder-shown):not(:focus):invalid
+    {
+        background-color: rgba(231, 76, 60, 0.1);
+    }
+}
+
+//#theme-settings.night-vision ~ * .text-field
+html.night-vision .text-field
+{
+    color: #ddd;
+    background-color: #2f3238;
+}
+
+textarea
+{
+    line-height: 1.5rem;
+	resize: vertical;
+    vertical-align: top;
+}
+
+.input-row
+{
+    display: flex;
+    flex-wrap: wrap;
+
+    + .input-row
+    {
+        margin-top: 16px;
+    }
+
+    @media only screen and (min-width: 737px)
+    {
+        flex-wrap: nowrap;
+    }
+}
+
+label
+{
+    display: block;
+    font-size: 14px;
+    line-height: 1rem;
+    padding: 13px 0;
+
+    @media only screen and (min-width: 737px)
+    {
+        min-width: 96px;
+    }
+}
+
+::-webkit-input-placeholder { font-weight: 100; }
+::-moz-placeholder          { font-weight: 100; }
+:-ms-input-placeholder      { font-weight: 100; }
