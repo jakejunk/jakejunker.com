@@ -24,7 +24,7 @@ function generateFormToken()
                 <article id="main-content">
                     <h1>Contact</h1>
                     <h2 class="center-align">Wanna chat?</h2>
-                    <p>If you have the urge to give a hard-working college graduate some <span title="...or money...">encouragement</span>, then you've come to the right place! Leave a message using the form, or contact me elsewhere by following the links below.</p>
+                    <p>If you have the urge to give a hard-working developer some <span title="...or money...">encouragement</span>, then you've come to the right place! Leave a message using the form, or contact me elsewhere by following the links below.</p>
                     <div class="flex-container flex-mobile-wrap" style="margin-top: 48px;">
                         <div id="contact-pane">
                             <h3 style="margin-top: 0">Contact Info</h3>
