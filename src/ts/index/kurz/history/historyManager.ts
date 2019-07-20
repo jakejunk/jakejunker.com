@@ -45,7 +45,7 @@ namespace Kurz
 
         replaceState(state: HistoryState)
         {
-            history.replaceState(state.ajaxTargetSelector, "", null);
+            history.replaceState(state.ajaxTargetSelector, "", state.url);
         }
 
         addPopStateListener(popStateListener: PopStateListener)

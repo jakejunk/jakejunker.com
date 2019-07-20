@@ -47,10 +47,7 @@ function generateFormToken()
                                 <label for="message">Message*</label>
                                 <textarea id="message" class="text-field" name="message" placeholder="What's up?!" rows="8" required></textarea>
                             </div>
-                            <button id="contact-submit" type="submit" class="btn rect solid form-submit">
-                                <div class="submit-progress-bar" data-progress="100"></div>
-                                <span class="submit-text">SEND</span>
-                            </button>
+                            <button id="contact-submit" type="submit" class="btn rect solid form-submit">SEND</button>
                             <input type="hidden" name="token" value="<?php echo generateFormToken(); ?>">
                         </form>
                     </div>

@@ -110,7 +110,8 @@ namespace Kurz
                 return;
             }
 
-            const handleResponseResult = await this._handleResponse(responseResult.okValue, targetSelector);
+            const response = responseResult.okValue;
+            const handleResponseResult = await this._handleResponse(response, targetSelector);
             if (handleResponseResult.isError())
             {
                 console.error(handleResponseResult.errorValue);
@@ -119,7 +120,11 @@ namespace Kurz
             
             if (updateHistory)
             {
-                this.historyManager.pushState({url: url, ajaxTargetSelector: targetSelector});
+                this.historyManager.pushState({url: response.url, ajaxTargetSelector: targetSelector});
+            }
+            else if (response.redirected)
+            {
+                this.historyManager.replaceState({url: response.url, ajaxTargetSelector: targetSelector});
             }
 
             this.refreshContext();
