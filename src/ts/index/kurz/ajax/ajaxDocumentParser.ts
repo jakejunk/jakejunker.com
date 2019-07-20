@@ -49,6 +49,8 @@ namespace Kurz
                 targetElement.replaceWith(replacementElement);
             }
 
+            document.title = fetchedDocument.title;
+
             const scriptLoadPromise = this._refreshScriptElements(replacementElement);
 
             return Result.OfOk(scriptLoadPromise);
