@@ -68,26 +68,24 @@ else
 }
 ?><!DOCTYPE html>
 <html lang="en-US">
-	@@include("html/widgets/head.html", {"specialTitle": "Thank You"})@@
+	@@include("html/partials/head.html", {"specialTitle": "Thank You"})@@
 	<body>
-		@@include("html/widgets/nav-bar.html", {"current": "contact"})@@
+		@@include("html/partials/nav-bar.html", {"current": "contact"})@@
 
 		<div id="main-container">
 			<section id="main">
-				<article id="main-content" data-result="<?php echo $success? 'true' : 'false'; ?>">
-
-					<?php if($success): ?>
-                    <h2 class="center-align">Got it!</h2>
+                <?php if($success): ?>
+				<article id="main-content" class="center-align">
+                    <h1 class="center-align">Got it!</h1>
                     <p>Thanks for the message! I'll get back to you as soon as I can.</p>
-
-					<?php else: ?>
-					<h2 class="center-align">Something broke</h2>
-                    <p>Thanks for using the form! Unfortunately, an error occurred on my end, so I suppose I'll need to fix that. Sorry for the inconvenience!</p>
-					<?php endif; ?>
-
+                <?php else: ?>
+                <article id="main-content" class="error-page">
+					<h1 class="center-align">Something broke</h1>
+                    <p>I guess I'll need to fix that. Sorry for the inconvenience!</p>
+                <?php endif; ?>
 				</article>
 			</section>
 		</div>
-		@@include("html/widgets/footer.html")@@
+		@@include("html/partials/footer.html")@@
 	</body>
 </html>

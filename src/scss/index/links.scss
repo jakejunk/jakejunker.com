@@ -1,0 +1,48 @@
+@import "globals";
+
+a
+{
+    color: #3498db;
+    text-decoration: none;
+
+    // TODO: Include other protocols
+    // Style external links
+    &[href*="//"],
+    &[href^="mailto:"]
+    {
+        // TODO
+    }
+    
+    &:hover
+    {
+        border-bottom: solid 1.5px;
+        text-decoration: none;
+    }
+}
+
+p > a
+{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#skip-link
+{
+    align-self: center;
+    background-color: $primary-color;
+    background-image: linear-gradient(to bottom right, $primary-color, $secondary-color);
+    border-radius: 0 0 5px 5px;
+    color: #fff;
+    display: block;
+    position: absolute;
+    padding: 0 16px;
+    transform: translateY(-999px);
+    transition: transform 0.15s;
+    will-change: transform;
+    z-index: 8;
+
+    &:focus
+    {
+        transform: translateY(0);
+    }
+}

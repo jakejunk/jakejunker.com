@@ -1,0 +1,25 @@
+{
+    "compilerOptions":
+    {
+        "module": "system",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "outFile": "banner-fun.js",
+        "preserveConstEnums": false,
+        "removeComments": false,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "target": "es2017"
+    },
+    "include":
+    [
+        "./**/*"
+    ],
+    "exclude":
+    [
+        "../../node_modules",
+        "../../**/*.spec.ts"
+    ]
+}
